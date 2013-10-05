@@ -41,7 +41,7 @@ def circle_intersect_XZ(circle1,circle2):
 	i1=i+p*h
 	i2=i-p*h
 	
-	return max([i1,i2],key=numpy.linalg.norm)
+	return min([i1,i2],key=numpy.linalg.norm)
 
 class DeltaBot(object):
 	def __init__(self, rf=1.0, re=2.0, f=1.0, e=0.5):
@@ -68,7 +68,6 @@ class DeltaBot(object):
 			Jn+=self.Fn #real Jn
 			Jn-=self.En_offset #compensate for size of endefector
 			Jn=rotate_z(Jn,numpy.radians(120*n)) #rotate from alpha
-			print(list(Jn))
 			Jns.append(Jn)
 		return intersectionpoint(numpy.transpose(Jns), numpy.ones(3)*self.e)
 	
@@ -87,10 +86,12 @@ class DeltaBot(object):
 			Jn=circle_intersect_XZ((self.Fn,self.rf),(Epn,EpnJn))
 			Jn-=self.Fn #offset
 			
-			theta_n=numpy.arctan2(-Jn[2],Jn[0])
+			theta_n=numpy.arctan2(Jn[2],-Jn[0])
 			thetas.append(theta_n)
 		return thetas
-	
-d=DeltaBot()
-print(d.inverse(numpy.array([0,0,2])))
-#print(d.forward(map(numpy.radians,[23,23,23])))
+
+if __name__=="__main__":
+	d=DeltaBot()
+	#print(list(map(numpy.degrees,d.inverse(numpy.array([1,0,-2])))))
+	d.forward(d.inverse(numpy.array([1,0,-2])))
+	#print(d.forward(map(numpy.radians,[23,23,23])))
