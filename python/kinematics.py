@@ -43,7 +43,7 @@ def circle_intersect_XZ(circle1,circle2):
 	
 	return min([i1,i2],key=numpy.linalg.norm)
 
-class DeltaBot(object):
+class ParallelKinematicsModel(object):
 	def __init__(self, rf=1.0, re=2.0, f=1.0, e=0.5):
 		"""
 		@arg rf length of upper arm
@@ -95,7 +95,7 @@ class DeltaBot(object):
 		return thetas
 
 if __name__=="__main__":
-	d=DeltaBot()
-	#print(list(map(numpy.degrees,d.inverse(numpy.array([1,0,-2])))))
-	print(d.forward(d.inverse(numpy.array([1,0,-2]))))
-	#print(d.forward(map(numpy.radians,[23,23,23])))
+	m=ParallelKinematicsModel()
+	#print(list(map(numpy.degrees,m.inverse(numpy.array([1,0,-2])))))
+	print(m.forward(m.inverse(numpy.array([1,0,-2]))))
+	#print(m.forward(map(numpy.radians,[23,23,23])))
