@@ -69,7 +69,11 @@ class DeltaBot(object):
 			Jn-=self.En_offset #compensate for size of endefector
 			Jn=rotate_z(Jn,numpy.radians(120*n)) #rotate from alpha
 			Jns.append(Jn)
-		return intersectionpoint(numpy.transpose(Jns), numpy.ones(3)*self.e)
+		
+		Jns=-numpy.array(Jns) #move it under the robot
+		E0=intersectionpoint(numpy.transpose(Jns), numpy.ones((3,1))*self.re)
+		E0*=-1 #move it under the robot
+		return E0
 	
 	def inverse(self,pos):
 		thetas=[]
@@ -93,5 +97,5 @@ class DeltaBot(object):
 if __name__=="__main__":
 	d=DeltaBot()
 	#print(list(map(numpy.degrees,d.inverse(numpy.array([1,0,-2])))))
-	d.forward(d.inverse(numpy.array([1,0,-2])))
+	print(d.forward(d.inverse(numpy.array([1,0,-2]))))
 	#print(d.forward(map(numpy.radians,[23,23,23])))
