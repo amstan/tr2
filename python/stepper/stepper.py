@@ -1,8 +1,10 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+from __future__ import unicode_literals
+from __future__ import print_function
+
 import serial
-import time
 import re
 
 class BusPirateSPI(object):
@@ -13,46 +15,42 @@ class BusPirateSPI(object):
 		self.open()
 	
 	def open(self):
-		self._serial.write(b"\n"*10)
-		self._command(b"#") #reset
+		self._serial.write(b"\n"*10) #clear previous commands
+		self._command(b"#") #reset the bus pirate
 		
 		#init spi
-		#delay trasmission because bus pirate can't keep up
-		for b in "m\n5\n4\n2\n1\n1\n2\n2":
-			self._serial.write(b.encode("ascii"))
-			time.sleep(0.01)
-		reply=self._command(b"\n")
-		if "Ready" not in reply:
-			raise Exception("Error during SPI mode init: " + reply)
+		reply=b""
+		for c in [b'm', b'5', b'4', b'2', b'1', b'1', b'2', b'2']:
+			reply+=self._command(c)
+		if b"Ready" not in reply:
+			raise Exception("Error during SPI mode init: " + repr(reply))
 		
 		self._command(b"l") #MSb first
 		
-		#reset the chip
+		#reset the connected chip
 		self._command(b"a")
-		time.sleep(0.1)
 		self._command(b"A")
 	
-	_readregex=re.compile("READ: (0x[0-9a-fA-F]+)")
+	_readregex=re.compile(b"READ: (0x[0-9a-fA-F]+)")
 	def xfer(self,send=0):
 		self._command(b"{")
-		reply=b._command(bin(send).encode("ascii"))
+		reply=b._command(hex(send).encode("ascii"))
 		self._command(b"]")
-		return int(self._readregex.search(reply).groups()[0],16)
+		reply=int(self._readregex.search(reply).groups()[0],16)
+		return reply
 	
 	def _command(self,command):
 		self._serial.flush()
 		self._serial.flushInput()
 		self._serial.write(command+b"\n")
 		
-		time.sleep(0.01)
-		
 		reply=[]
 		while 1:
 			char=self._serial.read()
 			reply.append(char)
-			if len(char)==0:
+			if char==b">":
 				break
-		reply=(b"".join(reply)).decode("ascii")
+		reply=b"".join(reply)
 		return reply
 b=BusPirateSPI()
 
@@ -132,7 +130,7 @@ class L6470(object):
 	def _register_info(self,register):
 		"""@returns id,name and length no matter what type of argument it recieved(name or id)"""
 		reg_id=None
-		if type(register)==str:
+		if not type(register)==int:
 			register=register.upper()
 			for key,value in self._registers.items():
 				if value==register:
@@ -195,17 +193,20 @@ class L6470(object):
 		value&=mask
 		
 		reg_len_bytes=(reg_len-1)//8+1
-		map(self.spi.xfer,split_bytes(value,reg_len_bytes))
+		for b in split_bytes(value,reg_len_bytes):
+			self.spi.xfer(b)
 	
 	def run(self,speed,forward=True):
 		direction=int(bool(forward))
 		self.spi.xfer(self._commands["RUN"]+direction)
-		map(self.spi.xfer,split_bytes(speed,num_bytes=3))
+		for b in split_bytes(speed,num_bytes=3):
+			self.spi.xfer(b)
 	
 	def move(self,steps,forward=True):
 		direction=int(bool(forward))
 		self.spi.xfer(self._commands["MOVE"]+direction)
-		map(self.spi.xfer,split_bytes(steps,num_bytes=3))
+		for b in split_bytes(steps,num_bytes=3):
+			self.spi.xfer(b)
 	
 	def reset_pos(self):
 		self.spi.xfer(self._commands["RESET_POS"])
