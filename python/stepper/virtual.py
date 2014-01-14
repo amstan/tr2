@@ -3,7 +3,7 @@
 
 import time
 import math
-modes = {"idle","move","run","slowdown"}
+modes = {"idle","move","run"}
 
 class StepperModel(object):
 	"""Class meant to simulate the speed behavoir of the stepper motor drivers."""
@@ -33,18 +33,13 @@ class StepperModel(object):
 					#self.mode=="idle"
 			#if self.mode=="idle":
 				#acceleration=0
-			if self.mode=="slowdown":
-				if self._overshoot()>0:
-					acceleration=-self.parameters["DEC"]
-				else:
-					acceleration=0
+			if self.mode=="move":
+				acceleration=min(
+					[-self.parameters["DEC"],0,self.parameters["ACC"]],
+					key=lambda choice: abs(self._overshoot()+choice)
+				)
 				if self.target==self.position and self.velocity==0:
 					self.mode="idle"
-			if self.mode=="move":
-				acceleration=self.parameters["ACC"]
-				if self._overshoot()>=0:
-					self.mode="slowdown"
-					acceleration=-self.parameters["DEC"]
 			if self.mode=="idle":
 				acceleration=0
 			
@@ -57,7 +52,7 @@ class StepperModel(object):
 				self.velocity=0
 	
 	def _overshoot(self):
-		distance_to_go=self.target-self.position
+		distance_to_go=self.target-(self.position+self.velocity)
 		steps_to_go=self.velocity/self.parameters["DEC"]
 		stopping_distance=((self.velocity+self.parameters["ACC"])*steps_to_go)/2
 		return stopping_distance-distance_to_go
@@ -75,7 +70,7 @@ class StepperModel(object):
 
 if __name__=="__main__":
 	s=StepperModel()
-	s.move(110)
+	s.move(4)
 	#print(s)
 	
 	def test_simulation(steps=30):
@@ -86,15 +81,14 @@ if __name__=="__main__":
 			if s.mode=="idle":
 				break
 	
-	def test_stopping(r=range(1,120)):
+	def test_stopping(r=range(0,120)):
 		for i in r:
 			s=StepperModel()
 			s.move(i)
-			for step in range(i):
+			for step in range(i+10):
 				s.simulate(1)
-				#print(s.mode,s._overshoot(),s,)
-			print(s.position==i,s.position,i)
+			print(s.position==i,s.mode=="idle",s.position,i,s.mode)
 	
-	#test_stopping()
+	test_stopping()
 	
-	test_simulation()
+	#test_simulation()
