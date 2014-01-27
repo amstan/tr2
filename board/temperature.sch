@@ -29,13 +29,35 @@ LIBS:opto
 LIBS:atmel
 LIBS:contrib
 LIBS:valves
+LIBS:74xgxx
+LIBS:ac-dc
+LIBS:brooktre
+LIBS:cmos_ieee
+LIBS:dc-dc
+LIBS:elec-unifil
+LIBS:gennum
+LIBS:graphic
+LIBS:hc11
+LIBS:microchip1
+LIBS:microchip_pic10mcu
+LIBS:microchip_pic12mcu
+LIBS:microchip_pic16mcu
+LIBS:msp430
+LIBS:nxp_armmcu
+LIBS:powerint
+LIBS:pspice
+LIBS:sensors
+LIBS:transf
+LIBS:ttl_ieee
+LIBS:video
 LIBS:components
+LIBS:robot_controller-cache
 EELAYER 24 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
-Sheet 1 1
-Title ""
+Sheet 9 9
+Title "K-Type Temperature Sensor"
 Date ""
 Rev ""
 Comp ""

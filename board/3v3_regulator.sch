@@ -29,14 +29,13 @@ LIBS:opto
 LIBS:atmel
 LIBS:contrib
 LIBS:valves
-LIBS:components
 LIBS:3v3_regulator-cache
 EELAYER 24 0
 EELAYER END
 $Descr A 11000 8500
 encoding utf-8
 Sheet 1 1
-Title "Robot Controller 3.3V Switching Regulator"
+Title "3.3V Switching Regulator"
 Date "21 jan 2014"
 Rev ""
 Comp ""
