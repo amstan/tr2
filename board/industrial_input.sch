@@ -134,4 +134,8 @@ Wire Wire Line
 	6100 4150 6100 4250
 Wire Wire Line
 	6100 4250 6200 4250
+Text Notes 5000 3600 0    60   ~ 0
+48kHz Single Pole Low Pass Filter
+Text Notes 5000 3700 0    60   ~ 0
+0.7mA @ 24V Input, 210mV drop on Schottky array
 $EndSCHEMATC
