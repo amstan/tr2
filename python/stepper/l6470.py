@@ -304,29 +304,32 @@ if __name__=="__main__":
 	
 	s=Stepper(BusPirateSPI())
 	s["config"]=0b0001111010001000 #lower pwm frequency
-	s["acc"]=4095//4
-	s["dec"]=4095//4
-	s["kval_acc"]=s["kval_dec"]=200
+	s["acc"]=s["dec"]=2000
+	s["kval_acc"]=s["kval_dec"]=100
 	s["kval_run"]=50
-	s["kval_hold"]=0
+	s["kval_hold"]=30
 	s["step_mode"]=7 #128 microstepping
 	s["int_speed"]=0
 	s["st_slp"]=0
 	s["fn_slp_acc"]=0
 	s["fn_slp_dec"]=0
-	s["fs_spd"]=1023
-	s["max_speed"]=60000//1024
-	s["ocd_th"]=0b1000 #3A
+	s["fs_spd"]=1000
+	s["max_speed"]=1048575//1024//10
+	s["ocd_th"]=0b1010 #3.75A
 	
 	def zigzag():
-		while(1):
-			s.move(10000)
-			while s.status["BUSY"]:
-				pass
-			
-			s.move(-(10000+128//8))
-			while s.status["BUSY"]:
-				pass
-			
-			s.check_errors()
+		try:
+			while(1):
+				s.move(10000*30)
+				while s.status["BUSY"]:
+					pass
+				
+				s.move(-(10000+128//8)*30)
+				while s.status["BUSY"]:
+					pass
+				
+				s.check_errors()
+		except:
+			s.nop()
+			raise
 	zigzag()
