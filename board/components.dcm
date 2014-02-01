@@ -1,5 +1,10 @@
 EESchema-DOCLIB  Version 2.0
 #
+$CMP FT232RL
+D USB to serial interface
+K USB
+$ENDCMP
+#
 $CMP STM32F405-144
 D ARM Cortex-M4 32b MCU+FPU, 210DMIPS, up to 1MB Flash/192+4KB RAM, USB
 $ENDCMP
