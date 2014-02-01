@@ -55,7 +55,7 @@ EELAYER 24 0
 EELAYER END
 $Descr USLetter 11000 8500
 encoding utf-8
-Sheet 2 9
+Sheet 2 7
 Title "L64470 Stepper Driver"
 Date "21 jan 2014"
 Rev ""
