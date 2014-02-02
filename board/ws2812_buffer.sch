@@ -1,0 +1,238 @@
+EESchema Schematic File Version 2
+LIBS:power
+LIBS:device
+LIBS:transistors
+LIBS:conn
+LIBS:linear
+LIBS:regul
+LIBS:74xx
+LIBS:cmos4000
+LIBS:adc-dac
+LIBS:memory
+LIBS:xilinx
+LIBS:special
+LIBS:microcontrollers
+LIBS:dsp
+LIBS:microchip
+LIBS:analog_switches
+LIBS:motorola
+LIBS:texas
+LIBS:intel
+LIBS:audio
+LIBS:interface
+LIBS:digital-audio
+LIBS:philips
+LIBS:display
+LIBS:cypress
+LIBS:siliconi
+LIBS:opto
+LIBS:atmel
+LIBS:contrib
+LIBS:valves
+LIBS:ws2812_buffer-cache
+EELAYER 24 0
+EELAYER END
+$Descr USLetter 11000 8500
+encoding utf-8
+Sheet 1 1
+Title "WS2812 Buffered Output"
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L NPN Q?
+U 1 1 52EEEE15
+P 4500 4950
+F 0 "Q?" H 4700 4950 50  0000 L CNN
+F 1 "MMBT5962" H 4700 5050 50  0000 L CNN
+F 2 "" H 4500 4950 60  0000 C CNN
+F 3 "" H 4500 4950 60  0000 C CNN
+	1    4500 4950
+	1    0    0    -1  
+$EndComp
+$Comp
+L R R?
+U 1 1 52EEEE2E
+P 3950 4950
+F 0 "R?" V 4030 4950 50  0000 C CNN
+F 1 "1k" V 3950 4950 50  0000 C CNN
+F 2 "" H 3950 4950 60  0000 C CNN
+F 3 "" H 3950 4950 60  0000 C CNN
+	1    3950 4950
+	0    1    1    0   
+$EndComp
+$Comp
+L GND #PWR?
+U 1 1 52EEEE49
+P 4600 5250
+F 0 "#PWR?" H 4600 5250 30  0001 C CNN
+F 1 "GND" H 4600 5180 30  0001 C CNN
+F 2 "" H 4600 5250 60  0000 C CNN
+F 3 "" H 4600 5250 60  0000 C CNN
+	1    4600 5250
+	1    0    0    -1  
+$EndComp
+$Comp
+L R R?
+U 1 1 52EEEE6D
+P 4600 4200
+F 0 "R?" V 4680 4200 50  0000 C CNN
+F 1 "1k" V 4600 4200 50  0000 C CNN
+F 2 "" H 4600 4200 60  0000 C CNN
+F 3 "" H 4600 4200 60  0000 C CNN
+	1    4600 4200
+	1    0    0    -1  
+$EndComp
+$Comp
+L +3.3V #PWR?
+U 1 1 52EEEE7E
+P 4600 3550
+F 0 "#PWR?" H 4600 3510 30  0001 C CNN
+F 1 "+3.3V" H 4600 3660 30  0000 C CNN
+F 2 "" H 4600 3550 60  0000 C CNN
+F 3 "" H 4600 3550 60  0000 C CNN
+	1    4600 3550
+	1    0    0    -1  
+$EndComp
+$Comp
+L NPN Q?
+U 1 1 52EEEE90
+P 5300 4650
+F 0 "Q?" H 5500 4650 50  0000 L CNN
+F 1 "MMBT5962" H 5500 4750 50  0000 L CNN
+F 2 "" H 5300 4650 60  0000 C CNN
+F 3 "" H 5300 4650 60  0000 C CNN
+	1    5300 4650
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR?
+U 1 1 52EEEE97
+P 5400 4950
+F 0 "#PWR?" H 5400 4950 30  0001 C CNN
+F 1 "GND" H 5400 4880 30  0001 C CNN
+F 2 "" H 5400 4950 60  0000 C CNN
+F 3 "" H 5400 4950 60  0000 C CNN
+	1    5400 4950
+	1    0    0    -1  
+$EndComp
+$Comp
+L R R?
+U 1 1 52EEEE9E
+P 5400 4000
+F 0 "R?" V 5480 4000 50  0000 C CNN
+F 1 "100" V 5400 4000 50  0000 C CNN
+F 2 "" H 5400 4000 60  0000 C CNN
+F 3 "" H 5400 4000 60  0000 C CNN
+	1    5400 4000
+	1    0    0    -1  
+$EndComp
+Text HLabel 3600 4950 0    60   Input ~ 0
+DATA_IN
+Text HLabel 7600 4350 2    60   Input ~ 0
+DATA_OUT
+$Comp
+L DOUBLE_SCHOTTKY D?
+U 1 1 52EECB3C
+P 7300 4650
+F 0 "D?" H 7400 4550 40  0000 C CNN
+F 1 "DOUBLE_SCHOTTKY" H 7300 4750 40  0000 C CNN
+F 2 "" H 7300 4650 60  0000 C CNN
+F 3 "" H 7300 4650 60  0000 C CNN
+	1    7300 4650
+	-1   0    0    1   
+$EndComp
+$Comp
+L +24V #PWR?
+U 1 1 52EECBA2
+P 6200 4550
+F 0 "#PWR?" H 6200 4500 20  0001 C CNN
+F 1 "+24V" H 6200 4650 30  0000 C CNN
+F 2 "" H 6200 4550 60  0000 C CNN
+F 3 "" H 6200 4550 60  0000 C CNN
+	1    6200 4550
+	1    0    0    -1  
+$EndComp
+$Comp
+L R R?
+U 1 1 52EECBC8
+P 8050 4650
+F 0 "R?" V 8130 4650 50  0000 C CNN
+F 1 "1k" V 8050 4650 50  0000 C CNN
+F 2 "" H 8050 4650 60  0000 C CNN
+F 3 "" H 8050 4650 60  0000 C CNN
+	1    8050 4650
+	0    -1   -1   0   
+$EndComp
+$Comp
+L R R?
+U 1 1 52EECC02
+P 6550 4650
+F 0 "R?" V 6630 4650 50  0000 C CNN
+F 1 "1k" V 6550 4650 50  0000 C CNN
+F 2 "" H 6550 4650 60  0000 C CNN
+F 3 "" H 6550 4650 60  0000 C CNN
+	1    6550 4650
+	0    -1   -1   0   
+$EndComp
+$Comp
+L GND #PWR?
+U 1 1 52EECC38
+P 8400 4750
+F 0 "#PWR?" H 8400 4750 30  0001 C CNN
+F 1 "GND" H 8400 4680 30  0001 C CNN
+F 2 "" H 8400 4750 60  0000 C CNN
+F 3 "" H 8400 4750 60  0000 C CNN
+	1    8400 4750
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4200 4950 4300 4950
+Wire Wire Line
+	4600 5150 4600 5250
+Wire Wire Line
+	5400 4250 5400 4450
+Wire Wire Line
+	5400 3750 5400 3650
+Wire Wire Line
+	5400 4850 5400 4950
+Wire Wire Line
+	4600 4450 4600 4750
+Wire Wire Line
+	5100 4650 4600 4650
+Connection ~ 4600 4650
+Wire Wire Line
+	3600 4950 3700 4950
+Wire Wire Line
+	5400 4350 7600 4350
+Connection ~ 5400 4350
+Wire Wire Line
+	4600 3550 4600 3950
+Connection ~ 4600 3650
+Wire Wire Line
+	5400 3650 4600 3650
+Wire Wire Line
+	7300 4450 7300 4350
+Connection ~ 7300 4350
+Wire Wire Line
+	6300 4650 6200 4650
+Wire Wire Line
+	6200 4650 6200 4550
+Wire Wire Line
+	6900 4650 6800 4650
+Wire Wire Line
+	7700 4650 7800 4650
+Wire Wire Line
+	8300 4650 8400 4650
+Wire Wire Line
+	8400 4650 8400 4750
+Text Notes 4750 3550 0    60   ~ 0
+Buffer WS2812 Data\nIncrease Drive Strength
+Text Notes 6200 4950 0    60   ~ 0
+Protects accidental 24V or GND connection
+$EndSCHEMATC
