@@ -1,4 +1,4 @@
-update=Sat 01 Feb 2014 05:05:37 PM EST
+update=Sun 02 Feb 2014 11:54:09 AM EST
 version=1
 last_client=eeschema
 [cvpcb]
@@ -101,4 +101,3 @@ LibName48=transf
 LibName49=ttl_ieee
 LibName50=video
 LibName51=components
-LibName52=nxp
