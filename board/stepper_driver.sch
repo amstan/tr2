@@ -19,7 +19,6 @@ LIBS:motorola
 LIBS:texas
 LIBS:intel
 LIBS:audio
-LIBS:interface
 LIBS:digital-audio
 LIBS:philips
 LIBS:display
@@ -56,7 +55,7 @@ EELAYER 24 0
 EELAYER END
 $Descr USLetter 11000 8500
 encoding utf-8
-Sheet 2 9
+Sheet 2 8
 Title "L64470 Stepper Driver"
 Date "21 jan 2014"
 Rev ""
