@@ -55,7 +55,7 @@ EELAYER 24 0
 EELAYER END
 $Descr USLetter 11000 8500
 encoding utf-8
-Sheet 8 9
+Sheet 8 10
 Title "WS2812 Buffered Output"
 Date ""
 Rev ""

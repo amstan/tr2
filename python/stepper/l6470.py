@@ -243,7 +243,15 @@ class Stepper(object):
 		"""Set ABS_POS=0."""
 		self.spi.xfer(self._commands["RESET_POS"])
 	
-	def reset(self):
+	def reset(self,unsafe=False):
+		"""Resets the device to default state."""
+		
+		if not unsafe:
+			#make sure it's not moving
+			self.soft_hiz()
+			while self.status["BUSY"]:
+				pass
+		
 		self.spi.xfer(self._commands["RESET_DEVICE"])
 	
 	def soft_stop(self):
@@ -300,11 +308,12 @@ class Stepper(object):
 				raise exception
 
 if __name__=="__main__":
-	from buspirate import BusPirateSPI
+	import pirate430
+	spi_device=pirate430.SPIDevice(pirate430.SPI(),cs=2)
 	
-	s=Stepper(BusPirateSPI())
+	s=Stepper(spi_device)
 	s["config"]=0b0001111010001000 #lower pwm frequency
-	s["acc"]=s["dec"]=2000
+	s["acc"]=s["dec"]=1000
 	s["kval_acc"]=s["kval_dec"]=100
 	s["kval_run"]=50
 	s["kval_hold"]=30
@@ -314,17 +323,17 @@ if __name__=="__main__":
 	s["fn_slp_acc"]=0
 	s["fn_slp_dec"]=0
 	s["fs_spd"]=1000
-	s["max_speed"]=1048575//1024//10
+	s["max_speed"]=1048575//1024//1
 	s["ocd_th"]=0b1010 #3.75A
 	
 	def zigzag():
 		try:
 			while(1):
-				s.move(10000*30)
+				s.move(10000*100)
 				while s.status["BUSY"]:
 					pass
 				
-				s.move(-(10000+128//8)*30)
+				s.move(-(10000+128//8)*100)
 				while s.status["BUSY"]:
 					pass
 				
