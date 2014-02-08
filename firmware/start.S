@@ -7,7 +7,9 @@
 .section .interruptVectorTable
 
 .word __stackPointer
-b __crt0
+.word [__crt0]
+.word [__unhandledInterrupt]
+.word [__unhandledInterrupt]
 
 /* C Runtime
  */
@@ -63,6 +65,9 @@ initBss:
     // Store zero
     str r2, [r0, #1]!
     b initBss
+
+__unhandledInterrupt:
+    b __unhandledInterrupt
 
 /* Catch an evil main that return and busy loop
  */

@@ -10,9 +10,10 @@ CFLAGS = -g
 
 # Debugger Configuration #######################################################
 
-OCD_SCRIPTS = /usr/share/openocd/scripts/
-OCD_INTF = interface/stlink-v2.cfg
-OCD_TARGET = target/stm32f4x_stlink.cfg
+OCD_PATH = /usr/share/openocd/scripts
+#OCD_INTF = interface/stlink-v2.cfg
+#OCD_TARGET = target/stm32f4x_stlink.cfg
+OCD_SCRIPTS = board/stm32f4discovery.cfg
 
 # Source Files #################################################################
 
@@ -38,7 +39,7 @@ all : $(OBJ_C) $(OBJ_S)
 # Programming/Debugging ########################################################
 
 debug:
-	openocd -s $(OCD_SCRIPTS) -f $(OCD_INTF) -f $(OCD_TARGET)
+	openocd -s $(OCD_PATH) -f $(OCD_SCRIPTS)
 
 # Cleanup ######################################################################
 

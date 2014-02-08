@@ -5,7 +5,7 @@
 /* Memory Sections
  */
 MEMORY {
-    flash (rx)  : ORIGIN = 0x08000000, LENGTH = 0x00100000
+    flash (rx)  : ORIGIN = 0x00000000, LENGTH = 0x00100000
     sram  (rwx) : ORIGIN = 0x20000000, LENGTH = 0x00020000
 }
 
@@ -41,5 +41,5 @@ SECTIONS {
 
 /* Initial Stack Pointer
  */
-__stackPointer = ALIGN((ORIGIN(sram) + LENGTH(sram)), 4);
+__stackPointer = ALIGN(ORIGIN(sram) + LENGTH(sram), 8);
 
