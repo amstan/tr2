@@ -18,9 +18,15 @@
 int main(void)
 {
     RCC_AHB1ENR |= (1 << RCC_GPIOD);
-    
     PORTD_MODE = (1 << (LED_BLUE * 2));
-    PORTD = (1 << LED_BLUE);
+    
+    while(1)
+    {
+        PORTD = (1 << LED_BLUE);
+        for(int i = 0; i < 400000; i++);
+        PORTD = (0 << LED_BLUE);
+        for(int i = 0; i < 400000; i++);
+    }
     
     while(1);
     return;

@@ -6,15 +6,14 @@
 
 BIN = app
 OPT = 0
-CFLAGS  = -g -mcpu=cortex-m4 -mthumb -mlittle-endian -mthumb-interwork
+CFLAGS  = -g -std=c99 -mcpu=cortex-m4 -mthumb -mlittle-endian -mthumb-interwork
 CFLAGS += -mfloat-abi=hard -mfpu=fpv4-sp-d16
 
 # Debugger Configuration #######################################################
 
 OCD_PATH = /usr/share/openocd/scripts
-#OCD_INTF = interface/stlink-v2.cfg
-#OCD_TARGET = target/stm32f4x_stlink.cfg
 OCD_SCRIPTS = board/stm32f4discovery.cfg
+OCD_PRGM = stm32f4program.cfg
 
 # Source Files #################################################################
 
@@ -26,7 +25,9 @@ OBJ_S = $(patsubst %.S, %.o, $(SRC_S))
 
 # Build Targets ################################################################
 
-all : $(OBJ_C) $(OBJ_S)
+all : $(BIN).elf
+
+$(BIN).elf : $(OBJ_C) $(OBJ_S)
 	arm-none-eabi-gcc -T $(LINKER) $^ -nostartfiles -o $(BIN).elf
 	arm-none-eabi-objdump -D $(BIN).elf > $(BIN).dasm
 	arm-none-eabi-objcopy -O ihex $(BIN).elf $(BIN).hex
@@ -38,6 +39,9 @@ all : $(OBJ_C) $(OBJ_S)
 	arm-none-eabi-gcc $(CFLAGS) -O$(OPT) -c -nostartfiles $^ -o $@
 
 # Programming/Debugging ########################################################
+
+program: all
+	openocd -s $(OCD_PATH) -f $(OCD_SCRIPTS) -c "script $(OCD_PRGM)"
 
 debug:
 	openocd -s $(OCD_PATH) -f $(OCD_SCRIPTS)
