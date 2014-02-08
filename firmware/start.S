@@ -2,14 +2,16 @@
  * Start code for the STM32F4
  */
 
+.thumb
+
 /* Interrupt Vector Table
  */
 .section .interruptVectorTable
 
 .word __stackPointer
-.word [__crt0]
-.word [__unhandledInterrupt]
-.word [__unhandledInterrupt]
+.word ([__crt0] + 1)
+.word ([__defaultNMIHandler] + 1)
+.word ([__defaultHardFaultHandler] + 1)
 
 /* C Runtime
  */
@@ -20,24 +22,24 @@ __crt0:
  */
 copyData:
     // Address of .data start in r0
-    movw r0, #:lower16:__dataStart
-    movt r0, #:upper16:__dataStart
+    ldr r0, =__dataStart
     
     // Address of .data end in r1
-    movw r1, #:lower16:__dataEnd
-    movt r1, #:upper16:__dataEnd
+    ldr r1, =__dataEnd
     
     // Current SRAM address
     mov r2, #0
-    
+
 initData:
     // If r1 is equal to r0, branch to initializing zeros
     cmp r1, r0
     beq copyBss
     
     // Copy a word, increment pointers and repeat
-    ldr r3, [r0, #1]!
-    str r3, [r2, #1]!
+    ldr r3, [r0]
+    str r3, [r2]
+    add r0, #1
+    add r2, #1
     b initData
 
 /*
@@ -47,13 +49,10 @@ initData:
  */
 copyBss:
     // Address of .bss start in r0
-    movw r0, #:lower16:__bssStart
-    movt r0, #:upper16:__bssStart
-
+    ldr r0, =__bssStart
+    
     // Address of .bss end in r1
-    movw r1, #:lower16:__bssEnd
-    movt r1, #:upper16:__bssEnd
-
+    
     // Zero
     mov r2, #0
 
@@ -63,11 +62,15 @@ initBss:
     beq main
     
     // Store zero
-    str r2, [r0, #1]!
+    str r2, [r0]
+    add r0, #0
     b initBss
 
-__unhandledInterrupt:
-    b __unhandledInterrupt
+__defaultNMIHandler:
+    b __defaultNMIHandler
+
+__defaultHardFaultHandler:
+    b __defaultHardFaultHandler
 
 /* Catch an evil main that return and busy loop
  */

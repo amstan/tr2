@@ -6,7 +6,8 @@
 
 BIN = app
 OPT = 0
-CFLAGS = -g
+CFLAGS  = -g -mcpu=cortex-m4 -mthumb -mlittle-endian -mthumb-interwork
+CFLAGS += -mfloat-abi=hard -mfpu=fpv4-sp-d16
 
 # Debugger Configuration #######################################################
 
