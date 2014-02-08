@@ -4,10 +4,8 @@
 
 #include <stdint.h>
 
-#define RCC_BASE 0x40023800
-#define RCC_AHB1ENR *((uint32_t *)(RCC_BASE + 0x30))
-
-#define RCC_GPIOD 3
+#include "SystemResetClock.h"
+#include "SystemGpio.h"
 
 #define PORTD_BASE 0x40020C00
 #define PORTD_MODE *((uint32_t *)(PORTD_BASE + 0x00))
@@ -17,8 +15,8 @@
 
 int main(void)
 {
-    RCC_AHB1ENR |= (1 << RCC_GPIOD);
-    PORTD_MODE = (1 << (LED_BLUE * 2));
+    PeripheralClockEnabled.GpioD = true;
+    SystemGpioPortMode.Pins.P15 = SystemGpioMode_Output;
     
     while(1)
     {
@@ -29,6 +27,6 @@ int main(void)
     }
     
     while(1);
-    return;
+    return 0;
 }
 

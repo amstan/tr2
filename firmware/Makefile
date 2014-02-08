@@ -6,8 +6,11 @@
 
 BIN = app
 OPT = 0
+
+# Compiler Configuration #######################################################
+
 CFLAGS  = -g -std=c99 -mcpu=cortex-m4 -mthumb -mlittle-endian -mthumb-interwork
-CFLAGS += -mfloat-abi=hard -mfpu=fpv4-sp-d16
+CFLAGS += -mfloat-abi=hard -mfpu=fpv4-sp-d16 -Wall
 
 # Debugger Configuration #######################################################
 
@@ -19,6 +22,7 @@ OCD_PRGM = stm32f4program.cfg
 
 LINKER = linker.ld
 SRC_C = $(wildcard *.c)
+SRC_H = $(wildcard *.h)
 OBJ_C = $(patsubst %.c, %.o, $(SRC_C))
 SRC_S = $(wildcard *.S)
 OBJ_S = $(patsubst %.S, %.o, $(SRC_S))
