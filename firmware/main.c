@@ -7,22 +7,19 @@
 #include "SystemResetClock.h"
 #include "SystemGpio.h"
 
-#define PORTD_BASE 0x40020C00
-#define PORTD_MODE *((uint32_t *)(PORTD_BASE + 0x00))
-#define PORTD *((uint32_t *)(PORTD_BASE + 0x14))
-
 #define LED_BLUE 15
 
 int main(void)
 {
     PeripheralClockEnabled.GpioD = true;
-    SystemGpioPortMode.Pins.P15 = SystemGpioMode_Output;
+
+    SystemGpio[SystemGpioD].Mode.Pins.P15 = SystemGpioMode_Output;
     
     while(1)
     {
-        PORTD = (1 << LED_BLUE);
+        SystemGpio[SystemGpioD].Set.Pins.P15 = true;
         for(int i = 0; i < 400000; i++);
-        PORTD = (0 << LED_BLUE);
+        SystemGpio[SystemGpioD].Reset.Pins.P15 = true;
         for(int i = 0; i < 400000; i++);
     }
     
