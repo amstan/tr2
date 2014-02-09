@@ -108,6 +108,6 @@ typedef struct PeripheralClockEnabled_t {
 #define ADDR_CLOCKEN       0x30
 
 #define PeripheralClockEnabled                                         \
-            (*((PeripheralClockEnabled_t *)(ADDR_RCC + ADDR_CLOCKEN)))
+            (*((volatile PeripheralClockEnabled_t *)(ADDR_RCC + ADDR_CLOCKEN)))
 
 #endif

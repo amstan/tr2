@@ -9,7 +9,7 @@
 #include <stdbool.h>
 
 #define ADDR_GPIO 0x40020000
-#define SystemGpio ((volatile SystemGpio_t *)(ADDR_GPIO))
+#define SystemGpio ((volatile SystemGpio_t *)ADDR_GPIO)
 
 /* GPIO Pin Modes **************************************************************/
 
@@ -146,9 +146,9 @@ typedef union SystemGpioPortPull_t {
     uint32_t Port;
 } SystemGpioPortPull_t;
 
-/* GPIO Data Input Register ****************************************************/
+/* GPIO Data Input/Output Register *********************************************/
 
-typedef union SystemGpioInput_t {
+typedef union SystemGpioInputOutput_t {
     struct {
         bool P0  : 1;
         bool P1  : 1;
@@ -170,33 +170,7 @@ typedef union SystemGpioInput_t {
     } Pins;
     uint32_t Port : 16;
     unsigned      : 16;
-} SystemGpioInput_t;
-
-/* GPIO Data Output Register ***************************************************/
-
-typedef union SystemGpioOutput_t {
-    struct {
-        bool P0  : 1;
-        bool P1  : 1;
-        bool P2  : 1;
-        bool P3  : 1;
-        bool P4  : 1;
-        bool P5  : 1;
-        bool P6  : 1;
-        bool P7  : 1;
-        bool P8  : 1;
-        bool P9  : 1;
-        bool P10 : 1;
-        bool P11 : 1;
-        bool P12 : 1;
-        bool P13 : 1;
-        bool P14 : 1;
-        bool P15 : 1;
-        unsigned : 16;
-    } Pins;
-    uint32_t Port : 16;
-    unsigned      : 16;
-} SystemGpioOutput_t;
+} SystemGpioInputOutput_t;
 
 /* GPIO Alternate Functions ****************************************************/
 
@@ -233,8 +207,8 @@ typedef struct SystemGpio_t {
     SystemGpioPortDrive_t Drive;
     SystemGpioPortSpeed_t Speed;
     SystemGpioPortPull_t Pull;
-    SystemGpioInput_t Input;
-    SystemGpioOutput_t Output;
+    SystemGpioInputOutput_t Input;
+    SystemGpioInputOutput_t Output;
     union {
         struct __attribute__ ((packed)) {
             bool P0  : 1;
@@ -279,29 +253,19 @@ typedef struct SystemGpio_t {
     } __attribute__ ((packed)) Reset;
     uint32_t Lock;
     SystemGpioAltFunction_t AltFunction;
-    uint32_t resv[246];
+    unsigned : 32;
+    unsigned : 32;
+    unsigned : 32;
+    unsigned : 32;
+    unsigned : 32;
+    unsigned : 32;
 } SystemGpio_t;
 
 /* GPIO Ports ******************************************************************/
 
-typedef enum SystemGpioPort_t {
-    SystemGpioA,
-    SystemGpioB,
-    SystemGpioC,
-    SystemGpioD,
-    SystemGpioE,
-    SystemGpioF,
-    SystemGpioG,
-    SystemGpioH,
-    SystemGpioI,
-    SystemGpioJ,
-    SystemGpioK
-} SystemGpioPort_t;
-
 /*
  * The available GPIO ports
  */
-/*
 typedef enum SystemGpioPort_t {
     SystemGpioA = 0,
     SystemGpioB = 16,
@@ -315,7 +279,6 @@ typedef enum SystemGpioPort_t {
     SystemGpioJ = 144,
     SystemGpioK = 160
 } SystemGpioPort_t;
-*/
 
 #endif
 
