@@ -33,7 +33,7 @@ all : $(BIN).elf
 
 $(BIN).elf : $(OBJ_C) $(OBJ_S)
 	arm-none-eabi-gcc -T $(LINKER) $^ -nostartfiles -o $(BIN).elf
-	arm-none-eabi-objdump -D $(BIN).elf > $(BIN).dasm
+	arm-none-eabi-objdump -DS $(BIN).elf > $(BIN).dasm
 	arm-none-eabi-objcopy -O ihex $(BIN).elf $(BIN).hex
 
 %.o : %.c

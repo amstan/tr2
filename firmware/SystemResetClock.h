@@ -8,6 +8,12 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+#define ADDR_RCC     0x40023800
+#define ADDR_CLOCKEN       0x30
+
+#define PeripheralClockEnabled                                          \
+    (*((volatile PeripheralClockEnabled_t *)(ADDR_RCC + ADDR_CLOCKEN)))
+
 typedef struct PeripheralClockEnabled_t {
     /* RCC_AHB1ENR */
     bool     GpioA         :  1;
@@ -103,11 +109,5 @@ typedef struct PeripheralClockEnabled_t {
     bool     SPI6          :  1;
     unsigned /* Pad */     : 10;
 } PeripheralClockEnabled_t;
-
-#define ADDR_RCC     0x40023800
-#define ADDR_CLOCKEN       0x30
-
-#define PeripheralClockEnabled                                         \
-            (*((volatile PeripheralClockEnabled_t *)(ADDR_RCC + ADDR_CLOCKEN)))
 
 #endif

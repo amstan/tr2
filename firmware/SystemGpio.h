@@ -11,7 +11,7 @@
 #define ADDR_GPIO 0x40020000
 #define SystemGpio ((volatile SystemGpio_t *)ADDR_GPIO)
 
-/* GPIO Pin Modes **************************************************************/
+/* GPIO Pin Modes *************************************************************/
 
 /*
  * The possible modes that a pin can take on
@@ -44,7 +44,7 @@ typedef union SystemGpioPortMode_t {
         uint32_t P13 : 2;
         uint32_t P14 : 2;
         uint32_t P15 : 2;
-    } Pins;
+    };
     uint32_t Port;
 } SystemGpioPortMode_t;
 
@@ -63,24 +63,24 @@ typedef enum SystemGpioDrive_t {
  */
 typedef union SystemGpioPortDrive_t {
     struct {
-        SystemGpioDrive_t P0  : 1;
-        SystemGpioDrive_t P1  : 1;
-        SystemGpioDrive_t P2  : 1;
-        SystemGpioDrive_t P3  : 1;
-        SystemGpioDrive_t P4  : 1;
-        SystemGpioDrive_t P5  : 1;
-        SystemGpioDrive_t P6  : 1;
-        SystemGpioDrive_t P7  : 1;
-        SystemGpioDrive_t P8  : 1;
-        SystemGpioDrive_t P9  : 1;
-        SystemGpioDrive_t P10 : 1;
-        SystemGpioDrive_t P11 : 1;
-        SystemGpioDrive_t P12 : 1;
-        SystemGpioDrive_t P13 : 1;
-        SystemGpioDrive_t P14 : 1;
-        SystemGpioDrive_t P15 : 1;
-        unsigned              : 16;
-    } Pins;
+        uint32_t P0  : 1;
+        uint32_t P1  : 1;
+        uint32_t P2  : 1;
+        uint32_t P3  : 1;
+        uint32_t P4  : 1;
+        uint32_t P5  : 1;
+        uint32_t P6  : 1;
+        uint32_t P7  : 1;
+        uint32_t P8  : 1;
+        uint32_t P9  : 1;
+        uint32_t P10 : 1;
+        uint32_t P11 : 1;
+        uint32_t P12 : 1;
+        uint32_t P13 : 1;
+        uint32_t P14 : 1;
+        uint32_t P15 : 1;
+        unsigned     : 16;
+    };
     uint32_t Port : 16;
     unsigned      : 16;
 } SystemGpioPortDrive_t;
@@ -112,7 +112,7 @@ typedef union SystemGpioPortSpeed_t {
         uint32_t P13 : 2;
         uint32_t P14 : 2;
         uint32_t P15 : 2;
-    } Pins;
+    };
     uint32_t Port;
 } SystemGpioPortSpeed_t;
 
@@ -142,7 +142,7 @@ typedef union SystemGpioPortPull_t {
         uint32_t P13 : 2;
         uint32_t P14 : 2;
         uint32_t P15 : 2;
-    } Pins;
+    };
     uint32_t Port;
 } SystemGpioPortPull_t;
 
@@ -167,7 +167,7 @@ typedef union SystemGpioInputOutput_t {
         bool P14 : 1;
         bool P15 : 1;
         unsigned : 16;
-    } Pins;
+    };
     uint32_t Port : 16;
     unsigned      : 16;
 } SystemGpioInputOutput_t;
@@ -192,7 +192,7 @@ typedef union SystemGpioAltFunction_t {
         uint32_t P13 : 4;
         uint32_t P14 : 4;
         uint32_t P15 : 4;
-    } Pins;
+    };
     uint32_t PortLow;
     uint32_t PortHigh;
 } SystemGpioAltFunction_t;
@@ -227,7 +227,7 @@ typedef struct SystemGpio_t {
             bool P13 : 1;
             bool P14 : 1;
             bool P15 : 1;
-        } Pins;
+        };
         uint32_t Port : 16;
     } __attribute__ ((packed)) Set;
     union {
@@ -248,7 +248,7 @@ typedef struct SystemGpio_t {
             bool P13 : 1;
             bool P14 : 1;
             bool P15 : 1;
-        } Pins;
+        };
         uint32_t Port : 16;
     } __attribute__ ((packed)) Reset;
     uint32_t Lock;
