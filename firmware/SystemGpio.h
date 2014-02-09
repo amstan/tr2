@@ -11,25 +11,6 @@
 #define ADDR_GPIO 0x40020000
 #define SystemGpio ((volatile SystemGpio_t *)(ADDR_GPIO))
 
-/* GPIO Ports ******************************************************************/
-
-/*
- * The available GPIO ports
- */
-typedef enum SystemGpioPort_t {
-    SystemGpioA,
-    SystemGpioB,
-    SystemGpioC,
-    SystemGpioD,
-    SystemGpioE,
-    SystemGpioF,
-    SystemGpioG,
-    SystemGpioH,
-    SystemGpioI,
-    SystemGpioJ,
-    SystemGpioK
-} SystemGpioPort_t;
-
 /* GPIO Pin Modes **************************************************************/
 
 /*
@@ -265,8 +246,33 @@ typedef struct SystemGpio_t {
         uint32_t Port : 16;
     } __attribute__ ((packed)) Reset;
     SystemGpioAltFunction_t AltFunction;
-    uint32_t resv[247];
+    uint32_t : 32;
+    uint32_t : 32;
+    uint32_t : 32;
+    uint32_t : 32;
+    uint32_t : 32;
+    uint32_t : 32;
+    uint32_t : 32;
 } SystemGpio_t;
+
+/* GPIO Ports ******************************************************************/
+
+/*
+ * The available GPIO ports
+ */
+typedef enum SystemGpioPort_t {
+    SystemGpioA = 0,
+    SystemGpioB = 16,
+    SystemGpioC = 32,
+    SystemGpioD = 48,
+    SystemGpioE = 64,
+    SystemGpioF = 80,
+    SystemGpioG = 96,
+    SystemGpioH = 112,
+    SystemGpioI = 128,
+    SystemGpioJ = 144,
+    SystemGpioK = 160
+} SystemGpioPort_t;
 
 #endif
 
