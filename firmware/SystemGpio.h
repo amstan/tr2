@@ -9,7 +9,7 @@
 #include <stdbool.h>
 
 #define ADDR_GPIO 0x40020000
-#define SystemGpio ((SystemGpio_t *)(ADDR_GPIO))
+#define SystemGpio ((volatile SystemGpio_t *)(ADDR_GPIO))
 
 /* GPIO Ports ******************************************************************/
 
@@ -186,6 +186,31 @@ typedef union SystemGpioOutput_t {
     unsigned      : 16;
 } SystemGpioOutput_t;
 
+/* GPIO Alternate Functions ****************************************************/
+
+typedef union SystemGpioAltFunction_t {
+    struct {
+        uint32_t P0  : 4;
+        uint32_t P1  : 4;
+        uint32_t P2  : 4;
+        uint32_t P3  : 4;
+        uint32_t P4  : 4;
+        uint32_t P5  : 4;
+        uint32_t P6  : 4;
+        uint32_t P7  : 4;
+        uint32_t P8  : 4;
+        uint32_t P9  : 4;
+        uint32_t P10 : 4;
+        uint32_t P11 : 4;
+        uint32_t P12 : 4;
+        uint32_t P13 : 4;
+        uint32_t P14 : 4;
+        uint32_t P15 : 4;
+    } Pins;
+    uint32_t PortLow  : 32;
+    uint32_t PortHigh : 32;
+} SystemGpioAltFunction_t;
+
 /* GPIO Register Set ***********************************************************/
 
 /*
@@ -239,7 +264,8 @@ typedef struct SystemGpio_t {
         } Pins;
         uint32_t Port : 16;
     } __attribute__ ((packed)) Reset;
-    uint32_t resv[249];
+    SystemGpioAltFunction_t AltFunction;
+    uint32_t resv[247];
 } SystemGpio_t;
 
 #endif
