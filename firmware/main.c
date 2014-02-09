@@ -9,16 +9,16 @@
 
 int main(void)
 {
+    PeripheralClockEnabled.GpioA = true;
     PeripheralClockEnabled.GpioD = true;
 
+    SystemGpio[SystemGpioA].Mode.Pins.P0 = SystemGpioMode_Input;
     SystemGpio[SystemGpioD].Mode.Pins.P15 = SystemGpioMode_Output;
     
     while(1)
     {
-        SystemGpio[SystemGpioD].Set.Pins.P15 = true;
-        for(int i = 0; i < 100000; i++);
-        SystemGpio[SystemGpioD].Reset.Pins.P15 = true;
-        for(int i = 0; i < 200000; i++);
+        bool state = SystemGpio[SystemGpioA].Input.Pins.P0;
+        SystemGpio[SystemGpioD].Output.Pins.P15 = state;
     }
     
     while(1);

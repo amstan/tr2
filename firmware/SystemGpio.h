@@ -85,6 +85,37 @@ typedef union SystemGpioPortDrive_t {
     unsigned      : 16;
 } SystemGpioPortDrive_t;
 
+/* GPIO Speed ******************************************************************/
+
+typedef enum SystemGpioSpeed_t {
+    SystemGpioSpeed_Low,
+    SystemGpioSpeed_Medium,
+    SystemGpioSpeed_Fast,
+    SystemGpioSpeed_High
+} SystemGpioSpeed_t;
+
+typedef union SystemGpioPortSpeed_t {
+    struct {
+        uint32_t P0  : 2;
+        uint32_t P1  : 2;
+        uint32_t P2  : 2;
+        uint32_t P3  : 2;
+        uint32_t P4  : 2;
+        uint32_t P5  : 2;
+        uint32_t P6  : 2;
+        uint32_t P7  : 2;
+        uint32_t P8  : 2;
+        uint32_t P9  : 2;
+        uint32_t P10 : 2;
+        uint32_t P11 : 2;
+        uint32_t P12 : 2;
+        uint32_t P13 : 2;
+        uint32_t P14 : 2;
+        uint32_t P15 : 2;
+    } Pins;
+    uint32_t Port;
+} SystemGpioPortSpeed_t;
+
 /* GPIO Pull Up/Down ***********************************************************/
 
 typedef enum SystemGpioPull_t {
@@ -93,7 +124,7 @@ typedef enum SystemGpioPull_t {
     SystemGpioPull_Down
 } SystemGpioPull_t;
 
-typedef struct SystemGpioPortPull_t {
+typedef union SystemGpioPortPull_t {
     struct {
         uint32_t P0  : 2;
         uint32_t P1  : 2;
@@ -119,26 +150,26 @@ typedef struct SystemGpioPortPull_t {
 
 typedef union SystemGpioInput_t {
     struct {
-        const bool P0  : 1;
-        const bool P1  : 1;
-        const bool P2  : 1;
-        const bool P3  : 1;
-        const bool P4  : 1;
-        const bool P5  : 1;
-        const bool P6  : 1;
-        const bool P7  : 1;
-        const bool P8  : 1;
-        const bool P9  : 1;
-        const bool P10 : 1;
-        const bool P11 : 1;
-        const bool P12 : 1;
-        const bool P13 : 1;
-        const bool P14 : 1;
-        const bool P15 : 1;
+        bool P0  : 1;
+        bool P1  : 1;
+        bool P2  : 1;
+        bool P3  : 1;
+        bool P4  : 1;
+        bool P5  : 1;
+        bool P6  : 1;
+        bool P7  : 1;
+        bool P8  : 1;
+        bool P9  : 1;
+        bool P10 : 1;
+        bool P11 : 1;
+        bool P12 : 1;
+        bool P13 : 1;
+        bool P14 : 1;
+        bool P15 : 1;
         unsigned : 16;
     } Pins;
-    const uint32_t Port : 16;
-    unsigned            : 16;
+    uint32_t Port : 16;
+    unsigned      : 16;
 } SystemGpioInput_t;
 
 /* GPIO Data Output Register ***************************************************/
@@ -188,8 +219,8 @@ typedef union SystemGpioAltFunction_t {
         uint32_t P14 : 4;
         uint32_t P15 : 4;
     } Pins;
-    uint32_t PortLow  : 32;
-    uint32_t PortHigh : 32;
+    uint32_t PortLow;
+    uint32_t PortHigh;
 } SystemGpioAltFunction_t;
 
 /* GPIO Register Set ***********************************************************/
@@ -200,6 +231,7 @@ typedef union SystemGpioAltFunction_t {
 typedef struct SystemGpio_t {
     SystemGpioPortMode_t Mode;
     SystemGpioPortDrive_t Drive;
+    SystemGpioPortSpeed_t Speed;
     SystemGpioPortPull_t Pull;
     SystemGpioInput_t Input;
     SystemGpioOutput_t Output;
@@ -245,21 +277,31 @@ typedef struct SystemGpio_t {
         } Pins;
         uint32_t Port : 16;
     } __attribute__ ((packed)) Reset;
+    uint32_t Lock;
     SystemGpioAltFunction_t AltFunction;
-    uint32_t : 32;
-    uint32_t : 32;
-    uint32_t : 32;
-    uint32_t : 32;
-    uint32_t : 32;
-    uint32_t : 32;
-    uint32_t : 32;
+    uint32_t resv[246];
 } SystemGpio_t;
 
 /* GPIO Ports ******************************************************************/
 
+typedef enum SystemGpioPort_t {
+    SystemGpioA,
+    SystemGpioB,
+    SystemGpioC,
+    SystemGpioD,
+    SystemGpioE,
+    SystemGpioF,
+    SystemGpioG,
+    SystemGpioH,
+    SystemGpioI,
+    SystemGpioJ,
+    SystemGpioK
+} SystemGpioPort_t;
+
 /*
  * The available GPIO ports
  */
+/*
 typedef enum SystemGpioPort_t {
     SystemGpioA = 0,
     SystemGpioB = 16,
@@ -273,6 +315,7 @@ typedef enum SystemGpioPort_t {
     SystemGpioJ = 144,
     SystemGpioK = 160
 } SystemGpioPort_t;
+*/
 
 #endif
 
