@@ -19,7 +19,6 @@ LIBS:motorola
 LIBS:texas
 LIBS:intel
 LIBS:audio
-LIBS:interface
 LIBS:digital-audio
 LIBS:philips
 LIBS:display
@@ -29,12 +28,34 @@ LIBS:opto
 LIBS:atmel
 LIBS:contrib
 LIBS:valves
-LIBS:industrial_output-cache
+LIBS:74xgxx
+LIBS:ac-dc
+LIBS:brooktre
+LIBS:cmos_ieee
+LIBS:dc-dc
+LIBS:elec-unifil
+LIBS:gennum
+LIBS:graphic
+LIBS:hc11
+LIBS:microchip1
+LIBS:microchip_pic10mcu
+LIBS:microchip_pic12mcu
+LIBS:microchip_pic16mcu
+LIBS:msp430
+LIBS:nxp_armmcu
+LIBS:powerint
+LIBS:pspice
+LIBS:sensors
+LIBS:transf
+LIBS:ttl_ieee
+LIBS:video
+LIBS:components
+LIBS:robot_controller-cache
 EELAYER 24 0
 EELAYER END
 $Descr A 11000 8500
 encoding utf-8
-Sheet 1 1
+Sheet 1 26
 Title "Industrial Digital Output"
 Date ""
 Rev ""

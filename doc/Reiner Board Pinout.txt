@@ -1,0 +1,6 @@
+STK - SPI Clock
+SDL - MOSI
+SDO - MISO
+CS  - CS
+Gnd - Gnd
+Rst - Pull Up

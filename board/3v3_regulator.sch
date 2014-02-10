@@ -55,7 +55,7 @@ EELAYER 24 0
 EELAYER END
 $Descr A 11000 8500
 encoding utf-8
-Sheet 10 10
+Sheet 10 26
 Title "3.3V Switching Regulator"
 Date "21 jan 2014"
 Rev ""
