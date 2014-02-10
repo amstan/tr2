@@ -9,7 +9,8 @@
 #include <stdbool.h>
 
 #define ADDR_GPIO 0x40020000
-#define SystemGpio ((volatile SystemGpio_t *)ADDR_GPIO)
+#define GPIO_REG_SPACING 0x0400
+#define SystemGpio (*((volatile SystemGpio_t *)ADDR_GPIO))
 
 /* GPIO Pin Modes *************************************************************/
 
@@ -48,7 +49,7 @@ typedef union SystemGpioPortMode_t {
     uint32_t Port;
 } SystemGpioPortMode_t;
 
-/* GPIO Drive Type *************************************************************/
+/* GPIO Drive Type ************************************************************/
 
 /*
  * The drive types that a pin can take on
@@ -85,7 +86,7 @@ typedef union SystemGpioPortDrive_t {
     unsigned      : 16;
 } SystemGpioPortDrive_t;
 
-/* GPIO Speed ******************************************************************/
+/* GPIO Speed *****************************************************************/
 
 typedef enum SystemGpioSpeed_t {
     SystemGpioSpeed_Low,
@@ -116,7 +117,7 @@ typedef union SystemGpioPortSpeed_t {
     uint32_t Port;
 } SystemGpioPortSpeed_t;
 
-/* GPIO Pull Up/Down ***********************************************************/
+/* GPIO Pull Up/Down **********************************************************/
 
 typedef enum SystemGpioPull_t {
     SystemGpioPull_None,
@@ -146,7 +147,7 @@ typedef union SystemGpioPortPull_t {
     uint32_t Port;
 } SystemGpioPortPull_t;
 
-/* GPIO Data Input/Output Register *********************************************/
+/* GPIO Data Input/Output Register ********************************************/
 
 typedef union SystemGpioInputOutput_t {
     struct {
@@ -172,7 +173,7 @@ typedef union SystemGpioInputOutput_t {
     unsigned      : 16;
 } SystemGpioInputOutput_t;
 
-/* GPIO Alternate Functions ****************************************************/
+/* GPIO Alternate Functions ***************************************************/
 
 typedef union SystemGpioAltFunction_t {
     struct {
@@ -197,12 +198,12 @@ typedef union SystemGpioAltFunction_t {
     uint32_t PortHigh;
 } SystemGpioAltFunction_t;
 
-/* GPIO Register Set ***********************************************************/
+/* GPIO Register Set **********************************************************/
 
 /*
  * A GPIO register set
  */
-typedef struct SystemGpio_t {
+typedef struct SystemGpioModule_t {
     SystemGpioPortMode_t Mode;
     SystemGpioPortDrive_t Drive;
     SystemGpioPortSpeed_t Speed;
@@ -253,32 +254,34 @@ typedef struct SystemGpio_t {
     } __attribute__ ((packed)) Reset;
     uint32_t Lock;
     SystemGpioAltFunction_t AltFunction;
-    unsigned : 32;
-    unsigned : 32;
-    unsigned : 32;
-    unsigned : 32;
-    unsigned : 32;
-    unsigned : 32;
+} SystemGpioModule_t;
+
+/* GPIO Ports *****************************************************************/
+
+typedef struct SystemGpio_t {
+    SystemGpioModule_t A;
+    uint8_t __pad1[GPIO_REG_SPACING - sizeof(SystemGpioModule_t)];
+    SystemGpioModule_t B;
+    uint8_t __pad2[GPIO_REG_SPACING - sizeof(SystemGpioModule_t)];
+    SystemGpioModule_t C;
+    uint8_t __pad3[GPIO_REG_SPACING - sizeof(SystemGpioModule_t)];
+    SystemGpioModule_t D;
+    uint8_t __pad4[GPIO_REG_SPACING - sizeof(SystemGpioModule_t)];
+    SystemGpioModule_t E;
+    uint8_t __pad5[GPIO_REG_SPACING - sizeof(SystemGpioModule_t)];
+    SystemGpioModule_t F;
+    uint8_t __pad6[GPIO_REG_SPACING - sizeof(SystemGpioModule_t)];
+    SystemGpioModule_t G;
+    uint8_t __pad7[GPIO_REG_SPACING - sizeof(SystemGpioModule_t)];
+    SystemGpioModule_t H;
+    uint8_t __pad8[GPIO_REG_SPACING - sizeof(SystemGpioModule_t)];
+    SystemGpioModule_t I;
+    uint8_t __pad9[GPIO_REG_SPACING - sizeof(SystemGpioModule_t)];
+    SystemGpioModule_t J;
+    uint8_t __pad10[GPIO_REG_SPACING - sizeof(SystemGpioModule_t)];
+    SystemGpioModule_t K;
+    uint8_t __pad11[GPIO_REG_SPACING - sizeof(SystemGpioModule_t)];
 } SystemGpio_t;
-
-/* GPIO Ports ******************************************************************/
-
-/*
- * The available GPIO ports
- */
-typedef enum SystemGpioPort_t {
-    SystemGpioA = 0,
-    SystemGpioB = 16,
-    SystemGpioC = 32,
-    SystemGpioD = 48,
-    SystemGpioE = 64,
-    SystemGpioF = 80,
-    SystemGpioG = 96,
-    SystemGpioH = 112,
-    SystemGpioI = 128,
-    SystemGpioJ = 144,
-    SystemGpioK = 160
-} SystemGpioPort_t;
 
 #endif
 

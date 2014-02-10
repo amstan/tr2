@@ -11,14 +11,14 @@ int main(void)
 {
     PeripheralClockEnabled.GpioA = true;
     PeripheralClockEnabled.GpioD = true;
-
-    SystemGpio[SystemGpioA].Mode.P0 = SystemGpioMode_Input;
-    SystemGpio[SystemGpioD].Mode.P15 = SystemGpioMode_Output;
+    
+    SystemGpio.A.Mode.P0 = SystemGpioMode_Input;
+    SystemGpio.D.Mode.P15 = SystemGpioMode_Output;
     
     while(1)
     {
-        bool state = SystemGpio[SystemGpioA].Input.P0;
-        SystemGpio[SystemGpioD].Output.P15 = state;
+        bool state = SystemGpio.A.Input.P0;
+        SystemGpio.D.Output.P15 = state;
     }
     
     while(1);

@@ -15,7 +15,7 @@
     (*((volatile PeripheralClockEnabled_t *)(ADDR_RCC + ADDR_CLOCKEN)))
 
 typedef struct PeripheralClockEnabled_t {
-    /* RCC_AHB1ENR */
+    // RCC_AHB1ENR
     bool     GpioA         :  1;
     bool     GpioB         :  1;
     bool     GpioC         :  1;
@@ -42,7 +42,7 @@ typedef struct PeripheralClockEnabled_t {
     bool     UsbOtgHsUlpi  :  1;
     unsigned /* Pad */     :  1;
 
-    /* RCC_AHB2ENR */
+    // RCC_AHB2ENR
     bool     DigCamIntf    :  1;
     unsigned /* Pad */     :  3;
     bool     Crypto        :  1;
@@ -51,11 +51,11 @@ typedef struct PeripheralClockEnabled_t {
     bool     UsbOtgFs      :  1;
     unsigned /* Pad */     : 24;
 
-    /* RCC_AHB3ENR */
+    // RCC_AHB3ENR
     bool     FlexStaticMem :  1;
     unsigned /* Pad */     : 31;
 
-    /* RCC_APB1ENR */
+    // RCC_APB1ENR
     bool     Timer2        :  1;
     bool     Timer3        :  1;
     bool     Timer4        :  1;
@@ -86,7 +86,7 @@ typedef struct PeripheralClockEnabled_t {
     bool     DAC           :  1;
     unsigned /* Pad */     :  2;
 
-    /* RCC_APB2ENR */
+    // RCC_APB2ENR
     bool     Timer1        :  1;
     bool     Timer8        :  1;
     unsigned /* Pad */     :  2;
