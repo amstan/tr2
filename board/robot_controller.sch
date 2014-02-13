@@ -1968,7 +1968,7 @@ $EndSheet
 $Sheet
 S 14400 17550 1200 300 
 U 52F8830D
-F0 "Industrial Input 0" 50
+F0 "Industrial Input 4" 50
 F1 "industrial_input.sch" 50
 F2 "MCU_Input" O R 15600 17700 60 
 F3 "A/D_Input" I L 14400 17700 60 
@@ -1976,7 +1976,7 @@ $EndSheet
 $Sheet
 S 14400 18050 1200 300 
 U 52F88311
-F0 "Industrial Input 1" 50
+F0 "Industrial Input 5" 50
 F1 "industrial_input.sch" 50
 F2 "MCU_Input" O R 15600 18200 60 
 F3 "A/D_Input" I L 14400 18200 60 
@@ -1984,7 +1984,7 @@ $EndSheet
 $Sheet
 S 14400 18550 1200 300 
 U 52F88315
-F0 "Industrial Input 2" 50
+F0 "Industrial Input 6" 50
 F1 "industrial_input.sch" 50
 F2 "MCU_Input" O R 15600 18700 60 
 F3 "A/D_Input" I L 14400 18700 60 
@@ -1992,7 +1992,7 @@ $EndSheet
 $Sheet
 S 14400 19050 1200 300 
 U 52F88319
-F0 "Industrial Input 3" 50
+F0 "Industrial Input 7" 50
 F1 "industrial_input.sch" 50
 F2 "MCU_Input" O R 15600 19200 60 
 F3 "A/D_Input" I L 14400 19200 60 
