@@ -253,7 +253,7 @@ typedef struct SystemGpioModule_t {
         uint32_t Port : 16;
     } __attribute__ ((packed)) Reset;
     uint32_t Lock;
-    SystemGpioAltFunction_t AltFunction;
+    SystemGpioAltFunction_t Function;
 } SystemGpioModule_t;
 
 /* GPIO Ports *****************************************************************/
