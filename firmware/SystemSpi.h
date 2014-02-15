@@ -140,8 +140,8 @@ typedef struct SystemSpi_t {
     unsigned /* Pad */   : 16;
     const uint32_t TxCrc : 16;
     unsigned /* Pad */   : 16;
-    
-    // TODO Put SPI at addresses in a struct
 } SystemSpi_t;
+
+// TODO Put SPI at addresses in a struct
 
 #endif

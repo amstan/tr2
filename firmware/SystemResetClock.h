@@ -55,6 +55,9 @@ typedef struct PeripheralClockEnabled_t {
     bool     FlexStaticMem :  1;
     unsigned /* Pad */     : 31;
 
+    // Reserved
+    unsigned /* Pad */     : 32;
+
     // RCC_APB1ENR
     bool     Timer2        :  1;
     bool     Timer3        :  1;
