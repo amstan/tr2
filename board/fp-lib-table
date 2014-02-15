@@ -1,4 +1,4 @@
 (fp_lib_table
-  (lib (name stm)(type Legacy)(uri st-microelectronics.mod)(options "")(descr ""))
-  (lib (name components)(type KiCad)(uri components.pretty)(options "")(descr ""))
+  (lib (name stm)(type Legacy)(uri ${KIPRJMOD}/st-microelectronics.mod)(options "")(descr ""))
+  (lib (name components)(type KiCad)(uri ${KIPRJMOD}/components.pretty)(options "")(descr ""))
 )
