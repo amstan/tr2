@@ -114,7 +114,21 @@ volatile SystemRingBuffer_t *SystemUartRingBuf(
     }
 }
 
-/* Transmit/Receive ***********************************************************/
+uint32_t SystemUartBytesToRead(volatile SystemUartModule_t *uart)
+{
+    volatile SystemRingBuffer_t *buf = SystemUartRingBuf(uart);
+    
+    if(buf != NULL)
+    {
+        return buf->Count;
+    }
+    else
+    {
+        return 0;
+    }
+}
+
+/* Transmit *******************************************************************/
 
 bool SystemUartTx(volatile SystemUartModule_t *uart, const uint32_t data)
 {
@@ -167,13 +181,15 @@ bool SystemUartTxBuf(volatile SystemUartModule_t *uart,
     }
 }
 
-bool SystemUartTxStr(volatile SystemUartModule_t *uart, const char *str)
+bool SystemUartTxStr(volatile SystemUartModule_t *uart,
+    const char *str,
+    const uint32_t length)
 {
     volatile SystemRingBuffer_t *buf = SystemUartRingBuf(uart);
    
     if(buf != NULL)
     {
-        for(uint32_t i = 0; str[i] != '\0'; i++)
+        for(uint32_t i = 0; i < length; i++)
         {
             if(i == 0 && uart->Status.TxEmpty)
             {
@@ -183,6 +199,66 @@ bool SystemUartTxStr(volatile SystemUartModule_t *uart, const char *str)
             {
                 while(!SystemRingBufferWrite(buf, str[i]));
             }
+        }
+        
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+/* Receive ********************************************************************/
+
+bool SystemUartRx(volatile SystemUartModule_t *uart, uint32_t *data)
+{
+    volatile SystemRingBuffer_t *buf = SystemUartRingBuf(uart);
+    
+    if(buf != NULL)
+    {
+        return SystemRingBufferRead(buf, data);
+    }
+    else
+    {
+        return false;
+    }
+}
+
+bool SystemUartRxBuf(volatile SystemUartModule_t *uart,
+     uint32_t *data,
+     const uint32_t length)
+{
+    volatile SystemRingBuffer_t *buf = SystemUartRingBuf(uart);
+    
+    if(buf != NULL && buf->Count >= length)
+    {
+        for(uint32_t i = 0; i < length; i++)
+        {
+            SystemRingBufferRead(buf, &data[i]);
+        }
+        
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+bool SystemUartRxStr(volatile SystemUartModule_t *uart,
+    char *data,
+    const uint32_t length)
+{
+    volatile SystemRingBuffer_t *buf = SystemUartRingBuf(uart);
+    
+    if(buf != NULL && buf->Count >= length)
+    {
+        for(uint32_t i = 0; i < length; i++)
+        {
+            uint32_t chr = 0;
+            SystemRingBufferRead(buf, &chr);
+            data[i] = chr;
         }
         
         return true;
@@ -211,7 +287,7 @@ void __attribute__ ((interrupt ("IRQ"))) IsrUsart2(void)
     }
     else if(SystemUart.U2.Status.RxComplete)
     {
-        SystemUart.U2.Status.RxComplete = false;
+        SystemRingBufferWrite(uart2buf, SystemUart.U2.Data);
     }
 }
 

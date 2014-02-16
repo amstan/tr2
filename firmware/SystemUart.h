@@ -201,9 +201,17 @@ typedef struct SystemUart_t {
 
 /* UART Driver API ************************************************************/
 
+/* Initialization *************************************************************/
+
 bool SystemUartInit(volatile SystemUartModule_t *uart,
     volatile SystemRingBuffer_t *buf,
     uint32_t baud);
+
+/* Utility ********************************************************************/
+
+uint32_t SystemUartBytesToRead(volatile SystemUartModule_t *uart);
+
+/* Transmit *******************************************************************/
 
 bool SystemUartTx(volatile SystemUartModule_t *uart, const uint32_t data);
 
@@ -211,7 +219,21 @@ bool SystemUartTxBuf(volatile SystemUartModule_t *uart,
     const uint32_t *data,
     const uint32_t length);
 
-bool SystemUartTxStr(volatile SystemUartModule_t *uart, const char *str);
+bool SystemUartTxStr(volatile SystemUartModule_t *uart,
+    const char *str,
+    const uint32_t length);
+
+/* Receive ********************************************************************/
+
+bool SystemUartRx(volatile SystemUartModule_t *uart, uint32_t *data);
+
+bool SystemUartRxBuf(volatile SystemUartModule_t *uart,
+     uint32_t *data,
+     const uint32_t length);
+
+bool SystemUartRxStr(volatile SystemUartModule_t *uart,
+    char *data,
+    const uint32_t length);
 
 #endif
 

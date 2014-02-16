@@ -3,6 +3,7 @@
  */
 
 #include <stdint.h>
+#include <string.h>
 
 #include "SystemResetClock.h"
 #include "SystemGpio.h"
@@ -50,11 +51,21 @@ int main(void)
         {
             if(state && !prevState) {
                 SystemGpio.D.Output.P15 = !SystemGpio.D.Output.P15;
-                SystemUartTxStr(&SystemUart.U2, "Andrew Rossignol\n");
+                char *str = "Andrew Rossignol\n";
+                SystemUartTxStr(&SystemUart.U2, str, 17);
                 prevState = true;
             } else if(!state && prevState) {
                 prevState = false;
             }
+        }
+        
+        uint32_t bytesToRead = SystemUartBytesToRead(&SystemUart.U2);
+
+        char buf[16];
+        if(bytesToRead >= 16)
+        {
+            SystemUartRxStr(&SystemUart.U2, buf, 16);
+            SystemUartTxStr(&SystemUart.U2, buf, 16);
         }
     }
     
