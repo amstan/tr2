@@ -39,6 +39,8 @@ int main(void)
     
     // TODO: Create pin a sets enum to pass in to configure ports inside
     SystemUartInit(&SystemUart.U2, &uartRingBuf, UART_BAUD);
+
+    SystemUart.U2.Data = 'A';
     
     bool prevState = false;
 
@@ -50,7 +52,7 @@ int main(void)
         {
             if(state && !prevState) {
                 SystemGpio.D.Output.P15 = !SystemGpio.D.Output.P15;
-                SystemUart.U2.Data = 'A';
+                SystemUartTxStr(&SystemUart.U2, "Andrew Rossignol\n");
                 prevState = true;
             } else if(!state && prevState) {
                 prevState = false;

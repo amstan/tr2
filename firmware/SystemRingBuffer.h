@@ -21,13 +21,14 @@ typedef struct SystemRingBuffer_t {
 
 /* Read/Write *****************************************************************/
 
-bool SystemRingBufferRead(SystemRingBuffer_t *buf, uint32_t *elem);
-bool SystemRingBufferWrite(SystemRingBuffer_t *buf, const uint32_t *elem);
+bool SystemRingBufferRead(volatile SystemRingBuffer_t *buf, uint32_t *elem);
+bool SystemRingBufferWrite(volatile SystemRingBuffer_t *buf,
+    const uint32_t elem);
 
 /* Status *********************************************************************/
 
-bool SystemRingBufferIsEmpty(SystemRingBuffer_t *buf);
-bool SystemRingBufferIsFull(SystemRingBuffer_t *buf);
+bool SystemRingBufferIsEmpty(volatile SystemRingBuffer_t *buf);
+bool SystemRingBufferIsFull(volatile SystemRingBuffer_t *buf);
 
 #endif
 

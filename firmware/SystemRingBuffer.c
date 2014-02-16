@@ -6,13 +6,14 @@
 
 /* Read/Write *****************************************************************/
 
-bool SystemRingBufferRead(SystemRingBuffer_t *buf, uint32_t *elem)
+bool SystemRingBufferRead(volatile SystemRingBuffer_t *buf, uint32_t *elem)
 {
     if(!SystemRingBufferIsEmpty(buf))
     {
-        elem = &(buf->Buffer[buf->ReadPos]);
+        *elem = buf->Buffer[buf->ReadPos];
         buf->Count--;
         buf->ReadPos++;
+        buf->ReadPos = buf->ReadPos >= buf->Size ? 0 : buf->ReadPos;
         return true;
     }
     else
@@ -22,13 +23,15 @@ bool SystemRingBufferRead(SystemRingBuffer_t *buf, uint32_t *elem)
     }
 }
 
-bool SystemRingBufferWrite(SystemRingBuffer_t *buf, const uint32_t *elem)
+bool SystemRingBufferWrite(volatile SystemRingBuffer_t *buf,
+    const uint32_t elem)
 {
     if(!SystemRingBufferIsFull(buf))
     {
-        buf->Buffer[buf->WritePos] = *elem;
-        buf->WritePos++;
+        buf->Buffer[buf->WritePos] = elem;
         buf->Count++;
+        buf->WritePos++;
+        buf->WritePos = buf->WritePos >= buf->Size ? 0 : buf->WritePos;
         return true;
     }
     else
@@ -39,12 +42,12 @@ bool SystemRingBufferWrite(SystemRingBuffer_t *buf, const uint32_t *elem)
 
 /* Status *********************************************************************/
 
-bool SystemRingBufferIsEmpty(SystemRingBuffer_t *buf)
+bool SystemRingBufferIsEmpty(volatile SystemRingBuffer_t *buf)
 {
     return (buf->Count == 0);
 }
 
-bool SystemRingBufferIsFull(SystemRingBuffer_t *buf)
+bool SystemRingBufferIsFull(volatile SystemRingBuffer_t *buf)
 {
     return (buf->Count == buf->Size);
 }

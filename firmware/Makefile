@@ -11,7 +11,8 @@ F_CPU = 16000000UL
 # Compiler Configuration #######################################################
 
 CFLAGS  = -g -std=c99 -mcpu=cortex-m4 -mthumb -mlittle-endian -mthumb-interwork
-CFLAGS += -mfloat-abi=hard -mfpu=fpv4-sp-d16 -Wall -DF_CPU=$(F_CPU)
+CFLAGS += -Wall -DF_CPU=$(F_CPU)
+#CFLAGS += -mfloat-abi=hard -mfpu=fpv4-sp-d16
 
 # Debugger Configuration #######################################################
 

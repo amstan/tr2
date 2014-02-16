@@ -205,4 +205,13 @@ bool SystemUartInit(volatile SystemUartModule_t *uart,
     volatile SystemRingBuffer_t *buf,
     uint32_t baud);
 
+bool SystemUartTx(volatile SystemUartModule_t *uart, const uint32_t data);
+
+bool SystemUartTxBuf(volatile SystemUartModule_t *uart,
+    const uint32_t *data,
+    const uint32_t length);
+
+bool SystemUartTxStr(volatile SystemUartModule_t *uart, const char *str);
+
+
 #endif
