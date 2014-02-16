@@ -10,3 +10,8 @@ done on an STM32F4DISCOVERY board.
 You must install the arm-none-eabi toolchain. It is available from
 [this PPA](https://launchpad.net/~terry.guo/+archive/gcc-arm-embedded) for
 Ubuntu/Mint.
+
+## TODO
+
+* Buffer struct for uart
+

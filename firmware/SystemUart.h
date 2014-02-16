@@ -8,6 +8,10 @@
 #include <stdbool.h>
 #include <stdint.h>
 
+#include "SystemRingBuffer.h"
+#include "SystemInterrupts.h"
+#include "SystemResetClock.h"
+
 #define ADDR_UART 0x40004400
 #define SystemUart (*((volatile SystemUart_t *)ADDR_UART))
 
@@ -164,7 +168,7 @@ typedef struct SystemUartStatus_t {
     bool NoiseDetected : 1;
     bool OverrunError  : 1;
     bool IdleDetected  : 1;
-    bool RxFull        : 1;
+    bool RxComplete    : 1;
     bool TxComplete    : 1;
     bool TxEmpty       : 1;
     bool LinBreak      : 1;
@@ -189,11 +193,16 @@ typedef struct SystemUart_t {
     SystemUartModule_t U3;
     
     // TODO: Insert padding
-    SystemUartModule_t U0;
     SystemUartModule_t U1;
     SystemUartModule_t U4;
     SystemUartModule_t U5;
     SystemUartModule_t U6;
 } SystemUart_t;
+
+/* UART Driver API ************************************************************/
+
+bool SystemUartInit(volatile SystemUartModule_t *uart,
+    volatile SystemRingBuffer_t *buf,
+    uint32_t baud);
 
 #endif

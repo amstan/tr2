@@ -9,13 +9,20 @@
 #include "SystemUart.h"
 #include "SystemInterrupts.h"
 
-void __attribute__ ((interrupt ("IRQ"))) IsrUsart2(void) {
-    SystemGpio.D.Output.P14 = true;
-    SystemUart.U2.Config.TxEmptyIntEnabled = false;
-}
+#define UART_BUFSIZE 256
+#define UART_BAUD    19200
+
+uint32_t uartBuf[UART_BUFSIZE];
+SystemRingBuffer_t uartRingBuf = {
+    .Buffer = uartBuf,
+    .Size = UART_BUFSIZE
+};
 
 int main(void)
 {
+    // Enable Global IRQs
+    SystemIrqEnable();
+
     // GPIO Config
     PeripheralClockEnabled.GpioA = true;
     PeripheralClockEnabled.GpioD = true;
@@ -25,26 +32,13 @@ int main(void)
     SystemGpio.D.Mode.P14 = SystemGpioMode_Output;
     
     // USART2 Config
-    PeripheralClockEnabled.Usart2 = true;
     SystemGpio.A.Mode.P2 = SystemGpioMode_Alternate;
     SystemGpio.A.Mode.P3 = SystemGpioMode_Alternate;
     SystemGpio.A.Function.P2 = 7;
     SystemGpio.A.Function.P3 = 7;
     
-    // 19200 Baud, Make a macro/function to handle this.
-    SystemNvic.SetEnable.Usart2 = true;
-    SystemIrqEnable();
-    
-    //SystemUart.U2.Config.TxDoneIntEnabled = true;
-    SystemUart.U2.Config.TxEmptyIntEnabled = true;
-    
-    SystemUart.U2.Config.Baud.Mantissa = 52;
-    SystemUart.U2.Config.Baud.Fraction = 1;
-    SystemUart.U2.Config.RxEnabled = true;
-    SystemUart.U2.Config.TxEnabled = true;
-    SystemUart.U2.Config.Enabled = true;
-    
-    //SystemUart.U2.Data = 'A';
+    // TODO: Create pin a sets enum to pass in to configure ports inside
+    SystemUartInit(&SystemUart.U2, &uartRingBuf, UART_BAUD);
     
     bool prevState = false;
 

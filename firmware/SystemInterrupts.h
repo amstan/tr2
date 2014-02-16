@@ -2,6 +2,9 @@
  * SMT32F4 Global Interrupts Management
  */
 
+#ifndef SYSTEMINTERRUPTS_H
+#define SYSTEMINTERRUPTS_H
+
 #define ADDR_NVIC 0xE000E100
 #define SystemNvic (*((SystemNvic_t *)ADDR_NVIC))
 
@@ -371,4 +374,5 @@ typedef struct SystemNvic_t {
     SystemNvicPriority_t Priority;
 } SystemNvic_t;
 
+#endif
 
