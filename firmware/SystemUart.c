@@ -193,7 +193,6 @@ bool SystemUartTxStr(volatile SystemUartModule_t *uart, const char *str)
     }
 }
 
-
 /* Interrupt Handlers *********************************************************/
 
 void __attribute__ ((interrupt ("IRQ"))) IsrUsart2(void)

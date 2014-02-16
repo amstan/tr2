@@ -104,53 +104,53 @@ typedef struct SystemUartConfiguration_t {
     union {
         struct {
             // USART_CR1
-            bool     SendBreak           : 1;
-            uint32_t RxMode              : 1;
-            bool     RxEnabled           : 1;
-            bool     TxEnabled           : 1;
-            bool     IdleIntEnabled      : 1;
-            bool     RxDoneIntEnabled    : 1;
-            bool     TxDoneIntEnabled    : 1;
-            bool     TxEmptyIntEnabled   : 1;
-            bool     ParityErrIntEnabled : 1;
-            uint32_t ParityMode          : 1;
-            bool     ParityEnabled       : 1;
-            uint32_t WakeupMode          : 1;
-            uint32_t FrameLength         : 1;
-            bool     Enabled             : 1;
-            unsigned /* Pad */           : 1;
-            uint32_t OversampleMode      : 1;
-            unsigned /* Pad */           : 16;
-
+            bool                    SendBreak           : 1;
+            SystemUartRxMode_t      RxMode              : 1;
+            bool                    RxEnabled           : 1;
+            bool                    TxEnabled           : 1;
+            bool                    IdleIntEnabled      : 1;
+            bool                    RxDoneIntEnabled    : 1;
+            bool                    TxDoneIntEnabled    : 1;
+            bool                    TxEmptyIntEnabled   : 1;
+            bool                    ParityErrIntEnabled : 1;
+            SystemUartParity_t      ParityMode          : 1;
+            bool                    ParityEnabled       : 1;
+            SystemUartWakeup_t      WakeupMode          : 1;
+            SystemUartFrameLength_t FrameLength         : 1;
+            bool                    Enabled             : 1;
+            unsigned                /* Pad */           : 1;
+            SystemUartOversample_t  OversampleMode      : 1;
+            unsigned                /* Pad */           : 16;
+            
             // USART_CR2
-            uint32_t Address             : 4;
-            unsigned /* Pad */           : 1;
-            uint32_t LineBreakLength     : 1;
-            bool     LineBreakIntEnabled : 1;
-            unsigned /* Pad */           : 1;
-            bool     LastClockSent       : 1;
-            uint32_t ClockPhase          : 1;
-            uint32_t ClockIdle           : 1;
-            bool     ClockEnabled        : 1;
-            uint32_t StopBits            : 2;
-            bool     LinEnabled          : 1;
-            unsigned /* Pad */           : 17;
+            uint32_t                Address             : 4;
+            unsigned                /* Pad */           : 1;
+            SystemUartBreakLength_t LineBreakLength     : 1;
+            bool                    LineBreakIntEnabled : 1;
+            unsigned                /* Pad */           : 1;
+            bool                    LastClockSent       : 1;
+            SystemUartClockPhase_t  ClockPhase          : 1;
+            SystemUartClockIdle_t   ClockIdle           : 1;
+            bool                    ClockEnabled        : 1;
+            SystemUartStopBits_t    StopBits            : 2;
+            bool                    LinEnabled          : 1;
+            unsigned                /* Pad */           : 17;
 
             // USART_CR3
-            bool     ErrIntEnabled       : 1;
-            bool     IrdaEnabled         : 1;
-            bool     IrdaLowPower        : 1;
-            bool     HalfDuplex          : 1;
-            bool     NackEnabled         : 1;
-            bool     SmartCardEnabled    : 1;
-            bool     RxDmaEnabled        : 1;
-            bool     TxDmaEnabled        : 1;
-            bool     RtsEnabled          : 1;
-            bool     CtsEnabled          : 1;
-            bool     CtsIntEnabled       : 1;
-            uint32_t BitSampleMethod     : 1;
-            unsigned /* Pad */           : 20;
-            unsigned /* IrDA/Smart Card */ : 32;
+            bool                  ErrIntEnabled         : 1;
+            bool                  IrdaEnabled           : 1;
+            bool                  IrdaLowPower          : 1;
+            bool                  HalfDuplex            : 1;
+            bool                  NackEnabled           : 1;
+            bool                  SmartCardEnabled      : 1;
+            bool                  RxDmaEnabled          : 1;
+            bool                  TxDmaEnabled          : 1;
+            bool                  RtsEnabled            : 1;
+            bool                  CtsEnabled            : 1;
+            bool                  CtsIntEnabled         : 1;
+            SystemUartBitSample_t BitSampleMethod       : 1;
+            unsigned              /* Pad */             : 20;
+            unsigned              /* IrDA/Smart Card */ : 32;
         };
         
         uint32_t Config1;
@@ -213,5 +213,5 @@ bool SystemUartTxBuf(volatile SystemUartModule_t *uart,
 
 bool SystemUartTxStr(volatile SystemUartModule_t *uart, const char *str);
 
-
 #endif
+

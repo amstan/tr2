@@ -10,7 +10,7 @@
 #include "SystemInterrupts.h"
 
 #define UART_BUFSIZE 256
-#define UART_BAUD    19200
+#define UART_BAUD    115200
 
 uint32_t uartBuf[UART_BUFSIZE];
 SystemRingBuffer_t uartRingBuf = {
@@ -37,13 +37,11 @@ int main(void)
     SystemGpio.A.Function.P2 = 7;
     SystemGpio.A.Function.P3 = 7;
     
-    // TODO: Create pin a sets enum to pass in to configure ports inside
+    // TODO: Create a pin sets enum to pass in to configure ports inside
     SystemUartInit(&SystemUart.U2, &uartRingBuf, UART_BAUD);
-
-    SystemUart.U2.Data = 'A';
     
     bool prevState = false;
-
+    
     while(1)
     {
         bool state = SystemGpio.A.Input.P0;
