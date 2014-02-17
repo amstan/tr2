@@ -12,6 +12,41 @@
 #define GPIO_REG_SPACING 0x0400
 #define SystemGpio (*((volatile SystemGpio_t *)ADDR_GPIO))
 
+/* GPIO Pin Definitions *******************************************************/
+
+typedef enum SystemGpioPort_t {
+    SystemGpioPort_A,
+    SystemGpioPort_B,
+    SystemGpioPort_C,
+    SystemGpioPort_D,
+    SystemGpioPort_E,
+    SystemGpioPort_F,
+    SystemGpioPort_G,
+    SystemGpioPort_H,
+    SystemGpioPort_I,
+    SystemGpioPort_J,
+    SystemGpioPort_K
+} SystemGpioPort_t;
+
+typedef enum SystemGpioPin_t {
+    SystemGpioPin_0,
+    SystemGpioPin_1,
+    SystemGpioPin_2,
+    SystemGpioPin_3,
+    SystemGpioPin_4,
+    SystemGpioPin_5,
+    SystemGpioPin_6,
+    SystemGpioPin_7,
+    SystemGpioPin_8,
+    SystemGpioPin_9,
+    SystemGpioPin_10,
+    SystemGpioPin_11,
+    SystemGpioPin_12,
+    SystemGpioPin_13,
+    SystemGpioPin_14,
+    SystemGpioPin_15
+} SystemGpioPin_t;
+
 /* GPIO Pin Modes *************************************************************/
 
 /*
@@ -29,22 +64,22 @@ typedef enum SystemGpioMode_t {
  */
 typedef union SystemGpioPortMode_t {
     struct {
-        uint32_t P0  : 2;
-        uint32_t P1  : 2;
-        uint32_t P2  : 2;
-        uint32_t P3  : 2;
-        uint32_t P4  : 2;
-        uint32_t P5  : 2;
-        uint32_t P6  : 2;
-        uint32_t P7  : 2;
-        uint32_t P8  : 2;
-        uint32_t P9  : 2;
-        uint32_t P10 : 2;
-        uint32_t P11 : 2;
-        uint32_t P12 : 2;
-        uint32_t P13 : 2;
-        uint32_t P14 : 2;
-        uint32_t P15 : 2;
+        SystemGpioMode_t P0  : 2;
+        SystemGpioMode_t P1  : 2;
+        SystemGpioMode_t P2  : 2;
+        SystemGpioMode_t P3  : 2;
+        SystemGpioMode_t P4  : 2;
+        SystemGpioMode_t P5  : 2;
+        SystemGpioMode_t P6  : 2;
+        SystemGpioMode_t P7  : 2;
+        SystemGpioMode_t P8  : 2;
+        SystemGpioMode_t P9  : 2;
+        SystemGpioMode_t P10 : 2;
+        SystemGpioMode_t P11 : 2;
+        SystemGpioMode_t P12 : 2;
+        SystemGpioMode_t P13 : 2;
+        SystemGpioMode_t P14 : 2;
+        SystemGpioMode_t P15 : 2;
     };
     uint32_t Port;
 } SystemGpioPortMode_t;
@@ -64,22 +99,22 @@ typedef enum SystemGpioDrive_t {
  */
 typedef union SystemGpioPortDrive_t {
     struct {
-        uint32_t P0  : 1;
-        uint32_t P1  : 1;
-        uint32_t P2  : 1;
-        uint32_t P3  : 1;
-        uint32_t P4  : 1;
-        uint32_t P5  : 1;
-        uint32_t P6  : 1;
-        uint32_t P7  : 1;
-        uint32_t P8  : 1;
-        uint32_t P9  : 1;
-        uint32_t P10 : 1;
-        uint32_t P11 : 1;
-        uint32_t P12 : 1;
-        uint32_t P13 : 1;
-        uint32_t P14 : 1;
-        uint32_t P15 : 1;
+        SystemGpioDrive_t P0  : 1;
+        SystemGpioDrive_t P1  : 1;
+        SystemGpioDrive_t P2  : 1;
+        SystemGpioDrive_t P3  : 1;
+        SystemGpioDrive_t P4  : 1;
+        SystemGpioDrive_t P5  : 1;
+        SystemGpioDrive_t P6  : 1;
+        SystemGpioDrive_t P7  : 1;
+        SystemGpioDrive_t P8  : 1;
+        SystemGpioDrive_t P9  : 1;
+        SystemGpioDrive_t P10 : 1;
+        SystemGpioDrive_t P11 : 1;
+        SystemGpioDrive_t P12 : 1;
+        SystemGpioDrive_t P13 : 1;
+        SystemGpioDrive_t P14 : 1;
+        SystemGpioDrive_t P15 : 1;
         unsigned     : 16;
     };
     uint32_t Port : 16;
@@ -97,22 +132,22 @@ typedef enum SystemGpioSpeed_t {
 
 typedef union SystemGpioPortSpeed_t {
     struct {
-        uint32_t P0  : 2;
-        uint32_t P1  : 2;
-        uint32_t P2  : 2;
-        uint32_t P3  : 2;
-        uint32_t P4  : 2;
-        uint32_t P5  : 2;
-        uint32_t P6  : 2;
-        uint32_t P7  : 2;
-        uint32_t P8  : 2;
-        uint32_t P9  : 2;
-        uint32_t P10 : 2;
-        uint32_t P11 : 2;
-        uint32_t P12 : 2;
-        uint32_t P13 : 2;
-        uint32_t P14 : 2;
-        uint32_t P15 : 2;
+        SystemGpioSpeed_t P0  : 2;
+        SystemGpioSpeed_t P1  : 2;
+        SystemGpioSpeed_t P2  : 2;
+        SystemGpioSpeed_t P3  : 2;
+        SystemGpioSpeed_t P4  : 2;
+        SystemGpioSpeed_t P5  : 2;
+        SystemGpioSpeed_t P6  : 2;
+        SystemGpioSpeed_t P7  : 2;
+        SystemGpioSpeed_t P8  : 2;
+        SystemGpioSpeed_t P9  : 2;
+        SystemGpioSpeed_t P10 : 2;
+        SystemGpioSpeed_t P11 : 2;
+        SystemGpioSpeed_t P12 : 2;
+        SystemGpioSpeed_t P13 : 2;
+        SystemGpioSpeed_t P14 : 2;
+        SystemGpioSpeed_t P15 : 2;
     };
     uint32_t Port;
 } SystemGpioPortSpeed_t;
@@ -127,22 +162,22 @@ typedef enum SystemGpioPull_t {
 
 typedef union SystemGpioPortPull_t {
     struct {
-        uint32_t P0  : 2;
-        uint32_t P1  : 2;
-        uint32_t P2  : 2;
-        uint32_t P3  : 2;
-        uint32_t P4  : 2;
-        uint32_t P5  : 2;
-        uint32_t P6  : 2;
-        uint32_t P7  : 2;
-        uint32_t P8  : 2;
-        uint32_t P9  : 2;
-        uint32_t P10 : 2;
-        uint32_t P11 : 2;
-        uint32_t P12 : 2;
-        uint32_t P13 : 2;
-        uint32_t P14 : 2;
-        uint32_t P15 : 2;
+        SystemGpioPull_t P0  : 2;
+        SystemGpioPull_t P1  : 2;
+        SystemGpioPull_t P2  : 2;
+        SystemGpioPull_t P3  : 2;
+        SystemGpioPull_t P4  : 2;
+        SystemGpioPull_t P5  : 2;
+        SystemGpioPull_t P6  : 2;
+        SystemGpioPull_t P7  : 2;
+        SystemGpioPull_t P8  : 2;
+        SystemGpioPull_t P9  : 2;
+        SystemGpioPull_t P10 : 2;
+        SystemGpioPull_t P11 : 2;
+        SystemGpioPull_t P12 : 2;
+        SystemGpioPull_t P13 : 2;
+        SystemGpioPull_t P14 : 2;
+        SystemGpioPull_t P15 : 2;
     };
     uint32_t Port;
 } SystemGpioPortPull_t;
