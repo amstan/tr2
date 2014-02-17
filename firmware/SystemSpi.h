@@ -23,7 +23,7 @@ typedef enum SystemSpiClockPhase_t {
 typedef enum SystemSpiClockIdle_t {
     SystemSpiClockIdle_Low,
     SystemSpiClockIdle_High
-} SystemSpiClockPolarity_t;
+} SystemSpiClockIdle_t;
 
 /* Device Mode ****************************************************************/
 
@@ -96,32 +96,32 @@ typedef union SystemSpiStatus_t {
 typedef union SystemSpiConfiguration_t {
     struct {
         // SPI_CR1
-        uint32_t ClockPhase        : 1;
-        uint32_t ClockIdle         : 1;
-        uint32_t DeviceMode        : 1;
-        uint32_t Prescaler         : 3;
-        bool     Enabled           : 1;
-        uint32_t FrameEndianness   : 1;
-        bool     InternalSelect    : 1;
-        bool     SlaveManageEnable : 1;
-        bool     RxOnly            : 1;
-        uint32_t FrameSize         : 1;
-        bool     CrcNext           : 1;
-        bool     CrcEnabled        : 1;
-        bool     OutputEnabled     : 1;
-        uint32_t BidirectionMode   : 1;
-        unsigned /* Pad */         : 16;
+        SystemSpiClockPhase_t      ClockPhase        : 1;
+        SystemSpiClockIdle_t       ClockIdle         : 1;
+        SystemSpiDeviceMode_t      DeviceMode        : 1;
+        SystemSpiPrescaler_t       Prescaler         : 3;
+        bool                       Enabled           : 1;
+        SystemSpiEndianness_t      FrameEndianness   : 1;
+        bool                       InternalSelect    : 1;
+        bool                       SlaveManageEnable : 1;
+        bool                       RxOnly            : 1;
+        SystemSpiFrameSize_t       FrameSize         : 1;
+        bool                       CrcNext           : 1;
+        bool                       CrcEnabled        : 1;
+        bool                       OutputEnabled     : 1;
+        SystemSpiBidirectionMode_t BidirectionMode   : 1;
+        unsigned                   /* Pad */         : 16;
 
         // SPI_CR2
-        bool     RxDmaEnabled      : 1;
-        bool     TxDmaEnabled      : 1;
-        bool     SSEnabled         : 1;
-        unsigned /* Pad */         : 1;
-        uint32_t FrameFormat       : 1;
-        bool     ErrIntEnabled     : 1;
-        bool     RxDoneIntEnabled  : 1;
-        bool     TxDoneIntEnabled  : 1;
-        unsigned /* Pad */         : 24;
+        bool                       RxDmaEnabled      : 1;
+        bool                       TxDmaEnabled      : 1;
+        bool                       SSEnabled         : 1;
+        unsigned                   /* Pad */         : 1;
+        SystemSpiFrameFormat_t     FrameFormat       : 1;
+        bool                       ErrIntEnabled     : 1;
+        bool                       RxDoneIntEnabled  : 1;
+        bool                       TxDoneIntEnabled  : 1;
+        unsigned                   /* Pad */         : 24;
     };
     uint32_t Config1;
     uint32_t Config2;
@@ -129,7 +129,7 @@ typedef union SystemSpiConfiguration_t {
 
 /* SPI Register Set ***********************************************************/
 
-typedef struct SystemSpi_t {
+typedef struct SystemSpiModule_t {
     SystemSpiConfiguration_t Config;
     SystemSpiStatus_t Status;
     uint32_t Data        : 16;
@@ -140,8 +140,12 @@ typedef struct SystemSpi_t {
     unsigned /* Pad */   : 16;
     const uint32_t TxCrc : 16;
     unsigned /* Pad */   : 16;
-} SystemSpi_t;
+} SystemSpiModule_t;
 
-// TODO Put SPI at addresses in a struct
+typedef struct SystemSpi_t {
+    SystemSpiModule_t S2;
+    uint32_t __pad[249];
+    SystemSpiModule_t S3;
+} SystemSpi_t;
 
 #endif

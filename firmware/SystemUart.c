@@ -317,8 +317,33 @@ void handleInterrupt(volatile SystemUartModule_t *uart,
     }
 }
 
+void __attribute__ ((interrupt ("IRQ"))) IsrUsart1(void)
+{
+    handleInterrupt(&(SystemUart.U1), uart1Buf);
+}
+
 void __attribute__ ((interrupt ("IRQ"))) IsrUsart2(void)
 {
     handleInterrupt(&(SystemUart.U2), uart2Buf);
+}
+
+void __attribute__((interrupt ("IRQ"))) IsrUsart3(void)
+{
+    handleInterrupt(&(SystemUart.U3), uart3Buf);
+}
+
+void __attribute__((interrupt ("IRQ"))) IsrUart4(void)
+{
+    handleInterrupt(&(SystemUart.U4), uart4Buf);
+}
+
+void __attribute__((interrupt ("IRQ"))) IsrUart5(void)
+{
+    handleInterrupt(&(SystemUart.U5), uart5Buf);
+}
+
+void __attribute__((interrupt ("IRQ"))) IsrUsart6(void)
+{
+    handleInterrupt(&(SystemUart.U6), uart6Buf);
 }
 

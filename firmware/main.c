@@ -35,13 +35,13 @@ int main(void)
     SystemGpio.D.Mode.P15 = SystemGpioMode_Output;
     SystemGpio.D.Mode.P14 = SystemGpioMode_Output;
     
-    // USART2 Config
-    SystemGpio.A.Mode.P2 = SystemGpioMode_Alternate;
-    SystemGpio.A.Mode.P3 = SystemGpioMode_Alternate;
-    SystemGpio.A.Function.P2 = 7;
-    SystemGpio.A.Function.P3 = 7;
+    // USART3 Config
+    SystemGpio.D.Mode.P8 = SystemGpioMode_Alternate;
+    SystemGpio.D.Mode.P9 = SystemGpioMode_Alternate;
+    SystemGpio.D.Function.P8 = 7;
+    SystemGpio.D.Function.P9 = 7;
     
-    SystemUartInit(&SystemUart.U2, &uartBuf, UART_BAUD);
+    SystemUartInit(&SystemUart.U3, &uartBuf, UART_BAUD);
     
     bool prevState = false;
     
@@ -54,20 +54,20 @@ int main(void)
             if(state && !prevState) {
                 SystemGpio.D.Output.P15 = !SystemGpio.D.Output.P15;
                 char *str = "Andrew Rossignol\n";
-                SystemUartTxStr(&SystemUart.U2, str, 17);
+                SystemUartTxStr(&SystemUart.U3, str, 17);
                 prevState = true;
             } else if(!state && prevState) {
                 prevState = false;
             }
         }
         
-        uint32_t bytesToRead = SystemUartBytesToRead(&SystemUart.U2);
+        uint32_t bytesToRead = SystemUartBytesToRead(&SystemUart.U3);
 
         char buf[1];
         if(bytesToRead >= 1)
         {
-            SystemUartRxStr(&SystemUart.U2, buf, 1);
-            SystemUartTxStr(&SystemUart.U2, buf, 1);
+            SystemUartRxStr(&SystemUart.U3, buf, 1);
+            SystemUartTxStr(&SystemUart.U3, buf, 1);
         }
     }
     
