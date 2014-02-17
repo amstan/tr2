@@ -4,19 +4,19 @@
 
 #include "SystemUart.h"
 
-/* Buffers for the UART Modules ***********************************************/
+/* Buffers ********************************************************************/
 
-volatile SystemRingBuffer_t *uart1buf;
-volatile SystemRingBuffer_t *uart2buf;
-volatile SystemRingBuffer_t *uart3buf;
-volatile SystemRingBuffer_t *uart4buf;
-volatile SystemRingBuffer_t *uart5buf;
-volatile SystemRingBuffer_t *uart6buf;
+volatile SystemUartBuffer_t *uart1Buf;
+volatile SystemUartBuffer_t *uart2Buf;
+volatile SystemUartBuffer_t *uart3Buf;
+volatile SystemUartBuffer_t *uart4Buf;
+volatile SystemUartBuffer_t *uart5Buf;
+volatile SystemUartBuffer_t *uart6Buf;
 
 /* Initialization *************************************************************/
 
 bool SystemUartInit(volatile SystemUartModule_t *uart,
-    volatile SystemRingBuffer_t *buf,
+    volatile SystemUartBuffer_t *buf,
     uint32_t baud)
 {
     if(buf == NULL)
@@ -26,37 +26,37 @@ bool SystemUartInit(volatile SystemUartModule_t *uart,
     
     if(uart == &SystemUart.U1)
     {
-        uart1buf = buf;
+        uart1Buf = buf;
         SystemNvic.SetEnable.Usart1 = true;
         PeripheralClockEnabled.Usart1 = true;
     }
     else if(uart == &SystemUart.U2)
     {
-        uart2buf = buf;
+        uart2Buf = buf;
         SystemNvic.SetEnable.Usart2 = true;
         PeripheralClockEnabled.Usart2 = true;
     }
     else if(uart == &SystemUart.U3)
     {
-        uart3buf = buf;
+        uart3Buf = buf;
         SystemNvic.SetEnable.Usart3 = true;
         PeripheralClockEnabled.Usart3 = true;
     }
     else if(uart == &SystemUart.U4)
     {
-        uart4buf = buf;
+        uart4Buf = buf;
         SystemNvic.SetEnable.Uart4 = true;
         PeripheralClockEnabled.Uart4 = true;
     }
     else if(uart == &SystemUart.U5)
     {
-        uart5buf = buf;
+        uart5Buf = buf;
         SystemNvic.SetEnable.Uart5 = true;
         PeripheralClockEnabled.Uart5 = true;
     }
     else if(uart == &SystemUart.U6)
     {
-        uart6buf = buf;
+        uart6Buf = buf;
         SystemNvic.SetEnable.Usart6 = true;
         PeripheralClockEnabled.Usart6 = true;
     }
@@ -81,32 +81,31 @@ bool SystemUartInit(volatile SystemUartModule_t *uart,
 
 /* Utility ********************************************************************/
 
-volatile SystemRingBuffer_t *SystemUartRingBuf(
-    volatile SystemUartModule_t *uart)
+volatile SystemUartBuffer_t *SystemUartBuf(volatile SystemUartModule_t *uart)
 {
     if(uart == &SystemUart.U1)
     {
-        return uart1buf;
+        return uart1Buf;
     }
     else if(uart == &SystemUart.U2)
     {
-        return uart2buf;
+        return uart2Buf;
     }
     else if(uart == &SystemUart.U3)
     {
-        return uart3buf;
+        return uart3Buf;
     }
     else if(uart == &SystemUart.U4)
     {
-        return uart4buf;
+        return uart4Buf;
     }
     else if(uart == &SystemUart.U5)
     {
-        return uart5buf;
+        return uart5Buf;
     }
     else if(uart == &SystemUart.U6)
     {
-        return uart6buf;
+        return uart6Buf;
     }
     else
     {
@@ -116,11 +115,11 @@ volatile SystemRingBuffer_t *SystemUartRingBuf(
 
 uint32_t SystemUartBytesToRead(volatile SystemUartModule_t *uart)
 {
-    volatile SystemRingBuffer_t *buf = SystemUartRingBuf(uart);
+    volatile SystemUartBuffer_t *buf = SystemUartBuf(uart);
     
     if(buf != NULL)
     {
-        return buf->Count;
+        return buf->Rx.Count;
     }
     else
     {
@@ -132,17 +131,23 @@ uint32_t SystemUartBytesToRead(volatile SystemUartModule_t *uart)
 
 bool SystemUartTx(volatile SystemUartModule_t *uart, const uint32_t data)
 {
-    volatile SystemRingBuffer_t *buf = SystemUartRingBuf(uart);
+    volatile SystemUartBuffer_t *buf = SystemUartBuf(uart);
     
     if(buf != NULL)
     {
-        if(uart->Status.TxEmpty)
+        if(!(buf->Transmitting))
         {
             uart->Data = data;
+            buf->Transmitting = true;
         }
         else
         {
-            while(!SystemRingBufferWrite(buf, data));
+            bool stored = false;
+            do {
+                uart->Config.TxDoneIntEnabled = false;
+                stored = SystemRingBufferWrite(&(buf->Tx), data);
+                uart->Config.TxDoneIntEnabled = true;
+            } while(!stored);
         }
         
         return true;
@@ -157,19 +162,25 @@ bool SystemUartTxBuf(volatile SystemUartModule_t *uart,
     const uint32_t *data,
     const uint32_t length)
 {
-    volatile SystemRingBuffer_t *buf = SystemUartRingBuf(uart);
+    volatile SystemUartBuffer_t *buf = SystemUartBuf(uart);
    
     if(buf != NULL)
     {
         for(uint32_t i = 0; i < length; i++)
         {
-            if(i == 0 && uart->Status.TxEmpty)
+            if(i == 0 && !(buf->Transmitting))
             {
                 uart->Data = data[i];
+                buf->Transmitting = true;
             }
             else
             {
-                while(!SystemRingBufferWrite(buf, data[i]));
+                bool stored = false;
+                do {
+                    uart->Config.TxDoneIntEnabled = false;
+                    stored = SystemRingBufferWrite(&(buf->Tx), data[i]);
+                    uart->Config.TxDoneIntEnabled = true;
+                } while(!stored);
             }
         }
         
@@ -185,19 +196,25 @@ bool SystemUartTxStr(volatile SystemUartModule_t *uart,
     const char *str,
     const uint32_t length)
 {
-    volatile SystemRingBuffer_t *buf = SystemUartRingBuf(uart);
+    volatile SystemUartBuffer_t *buf = SystemUartBuf(uart);
    
     if(buf != NULL)
     {
         for(uint32_t i = 0; i < length; i++)
         {
-            if(i == 0 && uart->Status.TxEmpty)
+            if(i == 0 && !(buf->Transmitting))
             {
                 uart->Data = str[i];
+                buf->Transmitting = true;
             }
             else
             {
-                while(!SystemRingBufferWrite(buf, str[i]));
+                bool stored = false;
+                do {
+                    uart->Config.TxDoneIntEnabled = false;
+                    stored = SystemRingBufferWrite(&(buf->Tx), str[i]);
+                    uart->Config.TxDoneIntEnabled = true;
+                } while(!stored);
             }
         }
         
@@ -213,11 +230,14 @@ bool SystemUartTxStr(volatile SystemUartModule_t *uart,
 
 bool SystemUartRx(volatile SystemUartModule_t *uart, uint32_t *data)
 {
-    volatile SystemRingBuffer_t *buf = SystemUartRingBuf(uart);
+    volatile SystemUartBuffer_t *buf = SystemUartBuf(uart);
     
     if(buf != NULL)
     {
-        return SystemRingBufferRead(buf, data);
+        uart->Config.RxDoneIntEnabled = false;
+        bool stored = SystemRingBufferRead(&(buf->Rx), data);
+        uart->Config.RxDoneIntEnabled = true;
+        return stored;
     }
     else
     {
@@ -229,13 +249,15 @@ bool SystemUartRxBuf(volatile SystemUartModule_t *uart,
      uint32_t *data,
      const uint32_t length)
 {
-    volatile SystemRingBuffer_t *buf = SystemUartRingBuf(uart);
+    volatile SystemUartBuffer_t *buf = SystemUartBuf(uart);
     
-    if(buf != NULL && buf->Count >= length)
+    if(buf != NULL && buf->Rx.Count >= length)
     {
         for(uint32_t i = 0; i < length; i++)
         {
-            SystemRingBufferRead(buf, &data[i]);
+            uart->Config.RxDoneIntEnabled = false;
+            SystemRingBufferRead(&(buf->Rx), &data[i]);
+            uart->Config.RxDoneIntEnabled = true;
         }
         
         return true;
@@ -250,15 +272,17 @@ bool SystemUartRxStr(volatile SystemUartModule_t *uart,
     char *data,
     const uint32_t length)
 {
-    volatile SystemRingBuffer_t *buf = SystemUartRingBuf(uart);
+    volatile SystemUartBuffer_t *buf = SystemUartBuf(uart);
     
-    if(buf != NULL && buf->Count >= length)
+    if(buf != NULL && buf->Rx.Count >= length)
     {
         for(uint32_t i = 0; i < length; i++)
         {
+            uart->Config.RxDoneIntEnabled = false;
             uint32_t chr = 0;
-            SystemRingBufferRead(buf, &chr);
+            SystemRingBufferRead(&(buf->Rx), &chr);
             data[i] = chr;
+            uart->Config.RxDoneIntEnabled = true;
         }
         
         return true;
@@ -271,23 +295,30 @@ bool SystemUartRxStr(volatile SystemUartModule_t *uart,
 
 /* Interrupt Handlers *********************************************************/
 
-void __attribute__ ((interrupt ("IRQ"))) IsrUsart2(void)
+void handleInterrupt(volatile SystemUartModule_t *uart,
+    volatile SystemUartBuffer_t *buf)
 {
-    if(SystemUart.U2.Status.TxComplete)
+    if(uart->Status.TxComplete)
     {
         uint32_t nextData = 0;
-        if(SystemRingBufferRead(uart2buf, &nextData))
+        if(SystemRingBufferRead(&(buf->Tx), &nextData))
         {
-            SystemUart.U2.Data = nextData;
+            uart->Data = nextData;
         }
         else
         {
-            SystemUart.U2.Status.TxComplete = false;
+            uart->Status.TxComplete = false;
+            buf->Transmitting = false;
         }
     }
-    else if(SystemUart.U2.Status.RxComplete)
+    else if(uart->Status.RxComplete)
     {
-        SystemRingBufferWrite(uart2buf, SystemUart.U2.Data);
+        SystemRingBufferWrite(&(buf->Rx), uart->Data);
     }
+}
+
+void __attribute__ ((interrupt ("IRQ"))) IsrUsart2(void)
+{
+    handleInterrupt(&(SystemUart.U2), uart2Buf);
 }
 

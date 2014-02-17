@@ -191,20 +191,30 @@ typedef struct SystemUart_t {
     SystemUartModule_t U2;
     uint32_t __pad1[249];
     SystemUartModule_t U3;
-    
-    // TODO: Insert padding
-    SystemUartModule_t U1;
+    uint32_t __pad2[249];
     SystemUartModule_t U4;
+    uint32_t __pad3[249];
     SystemUartModule_t U5;
+    uint32_t __pad4[(11 * 256) + 249];
+    SystemUartModule_t U1;
+    uint32_t __pad7[249];
     SystemUartModule_t U6;
 } SystemUart_t;
+
+/* UART Buffers ***************************************************************/
+
+typedef struct SystemUartBuffer_t {
+    SystemRingBuffer_t Tx;
+    bool               Transmitting;
+    SystemRingBuffer_t Rx;
+} SystemUartBuffer_t;
 
 /* UART Driver API ************************************************************/
 
 /* Initialization *************************************************************/
 
 bool SystemUartInit(volatile SystemUartModule_t *uart,
-    volatile SystemRingBuffer_t *buf,
+    volatile SystemUartBuffer_t *buf,
     uint32_t baud);
 
 /* Utility ********************************************************************/
