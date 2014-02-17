@@ -22,9 +22,10 @@ namespace bomParser
 								               select p.Value).FirstOrDefault ()
 								};
 
-			var componentGroups = from c in components
-				where string.IsNullOrEmpty(c.PartNumber)
-				orderby c.Value
+			var comparer = new RefComparer();
+
+			var componentGroups = from c in components.OrderBy(i => i.ReferenceDesignator, comparer)
+									//where string.IsNullOrEmpty(c.PartNumber)
 									group c by new { c.PartNumber, c.Value } into cg
 				
 			                      select new {
@@ -34,11 +35,15 @@ namespace bomParser
 				Count = cg.Count()
 			};
 
+
+
 			foreach (var component in componentGroups)
 			{
-				Console.WriteLine ("Part Number: {0}", component.PartNumber);
+				Console.WriteLine ("Part Number: {0} http://www.digikey.ca/product-search/en?vendor=0&keywords={1}", component.PartNumber, component.PartNumber);
 				Console.WriteLine ("Value: {0}", component.Value);
 				Console.Write ("References: ");
+
+				component.Designators.Sort (comparer);
 
 				foreach (var c in component.Designators) {
 					Console.Write ("{0} ", c);
