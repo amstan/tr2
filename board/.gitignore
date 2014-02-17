@@ -1,2 +1,4 @@
 *.bak
 *.bck
+robot_controller
+*.xml
