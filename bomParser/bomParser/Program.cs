@@ -10,48 +10,83 @@ namespace bomParser
 	{
 		public static void Main (string[] args)
 		{
-			var bomXml = args [0];
-			var reader = XDocument.Load (bomXml);
+            if (args.Count () == 0 || args [0] == "--help") {
+                Console.WriteLine ("BOM Parser");
+                Console.WriteLine ();
+                Console.WriteLine ("Usage: [--help] [--blankpartsonly] bomfile");
+                Console.WriteLine ();
+                Console.WriteLine (
+@"This utility parses the XML BOM output from Kicad and performs various
+operations on the data.");
+                Console.WriteLine ();
+                Console.WriteLine ("--help              Print this message");
+                Console.WriteLine ("--blankpartsonly    Print parts with no Part Number field");
+                Console.WriteLine ("bomfile             XML file with BOM contents");
 
-			var components = from c in reader.Descendants ("components").Descendants ("comp")
-			                 select new {
-								 ReferenceDesignator = c.Attribute ("ref").Value,
-							  	 Value = c.Descendants ("value").First ().Value,
-							     PartNumber = (from p in c.Descendants ("field")
-							                   where p.Attribute ("name").Value == "Part Number"
-								               select p.Value).FirstOrDefault ()
-								};
+                if (args.Count () == 0) {
+                    Console.WriteLine ();
+                    Console.WriteLine ("You must specify a BOM file.");
+                }
 
-			var comparer = new RefComparer();
+                return;
+            }
 
-			var componentGroups = from c in components.OrderBy(i => i.ReferenceDesignator, comparer)
-									//where string.IsNullOrEmpty(c.PartNumber)
-									group c by new { c.PartNumber, c.Value } into cg
-				
-			                      select new {
-				PartNumber = cg.First().PartNumber,
-				Value = cg.First().Value,
-				Designators = cg.Select(i => i.ReferenceDesignator).ToList(),
-				Count = cg.Count()
-			};
+            XDocument xdoc = null;
+            var bomFile = args.Last ();
+            var blankPartsOnly = false;
 
+            if (args.Count () > 1) {
+                blankPartsOnly = args [args.Count () - 2] == "--blankpartsonly";
+            }
 
+            try {
+                xdoc = XDocument.Load (bomFile);
+            } catch (Exception) {
+                Console.WriteLine ("There was a problem loading the BOM file.");
+                return;
+            }
 
-			foreach (var component in componentGroups)
-			{
-				Console.WriteLine ("Part Number: {0} http://www.digikey.ca/product-search/en?vendor=0&keywords={1}", component.PartNumber, component.PartNumber);
-				Console.WriteLine ("Value: {0}", component.Value);
-				Console.Write ("References: ");
+            var comparer = new RefComparer();
 
-				component.Designators.Sort (comparer);
+            var components =
+                from c in xdoc.Descendants ("components").Descendants ("comp")
+                select new {
+                    ReferenceDesignator = c.Attribute ("ref").Value,
+                    Value = c.Descendants ("value").First ().Value,
+                    PartNumber = (from p in c.Descendants ("field")
+                                  where p.Attribute ("name").Value == "Part Number"
+                                  select p.Value).FirstOrDefault ()
+                };
 
-				foreach (var c in component.Designators) {
-					Console.Write ("{0} ", c);
-				}
+            components =
+                components.OrderBy(i => i.ReferenceDesignator, comparer);
 
-				Console.WriteLine ();
-				Console.WriteLine ();
-			}
+            var componentGroups =
+                from c in components
+                where !blankPartsOnly || String.IsNullOrEmpty(c.PartNumber)
+                group c by new { c.PartNumber, c.Value } into cg
+                select new {
+                    PartNumber = cg.First ().PartNumber,
+                    Value = cg.First ().Value,
+                    Designators = cg.Select (i => i.ReferenceDesignator).ToList (),
+                    Count = cg.Count ()
+                };
+
+            foreach (var component in componentGroups)
+            {
+                Console.WriteLine ("Part Number: {0} http://www.digikey.ca/product-search/en?vendor=0&keywords={1}", component.PartNumber, component.PartNumber);
+                Console.WriteLine ("Value: {0}", component.Value);
+                Console.Write ("References: ");
+
+                component.Designators.Sort (comparer);
+
+                foreach (var c in component.Designators) {
+                    Console.Write ("{0} ", c);
+                }
+
+                Console.WriteLine ();
+                Console.WriteLine ();
+            }
 		}
 	}
 }
