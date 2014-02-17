@@ -22,9 +22,18 @@ Here is the folder structure for the project:
 
 * blender/
     * 3D models of target robots
-* board-1/
+* board/
     * The first hardware platform for this project
+* bomParser/
+    * Some pretty untested code to do mass changes in schematics/BOMs
+* datasheets/
+    * Component datasheets
+* doc/
+    * Notes, logo
+* firmware/
+    * Bare metal bring up of STM32F4 and code for the robot controller
 * python/
     * The python software interfaces
 * ui/
     * A user interface to all of this
+
