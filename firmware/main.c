@@ -11,7 +11,7 @@
 #include "SystemInterrupts.h"
 
 #define UART_BUFSIZE 256
-#define UART_BAUD    300
+#define UART_BAUD    115200
 
 uint32_t uartTxBuf[UART_BUFSIZE];
 uint32_t uartRxBuf[UART_BUFSIZE];
@@ -64,11 +64,11 @@ int main(void)
         
         uint32_t bytesToRead = SystemUartBytesToRead(&SystemUart.U2);
 
-        char buf[16];
-        if(bytesToRead >= 16)
+        char buf[1];
+        if(bytesToRead >= 1)
         {
-            SystemUartRxStr(&SystemUart.U2, buf, 16);
-            SystemUartTxStr(&SystemUart.U2, buf, 16);
+            SystemUartRxStr(&SystemUart.U2, buf, 1);
+            SystemUartTxStr(&SystemUart.U2, buf, 1);
         }
     }
     

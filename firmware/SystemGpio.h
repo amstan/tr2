@@ -14,20 +14,6 @@
 
 /* GPIO Pin Definitions *******************************************************/
 
-typedef enum SystemGpioPort_t {
-    SystemGpioPort_A,
-    SystemGpioPort_B,
-    SystemGpioPort_C,
-    SystemGpioPort_D,
-    SystemGpioPort_E,
-    SystemGpioPort_F,
-    SystemGpioPort_G,
-    SystemGpioPort_H,
-    SystemGpioPort_I,
-    SystemGpioPort_J,
-    SystemGpioPort_K
-} SystemGpioPort_t;
-
 typedef enum SystemGpioPin_t {
     SystemGpioPin_0,
     SystemGpioPin_1,
