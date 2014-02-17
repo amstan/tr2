@@ -28,8 +28,8 @@ int main(void)
     SystemIrqEnable();
 
     // GPIO Config
-    PeripheralClockEnabled.GpioA = true;
-    PeripheralClockEnabled.GpioD = true;
+    SystemClockEnabled.GpioA = true;
+    SystemClockEnabled.GpioD = true;
     
     SystemGpio.A.Mode.P0 = SystemGpioMode_Input;
     SystemGpio.D.Mode.P15 = SystemGpioMode_Output;
@@ -41,7 +41,6 @@ int main(void)
     SystemGpio.A.Function.P2 = 7;
     SystemGpio.A.Function.P3 = 7;
     
-    // TODO: Create a pin sets enum to pass in to configure ports inside
     SystemUartInit(&SystemUart.U2, &uartBuf, UART_BAUD);
     
     bool prevState = false;

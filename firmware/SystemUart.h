@@ -11,6 +11,7 @@
 #include "SystemRingBuffer.h"
 #include "SystemInterrupts.h"
 #include "SystemResetClock.h"
+#include "SystemGpio.h"
 
 #define ADDR_UART 0x40004400
 #define SystemUart (*((volatile SystemUart_t *)ADDR_UART))

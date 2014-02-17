@@ -28,37 +28,37 @@ bool SystemUartInit(volatile SystemUartModule_t *uart,
     {
         uart1Buf = buf;
         SystemNvic.SetEnable.Usart1 = true;
-        PeripheralClockEnabled.Usart1 = true;
+        SystemClockEnabled.Usart1 = true;
     }
     else if(uart == &SystemUart.U2)
     {
         uart2Buf = buf;
         SystemNvic.SetEnable.Usart2 = true;
-        PeripheralClockEnabled.Usart2 = true;
+        SystemClockEnabled.Usart2 = true;
     }
     else if(uart == &SystemUart.U3)
     {
         uart3Buf = buf;
         SystemNvic.SetEnable.Usart3 = true;
-        PeripheralClockEnabled.Usart3 = true;
+        SystemClockEnabled.Usart3 = true;
     }
     else if(uart == &SystemUart.U4)
     {
         uart4Buf = buf;
         SystemNvic.SetEnable.Uart4 = true;
-        PeripheralClockEnabled.Uart4 = true;
+        SystemClockEnabled.Uart4 = true;
     }
     else if(uart == &SystemUart.U5)
     {
         uart5Buf = buf;
         SystemNvic.SetEnable.Uart5 = true;
-        PeripheralClockEnabled.Uart5 = true;
+        SystemClockEnabled.Uart5 = true;
     }
     else if(uart == &SystemUart.U6)
     {
         uart6Buf = buf;
         SystemNvic.SetEnable.Usart6 = true;
-        PeripheralClockEnabled.Usart6 = true;
+        SystemClockEnabled.Usart6 = true;
     }
     else
     {
