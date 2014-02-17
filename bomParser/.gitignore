@@ -1,3 +1,5 @@
 *.userprefs
 bomParser/bin/*
 bomParser/obj/*
+digikeyLinkAdder/bin/*
+digikeyLinkAdder/obj/*

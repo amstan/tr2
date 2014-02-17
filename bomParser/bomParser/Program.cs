@@ -74,7 +74,8 @@ operations on the data.");
 
             foreach (var component in componentGroups)
             {
-                Console.WriteLine ("Part Number: {0} http://www.digikey.ca/product-search/en?vendor=0&keywords={1}", component.PartNumber, component.PartNumber);
+                Console.WriteLine ("Part Number: {0} http://www.digikey.ca/product-search/en?vendor=0&keywords={1}",
+                    component.PartNumber, component.PartNumber);
                 Console.WriteLine ("Value: {0}", component.Value);
                 Console.Write ("References: ");
 
@@ -87,6 +88,6 @@ operations on the data.");
                 Console.WriteLine ();
                 Console.WriteLine ();
             }
-		}
-	}
+        }
+    }
 }
