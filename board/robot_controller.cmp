@@ -1,4 +1,4 @@
-Cmp-Mod V01 Created by CvPcb (2014-01-30 BZR 4648)-product date = Sun 16 Feb 2014 11:06:34 PM EST
+Cmp-Mod V01 Created by CvPcb (2014-02-15 BZR 4701)-product date = Mon Feb 17 21:28:47 2014
 
 BeginCmp
 TimeStamp = /530B0FDE;
@@ -1114,16 +1114,37 @@ IdModule  = Pin_Headers:Pin_Header_Straight_2x05;
 EndCmp
 
 BeginCmp
+TimeStamp = /52EEE819/52E6BAA9;
+Reference = J201;
+ValeurCmp = CONN_2;
+IdModule  = ;
+EndCmp
+
+BeginCmp
+TimeStamp = /52E79355/52E6BAA9;
+Reference = J301;
+ValeurCmp = CONN_2;
+IdModule  = ;
+EndCmp
+
+BeginCmp
 TimeStamp = /52E6C2E8/52E46BDA;
 Reference = J2301;
 ValeurCmp = CONN_STEPPER;
-IdModule  = ;
+IdModule  = components:CONN_STEPPER;
 EndCmp
 
 BeginCmp
 TimeStamp = /52FD6269/52E46BDA;
 Reference = J2401;
 ValeurCmp = CONN_STEPPER;
+IdModule  = components:CONN_STEPPER;
+EndCmp
+
+BeginCmp
+TimeStamp = /52FD6269/52E4727D;
+Reference = J2402;
+ValeurCmp = CONN_2;
 IdModule  = ;
 EndCmp
 
@@ -1131,14 +1152,14 @@ BeginCmp
 TimeStamp = /52FD745B/52E46BDA;
 Reference = J2501;
 ValeurCmp = CONN_STEPPER;
-IdModule  = ;
+IdModule  = components:CONN_STEPPER;
 EndCmp
 
 BeginCmp
 TimeStamp = /52FD7E0D/52E46BDA;
 Reference = J2601;
 ValeurCmp = CONN_STEPPER;
-IdModule  = ;
+IdModule  = components:CONN_STEPPER;
 EndCmp
 
 BeginCmp
@@ -1380,29 +1401,8 @@ IdModule  = Wire_Pads:SolderWirePad_single_1-2mmDrill;
 EndCmp
 
 BeginCmp
-TimeStamp = /52EEE819/52E6BAA9;
-Reference = P201;
-ValeurCmp = CONN_2;
-IdModule  = Wire_Pads:SolderWirePad_single_1-2mmDrill;
-EndCmp
-
-BeginCmp
-TimeStamp = /52E79355/52E6BAA9;
-Reference = P301;
-ValeurCmp = CONN_2;
-IdModule  = ;
-EndCmp
-
-BeginCmp
 TimeStamp = /52E6C2E8/52E4727D;
 Reference = P2301;
-ValeurCmp = CONN_2;
-IdModule  = ;
-EndCmp
-
-BeginCmp
-TimeStamp = /52FD6269/52E4727D;
-Reference = P2401;
 ValeurCmp = CONN_2;
 IdModule  = ;
 EndCmp
@@ -2185,28 +2185,28 @@ IdModule  = ;
 EndCmp
 
 BeginCmp
-TimeStamp = /52E6C2E8/52E6B5EE;
+TimeStamp = /52E6C2E8/5302EE0F;
 Reference = U2301;
 ValeurCmp = L6470;
 IdModule  = components:POWERSO-36;
 EndCmp
 
 BeginCmp
-TimeStamp = /52FD6269/52E6B5EE;
+TimeStamp = /52FD6269/5302EE0F;
 Reference = U2401;
 ValeurCmp = L6470;
 IdModule  = components:POWERSO-36;
 EndCmp
 
 BeginCmp
-TimeStamp = /52FD745B/52E6B5EE;
+TimeStamp = /52FD745B/5302EE0F;
 Reference = U2501;
 ValeurCmp = L6470;
 IdModule  = components:POWERSO-36;
 EndCmp
 
 BeginCmp
-TimeStamp = /52FD7E0D/52E6B5EE;
+TimeStamp = /52FD7E0D/5302EE0F;
 Reference = U2601;
 ValeurCmp = L6470;
 IdModule  = components:POWERSO-36;
