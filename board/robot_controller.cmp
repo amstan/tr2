@@ -1,4 +1,4 @@
-Cmp-Mod V01 Created by CvPcb (2014-02-21 BZR 4712)-product date = Sat Mar  1 13:27:57 2014
+Cmp-Mod V01 Created by CvPcb (2014-02-21 BZR 4712)-product date = Sat Mar  1 16:31:36 2014
 
 BeginCmp
 TimeStamp = /530B0FDE;
@@ -1068,7 +1068,7 @@ BeginCmp
 TimeStamp = /5303AD55;
 Reference = J106;
 ValeurCmp = USBCONN;
-IdModule  = ;
+IdModule  = Connect:USB_B;
 EndCmp
 
 BeginCmp
@@ -1089,7 +1089,7 @@ BeginCmp
 TimeStamp = /52EF237D;
 Reference = J109;
 ValeurCmp = USBCONN;
-IdModule  = ;
+IdModule  = Connect:USB_B;
 EndCmp
 
 BeginCmp
@@ -1138,7 +1138,7 @@ BeginCmp
 TimeStamp = /52E6C2E8/52E4727D;
 Reference = J2302;
 ValeurCmp = CONN_2;
-IdModule  = ;
+IdModule  = components:CONN_TEMP;
 EndCmp
 
 BeginCmp
@@ -1152,7 +1152,7 @@ BeginCmp
 TimeStamp = /52FD6269/52E4727D;
 Reference = J2402;
 ValeurCmp = CONN_2;
-IdModule  = ;
+IdModule  = components:CONN_TEMP;
 EndCmp
 
 BeginCmp
@@ -1166,7 +1166,7 @@ BeginCmp
 TimeStamp = /52FD745B/52E4727D;
 Reference = J2502;
 ValeurCmp = CONN_2;
-IdModule  = ;
+IdModule  = components:CONN_TEMP;
 EndCmp
 
 BeginCmp
@@ -1180,7 +1180,7 @@ BeginCmp
 TimeStamp = /52FD7E0D/52E4727D;
 Reference = J2602;
 ValeurCmp = CONN_2;
-IdModule  = ;
+IdModule  = components:CONN_TEMP;
 EndCmp
 
 BeginCmp
