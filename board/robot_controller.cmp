@@ -1,4 +1,4 @@
-Cmp-Mod V01 Created by CvPcb (2014-02-21 BZR 4712)-product date = Fri Feb 28 19:55:41 2014
+Cmp-Mod V01 Created by CvPcb (2014-02-21 BZR 4712)-product date = Sat Mar  1 13:27:57 2014
 
 BeginCmp
 TimeStamp = /530B0FDE;
@@ -837,56 +837,56 @@ BeginCmp
 TimeStamp = /52F84966/52E6E5BB;
 Reference = D701;
 ValeurCmp = 1SS295;
-IdModule  = SMD_Packages:SOT23-SPECIAL;
+IdModule  = components:SOT23-EXTRASPECIAL;
 EndCmp
 
 BeginCmp
 TimeStamp = /52F85705/52E6E5BB;
 Reference = D801;
 ValeurCmp = 1SS295;
-IdModule  = SMD_Packages:SOT23-SPECIAL;
+IdModule  = components:SOT23-EXTRASPECIAL;
 EndCmp
 
 BeginCmp
 TimeStamp = /52F85B83/52E6E5BB;
 Reference = D901;
 ValeurCmp = 1SS295;
-IdModule  = SMD_Packages:SOT23-SPECIAL;
+IdModule  = components:SOT23-EXTRASPECIAL;
 EndCmp
 
 BeginCmp
 TimeStamp = /52F85B87/52E6E5BB;
 Reference = D1001;
 ValeurCmp = 1SS295;
-IdModule  = SMD_Packages:SOT23-SPECIAL;
+IdModule  = components:SOT23-EXTRASPECIAL;
 EndCmp
 
 BeginCmp
 TimeStamp = /52F8830D/52E6E5BB;
 Reference = D1101;
 ValeurCmp = 1SS295;
-IdModule  = SMD_Packages:SOT23-SPECIAL;
+IdModule  = components:SOT23-EXTRASPECIAL;
 EndCmp
 
 BeginCmp
 TimeStamp = /52F88311/52E6E5BB;
 Reference = D1201;
 ValeurCmp = 1SS295;
-IdModule  = SMD_Packages:SOT23-SPECIAL;
+IdModule  = components:SOT23-EXTRASPECIAL;
 EndCmp
 
 BeginCmp
 TimeStamp = /52F88315/52E6E5BB;
 Reference = D1301;
 ValeurCmp = 1SS295;
-IdModule  = SMD_Packages:SOT23-SPECIAL;
+IdModule  = components:SOT23-EXTRASPECIAL;
 EndCmp
 
 BeginCmp
 TimeStamp = /52F88319/52E6E5BB;
 Reference = D1401;
 ValeurCmp = 1SS295;
-IdModule  = SMD_Packages:SOT23-SPECIAL;
+IdModule  = components:SOT23-EXTRASPECIAL;
 EndCmp
 
 BeginCmp
@@ -1117,14 +1117,14 @@ BeginCmp
 TimeStamp = /52EEE819/52E6BAA9;
 Reference = J201;
 ValeurCmp = CONN_2;
-IdModule  = ;
+IdModule  = components:CONN_TEMP;
 EndCmp
 
 BeginCmp
 TimeStamp = /52E79355/52E6BAA9;
 Reference = J301;
 ValeurCmp = CONN_2;
-IdModule  = ;
+IdModule  = components:CONN_TEMP;
 EndCmp
 
 BeginCmp
@@ -1418,7 +1418,7 @@ BeginCmp
 TimeStamp = /530FF97A;
 Reference = Q101;
 ValeurCmp = PNP;
-IdModule  = ;
+IdModule  = components:SOT23-EXTRASPECIAL;
 EndCmp
 
 BeginCmp
@@ -1453,56 +1453,56 @@ BeginCmp
 TimeStamp = /52FAAFCB/52E6FDE0;
 Reference = Q1501;
 ValeurCmp = NJT4031NT1G;
-IdModule  = ;
+IdModule  = components:SOT223-EXTRASPECIAL;
 EndCmp
 
 BeginCmp
 TimeStamp = /52FAC46B/52E6FDE0;
 Reference = Q1601;
 ValeurCmp = NJT4031NT1G;
-IdModule  = ;
+IdModule  = components:SOT223-EXTRASPECIAL;
 EndCmp
 
 BeginCmp
 TimeStamp = /52FAD3BD/52E6FDE0;
 Reference = Q1701;
 ValeurCmp = NJT4031NT1G;
-IdModule  = ;
+IdModule  = components:SOT223-EXTRASPECIAL;
 EndCmp
 
 BeginCmp
 TimeStamp = /52FAD3C1/52E6FDE0;
 Reference = Q1801;
 ValeurCmp = NJT4031NT1G;
-IdModule  = ;
+IdModule  = components:SOT223-EXTRASPECIAL;
 EndCmp
 
 BeginCmp
 TimeStamp = /52FAF26D/52E6FDE0;
 Reference = Q1901;
 ValeurCmp = NJT4031NT1G;
-IdModule  = ;
+IdModule  = components:SOT223-EXTRASPECIAL;
 EndCmp
 
 BeginCmp
 TimeStamp = /52FAF271/52E6FDE0;
 Reference = Q2001;
 ValeurCmp = NJT4031NT1G;
-IdModule  = ;
+IdModule  = components:SOT223-EXTRASPECIAL;
 EndCmp
 
 BeginCmp
 TimeStamp = /52FAF275/52E6FDE0;
 Reference = Q2101;
 ValeurCmp = NJT4031NT1G;
-IdModule  = ;
+IdModule  = components:SOT223-EXTRASPECIAL;
 EndCmp
 
 BeginCmp
 TimeStamp = /52FAF279/52E6FDE0;
 Reference = Q2201;
 ValeurCmp = NJT4031NT1G;
-IdModule  = ;
+IdModule  = components:SOT223-EXTRASPECIAL;
 EndCmp
 
 BeginCmp
@@ -2174,7 +2174,7 @@ BeginCmp
 TimeStamp = /52F11EEE/52E6C713;
 Reference = U601;
 ValeurCmp = LMZ14201;
-IdModule  = ;
+IdModule  = components:PFM7;
 EndCmp
 
 BeginCmp
