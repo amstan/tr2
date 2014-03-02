@@ -1,4 +1,4 @@
-Cmp-Mod V01 Created by CvPcb (2014-02-21 BZR 4712)-product date = Sat Mar  1 16:31:36 2014
+Cmp-Mod V01 Created by CvPcb (2014-02-21 BZR 4712)-product date = Sat Mar  1 17:00:33 2014
 
 BeginCmp
 TimeStamp = /530B0FDE;
@@ -1075,14 +1075,14 @@ BeginCmp
 TimeStamp = /52F8B8FA;
 Reference = J107;
 ValeurCmp = CONN_8;
-IdModule  = ;
+IdModule  = components:SCONN_8;
 EndCmp
 
 BeginCmp
 TimeStamp = /52FB21E1;
 Reference = J108;
 ValeurCmp = CONN_8;
-IdModule  = ;
+IdModule  = components:SCONN_8;
 EndCmp
 
 BeginCmp
