@@ -1,4 +1,4 @@
-Cmp-Mod V01 Created by CvPcb (2014-01-30 BZR 4648)-product date = Sun 02 Mar 2014 11:01:43 AM EST
+Cmp-Mod V01 Created by CvPcb (2014-01-30 BZR 4648)-product date = Sun 02 Mar 2014 11:23:03 AM EST
 
 BeginCmp
 TimeStamp = /530B0FDE;
@@ -2104,42 +2104,42 @@ BeginCmp
 TimeStamp = /52FFF58B;
 Reference = SW101;
 ValeurCmp = SPST;
-IdModule  = ;
+IdModule  = components:PB;
 EndCmp
 
 BeginCmp
 TimeStamp = /52FFFEC3;
 Reference = SW102;
 ValeurCmp = SPST;
-IdModule  = ;
+IdModule  = components:PB;
 EndCmp
 
 BeginCmp
 TimeStamp = /530079AF;
 Reference = SW103;
 ValeurCmp = SPST;
-IdModule  = ;
+IdModule  = components:PB;
 EndCmp
 
 BeginCmp
 TimeStamp = /530079D4;
 Reference = SW104;
 ValeurCmp = SPST;
-IdModule  = ;
+IdModule  = components:PB;
 EndCmp
 
 BeginCmp
 TimeStamp = /52E4700C;
 Reference = SW105;
 ValeurCmp = SPST;
-IdModule  = ;
+IdModule  = components:PB;
 EndCmp
 
 BeginCmp
 TimeStamp = /52F019C0;
 Reference = SW106;
 ValeurCmp = SPST;
-IdModule  = ;
+IdModule  = components:PB;
 EndCmp
 
 BeginCmp
