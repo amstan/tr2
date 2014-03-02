@@ -1,4 +1,4 @@
-Cmp-Mod V01 Created by CvPcb (2014-01-30 BZR 4648)-product date = Sun 02 Mar 2014 12:02:45 PM EST
+Cmp-Mod V01 Created by CvPcb (2014-02-21 BZR 4712)-product date = Sun Mar  2 13:07:03 2014
 
 BeginCmp
 TimeStamp = /530B0FDE;
@@ -1032,21 +1032,21 @@ EndCmp
 BeginCmp
 TimeStamp = /52F9B1B6;
 Reference = J101;
-ValeurCmp = CONN_2;
+ValeurCmp = +3.3V;
 IdModule  = components:SCONN_2;
 EndCmp
 
 BeginCmp
 TimeStamp = /52F9BFED;
 Reference = J102;
-ValeurCmp = CONN_2;
+ValeurCmp = +24V;
 IdModule  = components:SCONN_2;
 EndCmp
 
 BeginCmp
 TimeStamp = /52F9C347;
 Reference = J103;
-ValeurCmp = CONN_2;
+ValeurCmp = GND;
 IdModule  = components:SCONN_2;
 EndCmp
 
@@ -1060,139 +1060,146 @@ EndCmp
 BeginCmp
 TimeStamp = /52F70171;
 Reference = J105;
-ValeurCmp = CONN_2;
+ValeurCmp = Power;
 IdModule  = components:PWRSCONN_2;
 EndCmp
 
 BeginCmp
 TimeStamp = /5303AD55;
 Reference = J106;
-ValeurCmp = USBCONN;
+ValeurCmp = FTDI-USB;
 IdModule  = components:USB_B;
 EndCmp
 
 BeginCmp
 TimeStamp = /52F8B8FA;
 Reference = J107;
-ValeurCmp = CONN_8;
+ValeurCmp = Industrial Inputs;
 IdModule  = components:SCONN_8;
 EndCmp
 
 BeginCmp
 TimeStamp = /52FB21E1;
 Reference = J108;
-ValeurCmp = CONN_8;
+ValeurCmp = Industrial Outputs;
 IdModule  = components:SCONN_8;
 EndCmp
 
 BeginCmp
 TimeStamp = /52EF237D;
 Reference = J109;
-ValeurCmp = USBCONN;
+ValeurCmp = MCU-USB;
 IdModule  = components:USB_B;
 EndCmp
 
 BeginCmp
 TimeStamp = /52F1CD26;
 Reference = J110;
-ValeurCmp = CONN_4;
+ValeurCmp = AUX-UART;
 IdModule  = Pin_Headers:Pin_Header_Straight_1x04;
 EndCmp
 
 BeginCmp
 TimeStamp = /530D51C7;
 Reference = J111;
-ValeurCmp = UEXT;
+ValeurCmp = UEXT0;
 IdModule  = components:SHROUDED_10;
 EndCmp
 
 BeginCmp
 TimeStamp = /530D497E;
 Reference = J112;
-ValeurCmp = UEXT;
+ValeurCmp = UEXT1;
 IdModule  = components:SHROUDED_10;
+EndCmp
+
+BeginCmp
+TimeStamp = /5309BFDD;
+Reference = J113;
+ValeurCmp = RGB LEDs;
+IdModule  = components:SCONN_4;
 EndCmp
 
 BeginCmp
 TimeStamp = /52EEE819/52E6BAA9;
 Reference = J201;
-ValeurCmp = CONN_2;
+ValeurCmp = Temp Probe;
 IdModule  = components:SCONN_2;
 EndCmp
 
 BeginCmp
 TimeStamp = /52E79355/52E6BAA9;
 Reference = J301;
-ValeurCmp = CONN_2;
+ValeurCmp = Temp Probe;
 IdModule  = components:SCONN_2;
 EndCmp
 
 BeginCmp
 TimeStamp = /52E6C2E8/5302F9C5;
 Reference = J2301;
-ValeurCmp = CONN_STEPPER;
+ValeurCmp = Stepper Motor;
 IdModule  = components:CONN_STEPPER;
 EndCmp
 
 BeginCmp
 TimeStamp = /52E6C2E8/52E4727D;
 Reference = J2302;
-ValeurCmp = CONN_2;
+ValeurCmp = Limit-SW;
 IdModule  = components:SCONN_2;
 EndCmp
 
 BeginCmp
 TimeStamp = /52FD6269/5302F9C5;
 Reference = J2401;
-ValeurCmp = CONN_STEPPER;
+ValeurCmp = Stepper Motor;
 IdModule  = components:CONN_STEPPER;
 EndCmp
 
 BeginCmp
 TimeStamp = /52FD6269/52E4727D;
 Reference = J2402;
-ValeurCmp = CONN_2;
+ValeurCmp = Limit-SW;
 IdModule  = components:SCONN_2;
 EndCmp
 
 BeginCmp
 TimeStamp = /52FD745B/5302F9C5;
 Reference = J2501;
-ValeurCmp = CONN_STEPPER;
+ValeurCmp = Stepper Motor;
 IdModule  = components:CONN_STEPPER;
 EndCmp
 
 BeginCmp
 TimeStamp = /52FD745B/52E4727D;
 Reference = J2502;
-ValeurCmp = CONN_2;
+ValeurCmp = Limit-SW;
 IdModule  = components:SCONN_2;
 EndCmp
 
 BeginCmp
 TimeStamp = /52FD7E0D/5302F9C5;
 Reference = J2601;
-ValeurCmp = CONN_STEPPER;
+ValeurCmp = Stepper Motor;
 IdModule  = components:CONN_STEPPER;
 EndCmp
 
 BeginCmp
 TimeStamp = /52FD7E0D/52E4727D;
 Reference = J2602;
-ValeurCmp = CONN_2;
+ValeurCmp = Limit-SW;
 IdModule  = components:SCONN_2;
 EndCmp
 
 BeginCmp
 TimeStamp = /530847B0;
-Reference = JP102;
+Reference = JP101;
 ValeurCmp = JUMPER;
 IdModule  = components:SOLDER_BRIDGE;
 EndCmp
 
 BeginCmp
 TimeStamp = /530D0263;
-Reference = JP103;
+Reference = JP102;
 ValeurCmp = JUMPER;
 IdModule  = components:SOLDER_BRIDGE;
 EndCmp
@@ -1202,216 +1209,6 @@ TimeStamp = /52F4570B;
 Reference = L101;
 ValeurCmp = 100uH;
 IdModule  = SMD_Packages:SM0603;
-EndCmp
-
-BeginCmp
-TimeStamp = /5309BFDD;
-Reference = P101;
-ValeurCmp = CONN_4;
-IdModule  = components:SCONN_4;
-EndCmp
-
-BeginCmp
-TimeStamp = /5300DD71;
-Reference = P102;
-ValeurCmp = CONN_1;
-IdModule  = components:MINI_TP;
-EndCmp
-
-BeginCmp
-TimeStamp = /53011A5D;
-Reference = P103;
-ValeurCmp = CONN_1;
-IdModule  = components:MINI_TP;
-EndCmp
-
-BeginCmp
-TimeStamp = /53011A6A;
-Reference = P104;
-ValeurCmp = CONN_1;
-IdModule  = components:MINI_TP;
-EndCmp
-
-BeginCmp
-TimeStamp = /53011C38;
-Reference = P105;
-ValeurCmp = CONN_1;
-IdModule  = components:MINI_TP;
-EndCmp
-
-BeginCmp
-TimeStamp = /530119C1;
-Reference = P106;
-ValeurCmp = CONN_1;
-IdModule  = components:MINI_TP;
-EndCmp
-
-BeginCmp
-TimeStamp = /53011A50;
-Reference = P107;
-ValeurCmp = CONN_1;
-IdModule  = components:MINI_TP;
-EndCmp
-
-BeginCmp
-TimeStamp = /53011A77;
-Reference = P108;
-ValeurCmp = CONN_1;
-IdModule  = components:MINI_TP;
-EndCmp
-
-BeginCmp
-TimeStamp = /53011C2B;
-Reference = P109;
-ValeurCmp = CONN_1;
-IdModule  = components:MINI_TP;
-EndCmp
-
-BeginCmp
-TimeStamp = /530119CE;
-Reference = P110;
-ValeurCmp = CONN_1;
-IdModule  = components:MINI_TP;
-EndCmp
-
-BeginCmp
-TimeStamp = /53011A43;
-Reference = P111;
-ValeurCmp = CONN_1;
-IdModule  = components:MINI_TP;
-EndCmp
-
-BeginCmp
-TimeStamp = /53011A84;
-Reference = P112;
-ValeurCmp = CONN_1;
-IdModule  = components:MINI_TP;
-EndCmp
-
-BeginCmp
-TimeStamp = /53011C1E;
-Reference = P113;
-ValeurCmp = CONN_1;
-IdModule  = components:MINI_TP;
-EndCmp
-
-BeginCmp
-TimeStamp = /530119DB;
-Reference = P114;
-ValeurCmp = CONN_1;
-IdModule  = components:MINI_TP;
-EndCmp
-
-BeginCmp
-TimeStamp = /53011A36;
-Reference = P115;
-ValeurCmp = CONN_1;
-IdModule  = components:MINI_TP;
-EndCmp
-
-BeginCmp
-TimeStamp = /53011A91;
-Reference = P116;
-ValeurCmp = CONN_1;
-IdModule  = components:MINI_TP;
-EndCmp
-
-BeginCmp
-TimeStamp = /53011C11;
-Reference = P117;
-ValeurCmp = CONN_1;
-IdModule  = components:MINI_TP;
-EndCmp
-
-BeginCmp
-TimeStamp = /530119E8;
-Reference = P118;
-ValeurCmp = CONN_1;
-IdModule  = components:MINI_TP;
-EndCmp
-
-BeginCmp
-TimeStamp = /53011A29;
-Reference = P119;
-ValeurCmp = CONN_1;
-IdModule  = components:MINI_TP;
-EndCmp
-
-BeginCmp
-TimeStamp = /53011BB6;
-Reference = P120;
-ValeurCmp = CONN_1;
-IdModule  = components:MINI_TP;
-EndCmp
-
-BeginCmp
-TimeStamp = /53011C04;
-Reference = P121;
-ValeurCmp = CONN_1;
-IdModule  = components:MINI_TP;
-EndCmp
-
-BeginCmp
-TimeStamp = /530119F5;
-Reference = P122;
-ValeurCmp = CONN_1;
-IdModule  = components:MINI_TP;
-EndCmp
-
-BeginCmp
-TimeStamp = /53011A1C;
-Reference = P123;
-ValeurCmp = CONN_1;
-IdModule  = components:MINI_TP;
-EndCmp
-
-BeginCmp
-TimeStamp = /53011BC3;
-Reference = P124;
-ValeurCmp = CONN_1;
-IdModule  = components:MINI_TP;
-EndCmp
-
-BeginCmp
-TimeStamp = /53011BF7;
-Reference = P125;
-ValeurCmp = CONN_1;
-IdModule  = components:MINI_TP;
-EndCmp
-
-BeginCmp
-TimeStamp = /53011A02;
-Reference = P126;
-ValeurCmp = CONN_1;
-IdModule  = components:MINI_TP;
-EndCmp
-
-BeginCmp
-TimeStamp = /53011A0F;
-Reference = P127;
-ValeurCmp = CONN_1;
-IdModule  = components:MINI_TP;
-EndCmp
-
-BeginCmp
-TimeStamp = /53011BD0;
-Reference = P128;
-ValeurCmp = CONN_1;
-IdModule  = components:MINI_TP;
-EndCmp
-
-BeginCmp
-TimeStamp = /53011BDD;
-Reference = P129;
-ValeurCmp = CONN_1;
-IdModule  = components:MINI_TP;
-EndCmp
-
-BeginCmp
-TimeStamp = /53011BEA;
-Reference = P130;
-ValeurCmp = CONN_1;
-IdModule  = components:MINI_TP;
 EndCmp
 
 BeginCmp
@@ -2140,6 +1937,209 @@ TimeStamp = /52F019C0;
 Reference = SW106;
 ValeurCmp = SPST;
 IdModule  = components:PB;
+EndCmp
+
+BeginCmp
+TimeStamp = /5300DD71;
+Reference = TP101;
+ValeurCmp = STEPPERS_SCK;
+IdModule  = components:MINI_TP;
+EndCmp
+
+BeginCmp
+TimeStamp = /530119C1;
+Reference = TP102;
+ValeurCmp = STEPPERS_MOSI;
+IdModule  = components:MINI_TP;
+EndCmp
+
+BeginCmp
+TimeStamp = /530119CE;
+Reference = TP103;
+ValeurCmp = STEPPERS_MISO;
+IdModule  = components:MINI_TP;
+EndCmp
+
+BeginCmp
+TimeStamp = /530119DB;
+Reference = TP104;
+ValeurCmp = STEPPER0-~CS;
+IdModule  = components:MINI_TP;
+EndCmp
+
+BeginCmp
+TimeStamp = /530119E8;
+Reference = TP105;
+ValeurCmp = STEPPER1-~CS;
+IdModule  = components:MINI_TP;
+EndCmp
+
+BeginCmp
+TimeStamp = /530119F5;
+Reference = TP106;
+ValeurCmp = STEPPER2-~CS;
+IdModule  = components:MINI_TP;
+EndCmp
+
+BeginCmp
+TimeStamp = /53011A02;
+Reference = TP107;
+ValeurCmp = STEPPER3-~CS;
+IdModule  = components:MINI_TP;
+EndCmp
+
+BeginCmp
+TimeStamp = /53011A5D;
+Reference = TP108;
+ValeurCmp = STEPPER0_STCK;
+IdModule  = components:MINI_TP;
+EndCmp
+
+BeginCmp
+TimeStamp = /53011A50;
+Reference = TP109;
+ValeurCmp = STEPPER1_STCK;
+IdModule  = components:MINI_TP;
+EndCmp
+
+BeginCmp
+TimeStamp = /53011A43;
+Reference = TP110;
+ValeurCmp = STEPPER2_STCK;
+IdModule  = components:MINI_TP;
+EndCmp
+
+BeginCmp
+TimeStamp = /53011A36;
+Reference = TP111;
+ValeurCmp = STEPPER3_STCK;
+IdModule  = components:MINI_TP;
+EndCmp
+
+BeginCmp
+TimeStamp = /53011A29;
+Reference = TP112;
+ValeurCmp = STEPPERS_OSCIN;
+IdModule  = components:MINI_TP;
+EndCmp
+
+BeginCmp
+TimeStamp = /53011A1C;
+Reference = TP113;
+ValeurCmp = STEPPERS_OSC_SYNC;
+IdModule  = components:MINI_TP;
+EndCmp
+
+BeginCmp
+TimeStamp = /53011BEA;
+Reference = TP114;
+ValeurCmp = GND;
+IdModule  = components:MINI_TP;
+EndCmp
+
+BeginCmp
+TimeStamp = /53145693;
+Reference = TP115;
+ValeurCmp = GND;
+IdModule  = components:MINI_TP;
+EndCmp
+
+BeginCmp
+TimeStamp = /531456A0;
+Reference = TP116;
+ValeurCmp = GND;
+IdModule  = components:MINI_TP;
+EndCmp
+
+BeginCmp
+TimeStamp = /531456AD;
+Reference = TP117;
+ValeurCmp = GND;
+IdModule  = components:MINI_TP;
+EndCmp
+
+BeginCmp
+TimeStamp = /53011C38;
+Reference = TP118;
+ValeurCmp = USART1_RX;
+IdModule  = components:MINI_TP;
+EndCmp
+
+BeginCmp
+TimeStamp = /53011C2B;
+Reference = TP119;
+ValeurCmp = USART1_TX;
+IdModule  = components:MINI_TP;
+EndCmp
+
+BeginCmp
+TimeStamp = /53011C1E;
+Reference = TP120;
+ValeurCmp = USART1_CTS;
+IdModule  = components:MINI_TP;
+EndCmp
+
+BeginCmp
+TimeStamp = /53011C11;
+Reference = TP121;
+ValeurCmp = USART1_RTS;
+IdModule  = components:MINI_TP;
+EndCmp
+
+BeginCmp
+TimeStamp = /53011C04;
+Reference = TP122;
+ValeurCmp = LED_DATA0;
+IdModule  = components:MINI_TP;
+EndCmp
+
+BeginCmp
+TimeStamp = /53011BF7;
+Reference = TP123;
+ValeurCmp = LED_DATA1;
+IdModule  = components:MINI_TP;
+EndCmp
+
+BeginCmp
+TimeStamp = /53011A6A;
+Reference = TP124;
+ValeurCmp = TEMP_MISO;
+IdModule  = components:MINI_TP;
+EndCmp
+
+BeginCmp
+TimeStamp = /53011A77;
+Reference = TP125;
+ValeurCmp = TEMP_SCK;
+IdModule  = components:MINI_TP;
+EndCmp
+
+BeginCmp
+TimeStamp = /53011A84;
+Reference = TP126;
+ValeurCmp = TEMP0-~CS;
+IdModule  = components:MINI_TP;
+EndCmp
+
+BeginCmp
+TimeStamp = /53011A91;
+Reference = TP127;
+ValeurCmp = TEMP1-~CS;
+IdModule  = components:MINI_TP;
+EndCmp
+
+BeginCmp
+TimeStamp = /53011BB6;
+Reference = TP128;
+ValeurCmp = SUPPLY_SENSE;
+IdModule  = components:MINI_TP;
+EndCmp
+
+BeginCmp
+TimeStamp = /53011BC3;
+Reference = TP129;
+ValeurCmp = STEPPERS_SENSE;
+IdModule  = components:MINI_TP;
 EndCmp
 
 BeginCmp
