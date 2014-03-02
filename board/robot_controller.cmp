@@ -1,4 +1,4 @@
-Cmp-Mod V01 Created by CvPcb (2014-01-30 BZR 4648)-product date = Sun 02 Mar 2014 11:23:03 AM EST
+Cmp-Mod V01 Created by CvPcb (2014-01-30 BZR 4648)-product date = Sun 02 Mar 2014 11:37:36 AM EST
 
 BeginCmp
 TimeStamp = /530B0FDE;
@@ -1187,14 +1187,14 @@ BeginCmp
 TimeStamp = /530847B0;
 Reference = JP102;
 ValeurCmp = JUMPER;
-IdModule  = ;
+IdModule  = components:SOLDER_BRIDGE;
 EndCmp
 
 BeginCmp
 TimeStamp = /530D0263;
 Reference = JP103;
 ValeurCmp = JUMPER;
-IdModule  = ;
+IdModule  = components:SOLDER_BRIDGE;
 EndCmp
 
 BeginCmp
