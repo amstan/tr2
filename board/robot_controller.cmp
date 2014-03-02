@@ -1,4 +1,4 @@
-Cmp-Mod V01 Created by CvPcb (2014-02-21 BZR 4712)-product date = Sat Mar  1 20:05:54 2014
+Cmp-Mod V01 Created by CvPcb (2014-01-30 BZR 4648)-product date = Sun 02 Mar 2014 11:01:43 AM EST
 
 BeginCmp
 TimeStamp = /530B0FDE;
@@ -1215,203 +1215,203 @@ BeginCmp
 TimeStamp = /5300DD71;
 Reference = P102;
 ValeurCmp = CONN_1;
-IdModule  = Wire_Pads:SolderWirePad_single_1-2mmDrill;
+IdModule  = components:MINI_TP;
 EndCmp
 
 BeginCmp
 TimeStamp = /53011A5D;
 Reference = P103;
 ValeurCmp = CONN_1;
-IdModule  = Wire_Pads:SolderWirePad_single_1-2mmDrill;
+IdModule  = components:MINI_TP;
 EndCmp
 
 BeginCmp
 TimeStamp = /53011A6A;
 Reference = P104;
 ValeurCmp = CONN_1;
-IdModule  = Wire_Pads:SolderWirePad_single_1-2mmDrill;
+IdModule  = components:MINI_TP;
 EndCmp
 
 BeginCmp
 TimeStamp = /53011C38;
 Reference = P105;
 ValeurCmp = CONN_1;
-IdModule  = Wire_Pads:SolderWirePad_single_1-2mmDrill;
+IdModule  = components:MINI_TP;
 EndCmp
 
 BeginCmp
 TimeStamp = /530119C1;
 Reference = P106;
 ValeurCmp = CONN_1;
-IdModule  = Wire_Pads:SolderWirePad_single_1-2mmDrill;
+IdModule  = components:MINI_TP;
 EndCmp
 
 BeginCmp
 TimeStamp = /53011A50;
 Reference = P107;
 ValeurCmp = CONN_1;
-IdModule  = Wire_Pads:SolderWirePad_single_1-2mmDrill;
+IdModule  = components:MINI_TP;
 EndCmp
 
 BeginCmp
 TimeStamp = /53011A77;
 Reference = P108;
 ValeurCmp = CONN_1;
-IdModule  = Wire_Pads:SolderWirePad_single_1-2mmDrill;
+IdModule  = components:MINI_TP;
 EndCmp
 
 BeginCmp
 TimeStamp = /53011C2B;
 Reference = P109;
 ValeurCmp = CONN_1;
-IdModule  = Wire_Pads:SolderWirePad_single_1-2mmDrill;
+IdModule  = components:MINI_TP;
 EndCmp
 
 BeginCmp
 TimeStamp = /530119CE;
 Reference = P110;
 ValeurCmp = CONN_1;
-IdModule  = Wire_Pads:SolderWirePad_single_1-2mmDrill;
+IdModule  = components:MINI_TP;
 EndCmp
 
 BeginCmp
 TimeStamp = /53011A43;
 Reference = P111;
 ValeurCmp = CONN_1;
-IdModule  = Wire_Pads:SolderWirePad_single_1-2mmDrill;
+IdModule  = components:MINI_TP;
 EndCmp
 
 BeginCmp
 TimeStamp = /53011A84;
 Reference = P112;
 ValeurCmp = CONN_1;
-IdModule  = Wire_Pads:SolderWirePad_single_1-2mmDrill;
+IdModule  = components:MINI_TP;
 EndCmp
 
 BeginCmp
 TimeStamp = /53011C1E;
 Reference = P113;
 ValeurCmp = CONN_1;
-IdModule  = Wire_Pads:SolderWirePad_single_1-2mmDrill;
+IdModule  = components:MINI_TP;
 EndCmp
 
 BeginCmp
 TimeStamp = /530119DB;
 Reference = P114;
 ValeurCmp = CONN_1;
-IdModule  = Wire_Pads:SolderWirePad_single_1-2mmDrill;
+IdModule  = components:MINI_TP;
 EndCmp
 
 BeginCmp
 TimeStamp = /53011A36;
 Reference = P115;
 ValeurCmp = CONN_1;
-IdModule  = Wire_Pads:SolderWirePad_single_1-2mmDrill;
+IdModule  = components:MINI_TP;
 EndCmp
 
 BeginCmp
 TimeStamp = /53011A91;
 Reference = P116;
 ValeurCmp = CONN_1;
-IdModule  = Wire_Pads:SolderWirePad_single_1-2mmDrill;
+IdModule  = components:MINI_TP;
 EndCmp
 
 BeginCmp
 TimeStamp = /53011C11;
 Reference = P117;
 ValeurCmp = CONN_1;
-IdModule  = Wire_Pads:SolderWirePad_single_1-2mmDrill;
+IdModule  = components:MINI_TP;
 EndCmp
 
 BeginCmp
 TimeStamp = /530119E8;
 Reference = P118;
 ValeurCmp = CONN_1;
-IdModule  = Wire_Pads:SolderWirePad_single_1-2mmDrill;
+IdModule  = components:MINI_TP;
 EndCmp
 
 BeginCmp
 TimeStamp = /53011A29;
 Reference = P119;
 ValeurCmp = CONN_1;
-IdModule  = Wire_Pads:SolderWirePad_single_1-2mmDrill;
+IdModule  = components:MINI_TP;
 EndCmp
 
 BeginCmp
 TimeStamp = /53011BB6;
 Reference = P120;
 ValeurCmp = CONN_1;
-IdModule  = Wire_Pads:SolderWirePad_single_1-2mmDrill;
+IdModule  = components:MINI_TP;
 EndCmp
 
 BeginCmp
 TimeStamp = /53011C04;
 Reference = P121;
 ValeurCmp = CONN_1;
-IdModule  = Wire_Pads:SolderWirePad_single_1-2mmDrill;
+IdModule  = components:MINI_TP;
 EndCmp
 
 BeginCmp
 TimeStamp = /530119F5;
 Reference = P122;
 ValeurCmp = CONN_1;
-IdModule  = Wire_Pads:SolderWirePad_single_1-2mmDrill;
+IdModule  = components:MINI_TP;
 EndCmp
 
 BeginCmp
 TimeStamp = /53011A1C;
 Reference = P123;
 ValeurCmp = CONN_1;
-IdModule  = Wire_Pads:SolderWirePad_single_1-2mmDrill;
+IdModule  = components:MINI_TP;
 EndCmp
 
 BeginCmp
 TimeStamp = /53011BC3;
 Reference = P124;
 ValeurCmp = CONN_1;
-IdModule  = Wire_Pads:SolderWirePad_single_1-2mmDrill;
+IdModule  = components:MINI_TP;
 EndCmp
 
 BeginCmp
 TimeStamp = /53011BF7;
 Reference = P125;
 ValeurCmp = CONN_1;
-IdModule  = Wire_Pads:SolderWirePad_single_1-2mmDrill;
+IdModule  = components:MINI_TP;
 EndCmp
 
 BeginCmp
 TimeStamp = /53011A02;
 Reference = P126;
 ValeurCmp = CONN_1;
-IdModule  = Wire_Pads:SolderWirePad_single_1-2mmDrill;
+IdModule  = components:MINI_TP;
 EndCmp
 
 BeginCmp
 TimeStamp = /53011A0F;
 Reference = P127;
 ValeurCmp = CONN_1;
-IdModule  = Wire_Pads:SolderWirePad_single_1-2mmDrill;
+IdModule  = components:MINI_TP;
 EndCmp
 
 BeginCmp
 TimeStamp = /53011BD0;
 Reference = P128;
 ValeurCmp = CONN_1;
-IdModule  = Wire_Pads:SolderWirePad_single_1-2mmDrill;
+IdModule  = components:MINI_TP;
 EndCmp
 
 BeginCmp
 TimeStamp = /53011BDD;
 Reference = P129;
 ValeurCmp = CONN_1;
-IdModule  = Wire_Pads:SolderWirePad_single_1-2mmDrill;
+IdModule  = components:MINI_TP;
 EndCmp
 
 BeginCmp
 TimeStamp = /53011BEA;
 Reference = P130;
 ValeurCmp = CONN_1;
-IdModule  = Wire_Pads:SolderWirePad_single_1-2mmDrill;
+IdModule  = components:MINI_TP;
 EndCmp
 
 BeginCmp
