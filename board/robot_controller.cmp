@@ -1,4 +1,4 @@
-Cmp-Mod V01 Created by CvPcb (2014-01-30 BZR 4648)-product date = Sun 02 Mar 2014 11:37:36 AM EST
+Cmp-Mod V01 Created by CvPcb (2014-01-30 BZR 4648)-product date = Sun 02 Mar 2014 12:02:45 PM EST
 
 BeginCmp
 TimeStamp = /530B0FDE;
@@ -1054,7 +1054,7 @@ BeginCmp
 TimeStamp = /5306FC91;
 Reference = J104;
 ValeurCmp = JTAG-ARM;
-IdModule  = Pin_Headers:Pin_Header_Straight_2x10;
+IdModule  = components:SHROUDED_20;
 EndCmp
 
 BeginCmp
@@ -1103,14 +1103,14 @@ BeginCmp
 TimeStamp = /530D51C7;
 Reference = J111;
 ValeurCmp = UEXT;
-IdModule  = Pin_Headers:Pin_Header_Straight_2x05;
+IdModule  = components:SHROUDED_10;
 EndCmp
 
 BeginCmp
 TimeStamp = /530D497E;
 Reference = J112;
 ValeurCmp = UEXT;
-IdModule  = Pin_Headers:Pin_Header_Straight_2x05;
+IdModule  = components:SHROUDED_10;
 EndCmp
 
 BeginCmp
