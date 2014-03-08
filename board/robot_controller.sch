@@ -1954,21 +1954,21 @@ Text Label 28850 18700 0    60   ~ 0
 STEPPERS_OSC_SYNC
 Text Label 28850 19100 0    60   ~ 0
 STEPPERS_~RST
-Text Label 34600 19000 2    60   ~ 0
+Text Label 28800 19900 0    60   ~ 0
 STEPPER0_~FLAG
-Text Label 34600 18700 2    60   ~ 0
-STEPPER1_~BUSY~/SYNC
-Text Label 34600 19100 2    60   ~ 0
-STEPPER1_~FLAG
-Text Label 34600 19200 2    60   ~ 0
-STEPPER2_~FLAG
-Text Label 34600 19300 2    60   ~ 0
-STEPPER3_~FLAG
-Text Label 34600 18600 2    60   ~ 0
-STEPPER0_~BUSY~/SYNC
 Text Label 34600 18900 2    60   ~ 0
-STEPPER3_~BUSY~/SYNC
+STEPPER1_~BUSY~/SYNC
 Text Label 34600 18800 2    60   ~ 0
+STEPPER1_~FLAG
+Text Label 34600 19000 2    60   ~ 0
+STEPPER2_~FLAG
+Text Label 34600 19200 2    60   ~ 0
+STEPPER3_~FLAG
+Text Label 34600 18700 2    60   ~ 0
+STEPPER0_~BUSY~/SYNC
+Text Label 34600 19300 2    60   ~ 0
+STEPPER3_~BUSY~/SYNC
+Text Label 34600 19100 2    60   ~ 0
 STEPPER2_~BUSY~/SYNC
 Text Label 26650 24400 1    60   ~ 0
 STEPPER0_~CS
@@ -2156,13 +2156,13 @@ IND_INPUT2
 Text Notes 28800 21050 1    60   ~ 0
 Timer Only
 Text Label 34600 15800 2    60   ~ 0
-LED2
-Text Label 34600 15900 2    60   ~ 0
-LED3
-Text Label 34600 15600 2    60   ~ 0
-LED0
-Text Label 34600 15700 2    60   ~ 0
 LED1
+Text Label 34600 15900 2    60   ~ 0
+LED0
+Text Label 34600 15600 2    60   ~ 0
+LED3
+Text Label 34600 15700 2    60   ~ 0
+LED2
 Text Label 26750 21550 2    60   ~ 0
 SPI1_MISO
 Text Label 26750 21650 2    60   ~ 0
@@ -2262,13 +2262,13 @@ LED3
 Text Label 21300 12550 0    60   ~ 0
 LED0
 Text Label 34600 17300 2    60   ~ 0
-SW0
-Text Label 34600 17400 2    60   ~ 0
-SW1
-Text Label 34600 17500 2    60   ~ 0
-SW2
-Text Label 34600 17600 2    60   ~ 0
 SW3
+Text Label 34600 17400 2    60   ~ 0
+SW2
+Text Label 34600 17500 2    60   ~ 0
+SW1
+Text Label 34600 17600 2    60   ~ 0
+SW0
 Text Label 21100 12550 2    60   ~ 0
 SW0
 Text Label 21100 12900 2    60   ~ 0
@@ -2429,7 +2429,6 @@ NoConn ~ 29850 17200
 NoConn ~ 29850 17300
 NoConn ~ 29850 19200
 NoConn ~ 29850 19300
-NoConn ~ 29850 19900
 NoConn ~ 29850 20200
 NoConn ~ 29850 20500
 NoConn ~ 29850 20600
@@ -3529,8 +3528,6 @@ Wire Wire Line
 	34600 19200 33550 19200
 Wire Wire Line
 	34600 19300 33550 19300
-Wire Wire Line
-	34600 18600 33550 18600
 Wire Wire Line
 	34600 18900 33550 18900
 Wire Wire Line
@@ -5124,4 +5121,8 @@ F 4 "5001K-ND" H 12150 5900 60  0001 C CNN "Digikey Number"
 	1    31100 26250
 	1    0    0    -1  
 $EndComp
+Wire Wire Line
+	28800 19900 29850 19900
+NoConn ~ 33550 18600
+NoConn ~ 34950 18900
 $EndSCHEMATC
