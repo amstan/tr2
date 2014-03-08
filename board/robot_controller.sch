@@ -1493,7 +1493,7 @@ F 2 "" H 15350 14300 60  0000 C CNN
 F 3 "http://www.digikey.ca/product-search/en?vendor=0&keywords=ESPM02200" H 15350 14300 60  0001 C CNN
 F 4 "APC1274-ND" H 6750 5050 60  0001 C CNN "Digikey Number"
 	1    15350 14300
-	-1   0    0    -1  
+	-1   0    0    1   
 $EndComp
 $Comp
 L +24V #PWR080
@@ -1954,7 +1954,7 @@ Text Label 28850 18700 0    60   ~ 0
 STEPPERS_OSC_SYNC
 Text Label 28850 19100 0    60   ~ 0
 STEPPERS_~RST
-Text Label 28800 19900 0    60   ~ 0
+Text Label 28850 20200 0    60   ~ 0
 STEPPER0_~FLAG
 Text Label 34600 18900 2    60   ~ 0
 STEPPER1_~BUSY~/SYNC
@@ -2429,7 +2429,7 @@ NoConn ~ 29850 17200
 NoConn ~ 29850 17300
 NoConn ~ 29850 19200
 NoConn ~ 29850 19300
-NoConn ~ 29850 20200
+NoConn ~ 29850 19900
 NoConn ~ 29850 20500
 NoConn ~ 29850 20600
 NoConn ~ 33550 14400
@@ -3210,10 +3210,6 @@ Wire Notes Line
 	18700 15100 17300 15100
 Wire Notes Line
 	17300 15100 17300 14000
-Wire Wire Line
-	16000 14200 16000 14100
-Wire Wire Line
-	15700 14200 16000 14200
 Wire Wire Line
 	28850 17100 29850 17100
 Wire Wire Line
@@ -4348,9 +4344,6 @@ F 3 "" H 15800 14150 60  0000 C CNN
 	1    15800 14150
 	1    0    0    -1  
 $EndComp
-Wire Wire Line
-	15800 14150 15800 14200
-Connection ~ 15800 14200
 $Comp
 L PWR_FLAG #FLG0108
 U 1 1 5301A23B
@@ -5121,8 +5114,15 @@ F 4 "5001K-ND" H 12150 5900 60  0001 C CNN "Digikey Number"
 	1    31100 26250
 	1    0    0    -1  
 $EndComp
-Wire Wire Line
-	28800 19900 29850 19900
 NoConn ~ 33550 18600
 NoConn ~ 34950 18900
+Wire Wire Line
+	15700 14200 16000 14200
+Wire Wire Line
+	16000 14200 16000 14100
+Wire Wire Line
+	15800 14150 15800 14200
+Connection ~ 15800 14200
+Wire Wire Line
+	29850 20200 28850 20200
 $EndSCHEMATC
