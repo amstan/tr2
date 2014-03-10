@@ -1,6 +1,6 @@
-update=Sat Mar  8 14:34:32 2014
+update=Mon 10 Mar 2014 05:43:39 PM EDT
 version=1
-last_client=pcbnew
+last_client=kicad
 [cvpcb]
 version=1
 NetIExt=net
@@ -69,8 +69,6 @@ LibName48=transf
 LibName49=ttl_ieee
 LibName50=video
 LibName51=components
-[general]
-version=1
 [pcbnew]
 version=1
 PageLayoutDescrFile=
@@ -93,3 +91,5 @@ BoardOutlineThickness=0.15
 ModuleOutlineThickness=0.15
 [pcbnew/libraries]
 LibDir=
+[general]
+version=1
