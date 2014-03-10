@@ -1344,9 +1344,9 @@ F 3 "" H 24300 20150 60  0000 C CNN
 	1    0    0    -1  
 $EndComp
 Text Label 23450 21250 0    60   ~ 0
-I2C1_SCL
+I2C2_SCL
 Text Label 23450 21350 0    60   ~ 0
-I2C1_SDA
+I2C2_SDA
 Text Label 23850 21550 2    60   ~ 0
 SPI1_MISO
 Text Label 23850 21650 2    60   ~ 0
@@ -1404,9 +1404,9 @@ F 3 "" H 27200 20150 60  0000 C CNN
 	1    0    0    -1  
 $EndComp
 Text Label 26350 21250 0    60   ~ 0
-I2C2_SCL
+I2C1_SCL
 Text Label 26350 21350 0    60   ~ 0
-I2C2_SDA
+I2C1_SDA
 Text Label 26750 21850 2    60   ~ 0
 UEXT1_~CS
 Text Notes 21650 19950 0    60   ~ 0
@@ -1493,7 +1493,7 @@ F 2 "" H 15350 14300 60  0000 C CNN
 F 3 "http://www.digikey.ca/product-search/en?vendor=0&keywords=ESPM02200" H 15350 14300 60  0001 C CNN
 F 4 "APC1274-ND" H 6750 5050 60  0001 C CNN "Digikey Number"
 	1    15350 14300
-	-1   0    0    1   
+	-1   0    0    -1  
 $EndComp
 $Comp
 L +24V #PWR080
@@ -1704,13 +1704,13 @@ IND_INPUT1
 Text Label 34600 16600 2    60   ~ 0
 IND_INPUT2
 Text Label 28850 16100 0    60   ~ 0
-IND_INPUT7
-Text Label 28850 18200 0    60   ~ 0
 IND_INPUT4
+Text Label 28850 18200 0    60   ~ 0
+IND_INPUT6
 Text Label 28850 18300 0    60   ~ 0
 IND_INPUT5
 Text Label 28850 14400 0    60   ~ 0
-IND_INPUT6
+IND_INPUT7
 Text Label 28850 21000 0    60   ~ 0
 IND_INPUT3
 Text Notes 13100 23100 0    60   ~ 0
@@ -1908,9 +1908,9 @@ Text Label 34600 18400 2    60   ~ 0
 STEPPER2_~CS
 Text Label 34600 18500 2    60   ~ 0
 STEPPER3_~CS
-Text Label 34600 17800 2    60   ~ 0
+Text Label 28850 20500 0    60   ~ 0
 TEMP0_~CS
-Text Label 34600 17900 2    60   ~ 0
+Text Label 28850 20600 0    60   ~ 0
 TEMP1_~CS
 Text Label 28850 14800 0    60   ~ 0
 UEXT0_~CS
@@ -2262,13 +2262,13 @@ LED3
 Text Label 21300 12550 0    60   ~ 0
 LED0
 Text Label 34600 17300 2    60   ~ 0
-SW3
-Text Label 34600 17400 2    60   ~ 0
-SW2
-Text Label 34600 17500 2    60   ~ 0
-SW1
-Text Label 34600 17600 2    60   ~ 0
 SW0
+Text Label 34600 17400 2    60   ~ 0
+SW1
+Text Label 34600 17500 2    60   ~ 0
+SW2
+Text Label 34600 17600 2    60   ~ 0
+SW3
 Text Label 21100 12550 2    60   ~ 0
 SW0
 Text Label 21100 12900 2    60   ~ 0
@@ -2430,8 +2430,7 @@ NoConn ~ 29850 17300
 NoConn ~ 29850 19200
 NoConn ~ 29850 19300
 NoConn ~ 29850 19900
-NoConn ~ 29850 20500
-NoConn ~ 29850 20600
+NoConn ~ 33550 17800
 NoConn ~ 33550 14400
 NoConn ~ 33550 14500
 NoConn ~ 33550 14600
@@ -3468,10 +3467,6 @@ Wire Wire Line
 	33550 18400 34600 18400
 Wire Wire Line
 	33550 18500 34600 18500
-Wire Wire Line
-	33550 17800 34600 17800
-Wire Wire Line
-	33550 17900 34600 17900
 Wire Wire Line
 	29850 14800 28850 14800
 Wire Wire Line
@@ -5117,12 +5112,18 @@ $EndComp
 NoConn ~ 33550 18600
 NoConn ~ 34950 18900
 Wire Wire Line
+	29850 20200 28850 20200
+NoConn ~ 28750 14400
+Wire Wire Line
 	15700 14200 16000 14200
 Wire Wire Line
 	16000 14200 16000 14100
 Wire Wire Line
 	15800 14150 15800 14200
 Connection ~ 15800 14200
+NoConn ~ 33550 17900
 Wire Wire Line
-	29850 20200 28850 20200
+	28850 20500 29850 20500
+Wire Wire Line
+	29850 20600 28850 20600
 $EndSCHEMATC
