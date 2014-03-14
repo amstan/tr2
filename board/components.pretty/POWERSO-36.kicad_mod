@@ -1,8 +1,8 @@
 (module POWERSO-36 (layer F.Cu)
-  (fp_text reference POWERSO-36 (at 11 0 90) (layer F.SilkS)
+  (fp_text reference U2301 (at 12.065 0 90) (layer F.SilkS)
     (effects (font (size 1.5 1.5) (thickness 0.15)))
   )
-  (fp_text value VAL** (at -11 0 90) (layer F.SilkS) hide
+  (fp_text value L6470 (at -11 0 90) (layer F.SilkS) hide
     (effects (font (size 1.5 1.5) (thickness 0.15)))
   )
   (fp_line (start 6.45 1.45) (end 4.9 1.45) (layer Dwgs.User) (width 0.2))
@@ -26,6 +26,8 @@
   (fp_line (start -7.95 5.5) (end -6.95 6.5) (layer F.SilkS) (width 0.2))
   (fp_line (start -7.95 -6.5) (end 7.95 -6.5) (layer F.SilkS) (width 0.2))
   (fp_line (start -6.95 6.5) (end 7.95 6.5) (layer F.SilkS) (width 0.2))
+  (pad PAD smd rect (at 0 0) (size 19.1 10) (layers B.Cu B.Paste B.Mask)
+    (zone_connect 2))
   (pad 1 smd rect (at -5.525 7.8) (size 0.38 2.5) (layers F.Cu F.Paste F.Mask))
   (pad 2 smd rect (at -4.875 7.8) (size 0.38 2.5) (layers F.Cu F.Paste F.Mask))
   (pad 3 smd rect (at -4.225 7.8) (size 0.38 2.5) (layers F.Cu F.Paste F.Mask))
@@ -62,5 +64,6 @@
   (pad 34 smd rect (at -4.225 -7.8) (size 0.38 2.5) (layers F.Cu F.Paste F.Mask))
   (pad 35 smd rect (at -4.875 -7.8) (size 0.38 2.5) (layers F.Cu F.Paste F.Mask))
   (pad 36 smd rect (at -5.525 -7.8) (size 0.38 2.5) (layers F.Cu F.Paste F.Mask))
-  (pad PAD smd rect (at 0 0) (size 19.1 10) (layers F.Cu F.Paste F.Mask))
+  (pad PAD smd rect (at 0 0) (size 19.1 10) (layers F.Cu F.Paste F.Mask)
+    (zone_connect 2))
 )
