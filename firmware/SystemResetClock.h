@@ -101,7 +101,7 @@ typedef struct SystemClockEnabled_t {
     bool     ADC3          :  1;
     bool     SDIO          :  1;
     bool     SPI1          :  1;
-    unsigned /* Pad */     :  1;
+    bool     SPI4          :  1;
     bool     SysConfig     :  1;
     unsigned /* Pad */     :  1;
     bool     Timer9        :  1;

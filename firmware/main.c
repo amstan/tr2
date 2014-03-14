@@ -8,6 +8,7 @@
 #include "SystemResetClock.h"
 #include "SystemGpio.h"
 #include "SystemUart.h"
+#include "SystemSpi.h"
 #include "SystemInterrupts.h"
 
 #define UART_BUFSIZE 256
@@ -29,6 +30,7 @@ int main(void)
 
     // GPIO Config
     SystemClockEnabled.GpioA = true;
+    SystemClockEnabled.GpioB = true;
     SystemClockEnabled.GpioD = true;
     
     SystemGpio.A.Mode.P0 = SystemGpioMode_Input;
@@ -36,13 +38,39 @@ int main(void)
     SystemGpio.D.Mode.P14 = SystemGpioMode_Output;
     
     // USART3 Config
-    SystemGpio.D.Mode.P8 = SystemGpioMode_Alternate;
-    SystemGpio.D.Mode.P9 = SystemGpioMode_Alternate;
-    SystemGpio.D.Function.P8 = 7;
-    SystemGpio.D.Function.P9 = 7;
+    SystemGpio.A.Mode.P2 = SystemGpioMode_Alternate;
+    SystemGpio.A.Mode.P3 = SystemGpioMode_Alternate;
+    SystemGpio.A.Function.P2 = 7;
+    SystemGpio.A.Function.P3 = 7;
     
-    SystemUartInit(&SystemUart.U3, &uartBuf, UART_BAUD);
+    SystemUartInit(&SystemUart.U2, &uartBuf, UART_BAUD);
+
+    // SPI1 Config
+    SystemGpio.B.Mode.P13 = SystemGpioMode_Alternate;
+    SystemGpio.B.Mode.P14 = SystemGpioMode_Alternate;
+    SystemGpio.B.Mode.P15 = SystemGpioMode_Alternate;
+    SystemGpio.B.Speed.P13 = SystemGpioSpeed_High;
+    SystemGpio.B.Speed.P14 = SystemGpioSpeed_High;
+    SystemGpio.B.Speed.P15 = SystemGpioSpeed_High;
+    SystemGpio.B.Function.P13 = 5;
+    SystemGpio.B.Function.P14 = 5;
+    SystemGpio.B.Function.P15 = 5;
+
+    SystemClockEnabled.SPI2 = true;
+    SystemSpi.S2.Config.SlaveManageEnable = true;
+    SystemSpi.S2.Config.InternalSelect = true;
+    SystemSpi.S2.Config.DeviceMode = SystemSpiDeviceMode_Master;
+    SystemSpi.S2.Config.Prescaler = SystemSpiPrescaler_128;
+    SystemSpi.S2.Config.Enabled = true;
     
+    while(1)
+    {
+        for(uint16_t i = 1; i <= 4; i++)
+        {
+            SpiWriteRead(&SystemSpi.S2, i);
+        }
+    }
+
     bool prevState = false;
     
     while(1)
@@ -54,20 +82,20 @@ int main(void)
             if(state && !prevState) {
                 SystemGpio.D.Output.P15 = !SystemGpio.D.Output.P15;
                 char *str = "Andrew Rossignol\n";
-                SystemUartTxStr(&SystemUart.U3, str, 17);
+                SystemUartTxStr(&SystemUart.U2, str, 17);
                 prevState = true;
             } else if(!state && prevState) {
                 prevState = false;
             }
         }
         
-        uint32_t bytesToRead = SystemUartBytesToRead(&SystemUart.U3);
+        uint32_t bytesToRead = SystemUartBytesToRead(&SystemUart.U2);
 
         char buf[1];
         if(bytesToRead >= 1)
         {
-            SystemUartRxStr(&SystemUart.U3, buf, 1);
-            SystemUartTxStr(&SystemUart.U3, buf, 1);
+            SystemUartRxStr(&SystemUart.U2, buf, 1);
+            SystemUartTxStr(&SystemUart.U2, buf, 1);
         }
     }
     

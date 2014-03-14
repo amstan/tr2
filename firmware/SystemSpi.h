@@ -8,8 +8,10 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+#include "SystemResetClock.h"
+
 #define ADDR_SPI 0x40003800
-#define SystemSpi ((volatile SystemSpi_t *)ADDR_SPI)
+#define SystemSpi (*((volatile SystemSpi_t *)ADDR_SPI))
 
 /* Clock Phase ****************************************************************/
 
@@ -144,8 +146,20 @@ typedef struct SystemSpiModule_t {
 
 typedef struct SystemSpi_t {
     SystemSpiModule_t S2;
-    uint32_t __pad[249];
+    uint32_t __pad1[249];
     SystemSpiModule_t S3;
+    uint32_t __pad2[15360 + 249];
+    SystemSpiModule_t S1;
+    uint32_t __pad3[249];
+    SystemSpiModule_t S4;
+    uint32_t __pad4[(5 * 256) + 249];
+    SystemSpiModule_t S5;
+    uint32_t __pad5[249];
+    SystemSpiModule_t S6;
 } SystemSpi_t;
+
+/* Write/Read *****************************************************************/
+
+uint16_t SpiWriteRead(volatile SystemSpiModule_t *spi, uint16_t data);
 
 #endif
