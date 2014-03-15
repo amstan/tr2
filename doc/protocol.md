@@ -53,8 +53,8 @@ This classification interacts with the user LEDs on the board.
 
 ##### Enable LED
 
-Value  : 0
-Sender : Host
+* Value  : 0
+* Sender : Host
 
 This command enables one of the user LEDs.
 
@@ -70,8 +70,8 @@ Acknowledge command from the control board.
 
 ##### Disable LED
 
-Value  : 1
-Sender : Host
+* Value  : 1
+* Sender : Host
 
 This command disables one of the user LEDs.
 
@@ -87,8 +87,8 @@ Acknowledge command from the control board.
 
 ##### Acknowledge
 
-Value  : 2
-Sender : Slave
+* Value  : 2
+* Sender : Slave
 
 This command tells the host that the most recent LED command was successful.
 
