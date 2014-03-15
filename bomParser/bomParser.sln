@@ -21,6 +21,6 @@ Global
 		{4402948B-440C-40A7-A2FC-8379BE8F1334}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = digikeyLinkAdder\digikeyLinkAdder.csproj
+		StartupItem = bomParser\bomParser.csproj
 	EndGlobalSection
 EndGlobal

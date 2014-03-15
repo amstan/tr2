@@ -55,7 +55,10 @@ operations on the data.");
                     Value = c.Descendants ("value").First ().Value,
                     PartNumber = (from p in c.Descendants ("field")
                                   where p.Attribute ("name").Value == "Part Number"
-                                  select p.Value).FirstOrDefault ()
+                                  select p.Value).FirstOrDefault (),
+                    DkPartNumber = (from p in c.Descendants("field")
+                                    where p.Attribute("name").Value == "Digikey Number"
+                                    select p.Value).FirstOrDefault()
                 };
 
             components =
@@ -64,14 +67,20 @@ operations on the data.");
             var componentGroups =
                 from c in components
                 where !blankPartsOnly || String.IsNullOrEmpty(c.PartNumber)
-                group c by new { c.PartNumber, c.Value } into cg
+                group c by new { c.DkPartNumber } into cg
                 select new {
                     PartNumber = cg.First ().PartNumber,
+                    DkPartNumber = cg.First().DkPartNumber,
                     Value = cg.First ().Value,
                     Designators = cg.Select (i => i.ReferenceDesignator).ToList (),
                     Count = cg.Count ()
                 };
 
+            foreach (var component in componentGroups) {
+                Console.WriteLine ("{0}\t{1}\t{2}", component.Count * 3, component.DkPartNumber, string.Join (" ", component.Designators));
+            }
+
+            /*
             foreach (var component in componentGroups)
             {
                 Console.WriteLine ("Part Number: {0} http://www.digikey.ca/product-search/en?vendor=0&keywords={1}",
@@ -88,6 +97,7 @@ operations on the data.");
                 Console.WriteLine ();
                 Console.WriteLine ();
             }
+            */
         }
     }
 }
