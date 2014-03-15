@@ -32,6 +32,8 @@ Here is the folder structure for the project:
     * Notes, logo
 * firmware/
     * Bare metal bring up of STM32F4 and code for the robot controller
+* pictures/
+    * Various pictures of the project
 * python/
     * The python software interfaces
 * ui/
