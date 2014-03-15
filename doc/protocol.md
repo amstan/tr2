@@ -45,7 +45,7 @@ associated message class to aid in protocol implementation.
 
 ### User LED
 
-Value : 0
+* Value : 0
 
 This classification interacts with the user LEDs on the board.
 
@@ -66,7 +66,7 @@ This command enables one of the user LEDs.
 
 ###### Response
 
-Acknowledge command from the control board.
+Acknowledge user LED command.
 
 ##### Disable LED
 
@@ -83,12 +83,37 @@ This command disables one of the user LEDs.
 
 ###### Response
 
-Acknowledge command from the control board.
+Acknowledge user LED command.
 
-##### Acknowledge
+##### Toggle LED
 
 * Value  : 2
+* Sender : Host
+
+This command toggles one of the user LEDs.
+
+###### Parameters
+
+* LED Index
+    * Value  : 0 - 3
+    * Length : 8-bits
+
+###### Response
+
+Acknowledge user LED command.
+
+##### Slave Acknowledge
+
+* Value  : 3
 * Sender : Slave
 
 This command tells the host that the most recent LED command was successful.
+
+###### Parameters
+
+None
+
+###### Response
+
+None
 
