@@ -13,6 +13,7 @@ platform such as a Linux Desktop PC or another embedded system.
     [Message Class]
     [Message Type]
     [Message Parameters]
+    [CRC]
 
 ### Message Class
 
@@ -37,6 +38,12 @@ platform such as a Linux Desktop PC or another embedded system.
 * Type    : uint8_t[]
 * Summary : Each message class has a different set of parameters. Refer to the
             sections below for more information.
+
+### CRC
+
+The final bytes of the message of the message will be a CRC.
+
+TODO: Select a CRC
 
 ## Message Classifications
 
