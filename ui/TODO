@@ -1,0 +1,9 @@
+# TODO
+
+* Display position x, y, z
+* Jog in x, y, z
+* Perform calibration
+* Set speed
+* Set position in x, y, z
+* Interpolation mode
+* Other controls (LEDs, temperature)

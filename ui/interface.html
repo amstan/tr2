@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="UTF-8">
+        
+        <title>TR2 DeltaBot Control Panel</title>
+        
+        <!-- CSS -->
+        <link rel="stylesheet" href="main.css" />
+
+        <!-- JS -->
+        <script type="text/javascript" src="jquery.js"></script>
+        <script type="text/javascript" src="enums.js"></script>
+        <script type="text/javascript" src="main.js"></script>
+    </head>
+
+    <body>
+        <h1>TR2 DeltaBot Control Panel</h1>
+
+        <form id="updateModeForm">
+            <label for="updateMode">Update Mode</label>
+            <select id="updateMode">
+                <option value="0" selected>Update on Value Change</option>
+                <option value="1">Update on Form Submission</option>
+            </select>
+
+            <input id="setUpdate"
+                type="submit"
+                value="Set Update Mode" />
+        </form>
+        
+        <form id="interpolationModeForm">
+            <label for="interpolationMode">Interpolation Mode</label>
+            <select id="interpolationMode">
+                <option value="0" selected>Linear</option>
+                <option value="1">Reiner (name?)</option>
+                <option value="2">Joint</option>
+            </select>
+
+            <input id="setInterpolation"
+                type="submit"
+                value="Set Interpolation" />
+        </form>
+
+        <form id="positionForm">
+            <label for="posX">X</label>
+            <input id="posX" type="text" value="0" />
+            
+            <label for="posY">Y</label>
+            <input id="posY" type="text" value="0" />
+            
+            <label for="posZ">Z</label>
+            <input id="posZ" type="text" value="0" />
+            
+            <input id="setPosition" type="submit" value="Set Position" />
+        </form>
+    </body>
+</html>
