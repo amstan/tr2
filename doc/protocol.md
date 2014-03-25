@@ -124,3 +124,18 @@ None
 
 None
 
+##### Slave Negative Acknowledge
+
+* Value:  : 4
+* Sender  : Slave
+
+This command tells the host that the most recent LED command was unsuccessful.
+
+###### Parameters
+
+None
+
+###### Response
+
+None
+
