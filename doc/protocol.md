@@ -39,11 +39,14 @@ platform such as a Linux Desktop PC or another embedded system.
 * Summary : Each message class has a different set of parameters. Refer to the
             sections below for more information.
 
-### CRC
+### Message Error Checking
 
-The final bytes of the message of the message will be a CRC.
-
-TODO: Select a CRC
+* Format  : Binary
+* Length  : 16-bits
+* Type    : uint16_t
+* Summary : Error checking is the last two bytes of every message. Error
+            checking is a simple sum of all bytes in the message. Big-endian or
+            network order is used here.
 
 ## Message Classifications
 
