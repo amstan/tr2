@@ -1,11 +1,17 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import l6470
 import atexit
 
+import math
+import numpy
+
+import stepper.l6470 as l6470
+from kinematics.kinematics import ParallelKinematicsModel
+
 class Arm(l6470.Stepper):
-	deg_per_steps=1.8
+	resolution=math.radians(1.8/3) #angle per step
+	limit_sw_angle=math.radians(-57)
 	
 	def __init__(self,*args):
 		super().__init__(*args)
@@ -35,19 +41,43 @@ class Arm(l6470.Stepper):
 		self["kval_run"]=int(100*factor)
 		self["kval_hold"]=int(70*factor)
 	
+	def goto(self,angle):
+		"""Absolute move to an angle(radians)."""
+		print(angle,round(angle/self.resolution*128))
+		super().goto(round(angle/self.resolution*128))
+	
+	def nrun(self,angular_velocity):
+		super().run(angular_velocity)
+	
+	@property
+	def position(self):
+		return self["abs_pos"]*self.resolution/128
+	
+	@property
+	def speed(self):
+		return self["speed"]
+	
 	def test_zigzag(self,a=5000,b=15000):
 		while 1:
-			motor.goto(a)
-			motor.wait()
-			motor.goto(b)
-			motor.wait()
+			self.goto(a)
+			self.wait()
+			self.goto(b)
+			self.wait()
 
 class DeltaRobot(object):
 	def __init__(self,arms):
 		if len(arms)!=3:
 			raise ValueError("Need 3 arms!")
+		
 		self.arms=arms
 		atexit.register(self.hiz)
+		
+		self.kinematics=ParallelKinematicsModel(
+			e=100
+			f=327.040
+			re=378.825
+			rf=155.0
+		)
 	
 	def hiz(self):
 		"""Disables all the arms"""
@@ -66,7 +96,7 @@ class DeltaRobot(object):
 		for arm in self.arms:
 			arm.wait()
 	
-	def calibrate(self,center_spot=10000,speed=5000,acc=100,kval=0.5):
+	def calibrate(self,speed=5000,acc=100,kval=0.5):
 		try:
 			#raise them just a little
 			for arm in self.arms:
@@ -81,8 +111,9 @@ class DeltaRobot(object):
 				arm.calibrate(speed)
 				
 				#put it back in the center position
-				arm.goto(center_spot)
+				arm.goto(-arm.limit_sw_angle)
 				arm.wait()
+				arm.reset_pos()
 		except:
 			self.hiz()
 			raise
@@ -96,13 +127,48 @@ class DeltaRobot(object):
 		oldarm=self.arms[-1]
 		while 1:
 			for arm in reversed(self.arms):
-				arm.goto(5000)
+				arm.goto(math.radians(10))
 				arm.wait()
-				oldarm.goto(15000)
+				oldarm.goto(math.radians(-30))
 				oldarm.wait()
 				oldarm=arm
+	
+	def move(self,point):
+		angles=self.kinematics.inverse(point)
+		for arm,angle in zip(self.arms,angles):
+			arm.goto(float(-angle))
+		self.wait()
+		return self.position
+	
+	@property
+	def position(self):
+		return self.kinematics.forward([
+			-arm.position for arm in self.arms
+		])
+	
+	def line(self):
+		while 1:
+			for point in range(-150,150,10):
+				self.move([0,point,-320])
+				self.wait()
+			for point in range(150,-150,-10):
+				self.move([0,point,-320])
+				self.wait()
+	
+	def circle(self):
+		while 1:
+			for angle in range(0,360,5):
+				angle=math.radians(angle)
+				self.move([math.sin(angle)*150,math.cos(angle)*150,-350])
+				self.wait()
 
 if __name__=="__main__":
 	import pirate430
 	spi=pirate430.SPI()
 	r=DeltaRobot([Arm(pirate430.SPIDevice(spi,cs)) for cs in range(3)])
+	
+	print("Calibrating...")
+	r.calibrate()
+	print("Done!")
+	
+	a=r.arms[0]

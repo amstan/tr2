@@ -208,6 +208,13 @@ class Stepper(object):
 		for i in reversed(range(reg_len_bytes)):
 			byte=self.spi.xfer(0)
 			value+=byte*(256**i)
+		
+		if reg_name=="ABS_POS":
+			half_range=2**(reg_len-1)
+			full_range=half_range*2
+			if value>=half_range:
+				value-=full_range
+		
 		return value
 	
 	def __setitem__(self,reg,value):
