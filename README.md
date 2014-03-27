@@ -24,7 +24,7 @@ Here is the folder structure for the project:
     * 3D models of target robots
 * board/
     * The first hardware platform for this project
-* bomParser/
+* board/bomParser/
     * Some pretty untested code to do mass changes in schematics/BOMs
 * datasheets/
     * Component datasheets

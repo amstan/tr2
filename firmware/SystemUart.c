@@ -24,37 +24,37 @@ bool SystemUartInit(volatile SystemUartModule_t *uart,
         return false;
     }
     
-    if(uart == &SystemUart.U1)
+    if(uart == &SystemUart1)
     {
         uart1Buf = buf;
         SystemNvic.SetEnable.Usart1 = true;
         SystemClockEnabled.Usart1 = true;
     }
-    else if(uart == &SystemUart.U2)
+    else if(uart == &SystemUart2)
     {
         uart2Buf = buf;
         SystemNvic.SetEnable.Usart2 = true;
         SystemClockEnabled.Usart2 = true;
     }
-    else if(uart == &SystemUart.U3)
+    else if(uart == &SystemUart3)
     {
         uart3Buf = buf;
         SystemNvic.SetEnable.Usart3 = true;
         SystemClockEnabled.Usart3 = true;
     }
-    else if(uart == &SystemUart.U4)
+    else if(uart == &SystemUart4)
     {
         uart4Buf = buf;
         SystemNvic.SetEnable.Uart4 = true;
         SystemClockEnabled.Uart4 = true;
     }
-    else if(uart == &SystemUart.U5)
+    else if(uart == &SystemUart5)
     {
         uart5Buf = buf;
         SystemNvic.SetEnable.Uart5 = true;
         SystemClockEnabled.Uart5 = true;
     }
-    else if(uart == &SystemUart.U6)
+    else if(uart == &SystemUart6)
     {
         uart6Buf = buf;
         SystemNvic.SetEnable.Usart6 = true;
@@ -83,27 +83,27 @@ bool SystemUartInit(volatile SystemUartModule_t *uart,
 
 volatile SystemUartBuffer_t *SystemUartBuf(volatile SystemUartModule_t *uart)
 {
-    if(uart == &SystemUart.U1)
+    if(uart == &SystemUart1)
     {
         return uart1Buf;
     }
-    else if(uart == &SystemUart.U2)
+    else if(uart == &SystemUart2)
     {
         return uart2Buf;
     }
-    else if(uart == &SystemUart.U3)
+    else if(uart == &SystemUart3)
     {
         return uart3Buf;
     }
-    else if(uart == &SystemUart.U4)
+    else if(uart == &SystemUart4)
     {
         return uart4Buf;
     }
-    else if(uart == &SystemUart.U5)
+    else if(uart == &SystemUart5)
     {
         return uart5Buf;
     }
-    else if(uart == &SystemUart.U6)
+    else if(uart == &SystemUart6)
     {
         return uart6Buf;
     }
@@ -319,31 +319,31 @@ void handleInterrupt(volatile SystemUartModule_t *uart,
 
 void __attribute__ ((interrupt ("IRQ"))) IsrUsart1(void)
 {
-    handleInterrupt(&(SystemUart.U1), uart1Buf);
+    handleInterrupt(&(SystemUart1), uart1Buf);
 }
 
 void __attribute__ ((interrupt ("IRQ"))) IsrUsart2(void)
 {
-    handleInterrupt(&(SystemUart.U2), uart2Buf);
+    handleInterrupt(&(SystemUart2), uart2Buf);
 }
 
 void __attribute__((interrupt ("IRQ"))) IsrUsart3(void)
 {
-    handleInterrupt(&(SystemUart.U3), uart3Buf);
+    handleInterrupt(&(SystemUart3), uart3Buf);
 }
 
 void __attribute__((interrupt ("IRQ"))) IsrUart4(void)
 {
-    handleInterrupt(&(SystemUart.U4), uart4Buf);
+    handleInterrupt(&(SystemUart4), uart4Buf);
 }
 
 void __attribute__((interrupt ("IRQ"))) IsrUart5(void)
 {
-    handleInterrupt(&(SystemUart.U5), uart5Buf);
+    handleInterrupt(&(SystemUart5), uart5Buf);
 }
 
 void __attribute__((interrupt ("IRQ"))) IsrUsart6(void)
 {
-    handleInterrupt(&(SystemUart.U6), uart6Buf);
+    handleInterrupt(&(SystemUart6), uart6Buf);
 }
 

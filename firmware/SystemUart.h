@@ -12,8 +12,19 @@
 #include "SystemInterrupts.h"
 #include "SystemResetClock.h"
 
-#define ADDR_UART 0x40004400
-#define SystemUart (*((volatile SystemUart_t *)ADDR_UART))
+#define AddrUart1  0x40011000
+#define AddrUart2  0x40004400
+#define AddrUart3  0x40004800
+#define AddrUart4   0x40004C00
+#define AddrUart5   0x40005000
+#define AddrUart6  0x40011400
+
+#define SystemUart1 (*((volatile SystemUartModule_t *)AddrUart1))
+#define SystemUart2 (*((volatile SystemUartModule_t *)AddrUart2))
+#define SystemUart3 (*((volatile SystemUartModule_t *)AddrUart3))
+#define SystemUart4 (*((volatile SystemUartModule_t *)AddrUart4))
+#define SystemUart5 (*((volatile SystemUartModule_t *)AddrUart5))
+#define SystemUart6 (*((volatile SystemUartModule_t *)AddrUart6))
 
 /* UART Receiver Mode *********************************************************/
 
@@ -184,22 +195,6 @@ typedef struct SystemUartModule_t {
     unsigned /* Pad */ : 23;
     SystemUartConfiguration_t Config;
 } SystemUartModule_t;
-
-/* UART Modules ***************************************************************/
-
-typedef struct SystemUart_t {
-    SystemUartModule_t U2;
-    uint32_t __pad1[249];
-    SystemUartModule_t U3;
-    uint32_t __pad2[249];
-    SystemUartModule_t U4;
-    uint32_t __pad3[249];
-    SystemUartModule_t U5;
-    uint32_t __pad4[(11 * 256) + 249];
-    SystemUartModule_t U1;
-    uint32_t __pad7[249];
-    SystemUartModule_t U6;
-} SystemUart_t;
 
 /* UART Buffers ***************************************************************/
 
