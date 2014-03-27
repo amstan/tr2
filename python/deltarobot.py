@@ -11,7 +11,7 @@ from kinematics.kinematics import ParallelKinematicsModel
 
 class Arm(l6470.Stepper):
 	resolution=math.radians(1.8/3) #angle per step
-	limit_sw_angle=math.radians(-57)
+	limit_sw_angle=math.radians(-60)
 	
 	def __init__(self,*args):
 		super().__init__(*args)
@@ -43,7 +43,6 @@ class Arm(l6470.Stepper):
 	
 	def goto(self,angle):
 		"""Absolute move to an angle(radians)."""
-		print(angle,round(angle/self.resolution*128))
 		super().goto(round(angle/self.resolution*128))
 	
 	def nrun(self,angular_velocity):
@@ -73,10 +72,10 @@ class DeltaRobot(object):
 		atexit.register(self.hiz)
 		
 		self.kinematics=ParallelKinematicsModel(
-			e=100
-			f=327.040
-			re=378.825
-			rf=155.0
+			e=95, #105.587,
+			f=327.040,
+			re=378.825,
+			rf=155.0, #127.000,
 		)
 	
 	def hiz(self):
@@ -133,12 +132,15 @@ class DeltaRobot(object):
 				oldarm.wait()
 				oldarm=arm
 	
-	def move(self,point):
-		angles=self.kinematics.inverse(point)
-		for arm,angle in zip(self.arms,angles):
-			arm.goto(float(-angle))
-		self.wait()
-		return self.position
+	def move(self,point,interpolation="simple"):
+		if interpolation in ["simple","reiner"]:
+			angles=self.kinematics.inverse(point)
+			for arm,angle in zip(self.arms,angles):
+				target=float(-angle)
+				#if interpolation=="reiner":
+					#arm["max_speed"]=
+				
+				arm.goto(target)
 	
 	@property
 	def position(self):
@@ -161,7 +163,7 @@ class DeltaRobot(object):
 				angle=math.radians(angle)
 				self.move([math.sin(angle)*150,math.cos(angle)*150,-350])
 				self.wait()
-
+	
 if __name__=="__main__":
 	import pirate430
 	spi=pirate430.SPI()
