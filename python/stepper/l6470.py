@@ -19,8 +19,16 @@ def split_bytes(value,num_bytes=None):
 				break
 	return reversed(s)
 
-class StepperException(Exception):
+class StepperBaseException(BaseException):
+	"""All exceptions related to the stepper."""
 	status_bits=OrderedDict()
+	
+	def __init__(self,motor_driver,doc=None,other_exceptions=()):
+		self.motor_driver=motor_driver
+		if doc is not None:
+			self.__doc__=doc
+		self.other_exceptions=other_exceptions
+	
 	@classmethod
 	def register_status_bit(cls,bit_name):
 		"""Decorator to associate child exception with bits from the status register."""
@@ -28,30 +36,55 @@ class StepperException(Exception):
 			cls.status_bits[bit_name]=child_exception
 			return child_exception
 		return wrapper
-@StepperException.register_status_bit("OCD")
+	
+	def __repr__(self):
+		if len(self.other_exceptions)==0:
+			others=""
+		else:
+			others=",%r" % (self.other_exceptions)
+		return "%s(%r,%r%s)" % (self.__class__.__name__,self.motor_driver,self.__doc__,others)
+	def __str__(self):
+		if len(self.other_exceptions)==0:
+			others=""
+		else:
+			others="\nOthers: %r" % (self.other_exceptions)
+		return "%s on %r%s" % (self.__doc__,self.motor_driver,others)
+
+class StepperException(StepperBaseException,Exception):
+	"""Anything that's not normal behavoir."""
+
+@StepperBaseException.register_status_bit("OCD")
 class OCD(StepperException):
+	"""Overcurrent"""
 	pass
-@StepperException.register_status_bit("TH_SD")
+@StepperBaseException.register_status_bit("TH_SD")
 class TH_SD(StepperException):
+	"""Thermal shutdown"""
 	pass
-@StepperException.register_status_bit("TH_WRN")
+@StepperBaseException.register_status_bit("TH_WRN")
 class TH_WRN(StepperException,Warning):
+	"""Thermal warning"""
 	pass
-@StepperException.register_status_bit("STEP_LOSS_A")
-@StepperException.register_status_bit("STEP_LOSS_B")
+@StepperBaseException.register_status_bit("STEP_LOSS_A")
+@StepperBaseException.register_status_bit("STEP_LOSS_B")
 class STEP_LOSS(StepperException):
+	"""Step Loss"""
 	pass
-@StepperException.register_status_bit("UVLO")
+@StepperBaseException.register_status_bit("UVLO")
 class UVLO(StepperException):
+	"""Undervoltage"""
 	pass
-@StepperException.register_status_bit("WRONG_CMD")
+@StepperBaseException.register_status_bit("WRONG_CMD")
 class WRONG_CMD(StepperException,AttributeError):
+	"""Wrong command"""
 	pass
-@StepperException.register_status_bit("NOTPERF_CMD")
+@StepperBaseException.register_status_bit("NOTPERF_CMD")
 class NOTPERF_CMD(StepperException,ValueError):
+	"""Can't perform command(perhaps wrong arguments or already in motion)"""
 	pass
-@StepperException.register_status_bit("SW_EVN")
-class SW_EVN(BaseException):
+@StepperBaseException.register_status_bit("SW_EVN")
+class SW_EVN(StepperBaseException):
+	"""Limit switch event"""
 	pass
 
 class Stepper(object):
@@ -211,13 +244,13 @@ class Stepper(object):
 	def goto(self,position):
 		"""Absolute move to position though the shortest path(could wrap around)."""
 		self.spi.xfer(self._commands["GOTO"])
-		for b in split_bytes(abs(position),num_bytes=3):
+		for b in split_bytes(position%(2**22),num_bytes=3):
 			self.spi.xfer(b)
 	
 	def goto_dir(self,position,direction):
 		"""Absolute move to position though the shortest path, by explicitly defining a direction."""
 		self.spi.xfer(self._commands["GOTO_DIR"]+direction)
-		for b in split_bytes(abs(position),num_bytes=3):
+		for b in split_bytes(position%(2**22),num_bytes=3):
 			self.spi.xfer(b)
 	
 	def go_until(self,speed,direction,mark=False):
@@ -300,12 +333,34 @@ class Stepper(object):
 		"""Returns fancy status dict."""
 		return self._parse_status(self["status"])
 	
-	def check_errors(self):
+	def check_errors(self,status=None):
 		"""Checks the status and raises exceptions if needed."""
-		status=self.get_status() #cache the status
-		for possible_error,exception in StepperException.status_bits.items():
+		if status is None:
+			status=self.get_status()
+		exceptions=[]
+		for possible_error,possible_exception in StepperException.status_bits.items():
 			if status[possible_error]:
-				raise exception
+				exceptions.append(possible_exception)
+		if len(exceptions)==0:
+			return
+		else:
+			raise exceptions[0](self,other_exceptions=[other(self) for other in exceptions[1:]])
+	
+	def wait(self):
+		"""Blocks while busy."""
+		while True:
+			status=self.get_status()
+			try:
+				self.check_errors(status)
+			except STEP_LOSS:
+				pass
+			except Exception as e:
+				raise
+			if not status["BUSY"]:
+				break
+	
+	def __repr__(self):
+		return "L6460(%r)" % (self.spi,)
 
 if __name__=="__main__":
 	import pirate430
@@ -330,12 +385,10 @@ if __name__=="__main__":
 		try:
 			while(1):
 				s.move(10000*100)
-				while s.status["BUSY"]:
-					pass
+				s.wait()
 				
 				s.move(-(10000+128//8)*100)
-				while s.status["BUSY"]:
-					pass
+				s.wait()
 				
 				s.check_errors()
 		except:
