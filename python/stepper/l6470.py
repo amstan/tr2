@@ -359,6 +359,19 @@ class Stepper(object):
 			if not status["BUSY"]:
 				break
 	
+	def calibrate(self,speed=5000):
+		try:
+			self.go_until(speed,0)
+			self.wait()
+		except SW_EVN:
+			pass
+		
+		try:
+			self.release_sw(1)
+			self.wait()
+		except SW_EVN:
+			pass
+	
 	def __repr__(self):
 		return "L6460(%r)" % (self.spi,)
 
