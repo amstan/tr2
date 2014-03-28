@@ -11,6 +11,12 @@
 #include "SystemUart.h"
 #include "SystemGpio.h"
 
+#include "TrLeds.h"
+#include "TrMotorDrivers.h"
+
+#define UART_BUFSIZE 256
+#define UART_BAUD 19200
+
 #define CMD_BUFSIZE 512
 
 /* Protocol Message Classes ***************************************************/
@@ -33,11 +39,17 @@ typedef enum TrProtocolCommand_t {
 typedef enum TrUserLedCommand_t {
     TrUserLedCommand_Enable,
     TrUserLedCommand_Disable,
-    TrUserLedCommand_Toggle
+    TrUserLedCommand_Toggle,
+    TrUserLedCommand_Get
 } TrUserLedCommand_t;
+
+typedef enum TrMotorDriverCommand_t {
+    TrMotorDriverCommand_RawSpi
+} TrMotorDriverCommand_t;
 
 /* Core Protocol **************************************************************/
 
+void TrProtocolInit(void);
 void TrParseCommand(void);
 
 void TrBadCrc(void);
@@ -51,10 +63,13 @@ uint16_t TrComputeChecksum(uint32_t *buf, uint32_t length);
 
 /* User LEDs ******************************************************************/
 
-#define LED_COUNT 4
-#define LED_START 12
-
 void TrParseUserLedCommand(uint32_t *buf, uint32_t *length);
+
+/* Motor Drivers **************************************************************/
+
+#define MOTOR_COUNT 4
+
+void TrParseMotorDriverCommand(uint32_t *buf, uint32_t *length);
 
 #endif
 

@@ -8,9 +8,29 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-#define ADDR_GPIO 0x40020000
-#define GPIO_REG_SPACING 0x0400
-#define SystemGpio (*((volatile SystemGpio_t *)ADDR_GPIO))
+#define AddrGpioA 0x40020000
+#define AddrGpioB 0x40020400
+#define AddrGpioC 0x40020800
+#define AddrGpioD 0x40020C00
+#define AddrGpioE 0x40021000
+#define AddrGpioF 0x40021400
+#define AddrGpioG 0x40021800
+#define AddrGpioH 0x40021C00
+#define AddrGpioI 0x40022000
+#define AddrGpioJ 0x40022400
+#define AddrGpioK 0x40022800
+
+#define SystemGpioA (*((volatile SystemGpioModule_t *)AddrGpioA))
+#define SystemGpioB (*((volatile SystemGpioModule_t *)AddrGpioB))
+#define SystemGpioC (*((volatile SystemGpioModule_t *)AddrGpioC))
+#define SystemGpioD (*((volatile SystemGpioModule_t *)AddrGpioD))
+#define SystemGpioE (*((volatile SystemGpioModule_t *)AddrGpioE))
+#define SystemGpioF (*((volatile SystemGpioModule_t *)AddrGpioF))
+#define SystemGpioG (*((volatile SystemGpioModule_t *)AddrGpioG))
+#define SystemGpioH (*((volatile SystemGpioModule_t *)AddrGpioH))
+#define SystemGpioI (*((volatile SystemGpioModule_t *)AddrGpioI))
+#define SystemGpioJ (*((volatile SystemGpioModule_t *)AddrGpioJ))
+#define SystemGpioK (*((volatile SystemGpioModule_t *)AddrGpioK))
 
 /* GPIO Pin Definitions *******************************************************/
 
@@ -276,33 +296,6 @@ typedef struct SystemGpioModule_t {
     uint32_t Lock;
     SystemGpioAltFunction_t Function;
 } SystemGpioModule_t;
-
-/* GPIO Ports *****************************************************************/
-
-typedef struct SystemGpio_t {
-    SystemGpioModule_t A;
-    uint8_t __pad1[GPIO_REG_SPACING - sizeof(SystemGpioModule_t)];
-    SystemGpioModule_t B;
-    uint8_t __pad2[GPIO_REG_SPACING - sizeof(SystemGpioModule_t)];
-    SystemGpioModule_t C;
-    uint8_t __pad3[GPIO_REG_SPACING - sizeof(SystemGpioModule_t)];
-    SystemGpioModule_t D;
-    uint8_t __pad4[GPIO_REG_SPACING - sizeof(SystemGpioModule_t)];
-    SystemGpioModule_t E;
-    uint8_t __pad5[GPIO_REG_SPACING - sizeof(SystemGpioModule_t)];
-    SystemGpioModule_t F;
-    uint8_t __pad6[GPIO_REG_SPACING - sizeof(SystemGpioModule_t)];
-    SystemGpioModule_t G;
-    uint8_t __pad7[GPIO_REG_SPACING - sizeof(SystemGpioModule_t)];
-    SystemGpioModule_t H;
-    uint8_t __pad8[GPIO_REG_SPACING - sizeof(SystemGpioModule_t)];
-    SystemGpioModule_t I;
-    uint8_t __pad9[GPIO_REG_SPACING - sizeof(SystemGpioModule_t)];
-    SystemGpioModule_t J;
-    uint8_t __pad10[GPIO_REG_SPACING - sizeof(SystemGpioModule_t)];
-    SystemGpioModule_t K;
-    uint8_t __pad11[GPIO_REG_SPACING - sizeof(SystemGpioModule_t)];
-} SystemGpio_t;
 
 #endif
 

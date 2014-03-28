@@ -112,33 +112,4 @@ This command toggles one of the user LEDs.
 
 Acknowledge user LED command.
 
-##### Slave Acknowledge
-
-* Value  : 3
-* Sender : Slave
-
-This command tells the host that the most recent LED command was successful.
-
-###### Parameters
-
-None
-
-###### Response
-
-None
-
-##### Slave Negative Acknowledge
-
-* Value:  : 4
-* Sender  : Slave
-
-This command tells the host that the most recent LED command was unsuccessful.
-
-###### Parameters
-
-None
-
-###### Response
-
-None
 
