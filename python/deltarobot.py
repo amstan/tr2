@@ -10,12 +10,24 @@ import stepper.l6470 as l6470
 from kinematics.kinematics import ParallelKinematicsModel
 
 class Arm(l6470.Stepper):
-	resolution=math.radians(1.8/3) #angle per step
+	position_resolution=math.radians(1.8/3) #radians/step
+	speed_resolution=(2**(-28))/(250*(10**(-9)))*position_resolution #(radians/seconds)/(steps/tick)
 	limit_sw_angle=math.radians(-60)
 	
 	def __init__(self,*args):
 		super().__init__(*args)
-		self["config"]=0b0001111010001000 #lower pwm frequency
+		#0b 000 111 10   1 0 0 0 1 000
+		self["config"]=(
+			(0b000<<13)+ #divider int
+			(0b111<<10)+ #divider dec
+			(0b11<<8)+ #slew rate
+			(0b1<<7)+ #overcurrent shutdown
+			(0b0<<5)+ #voltage compensation
+			(0b0<<4)+ #switch behavoir(hardstop interrupt)
+			(0b0<<3)+ #ext clock
+			(0b000) #clock
+		)
+		
 		self["step_mode"]=7 #128 microstepping
 		self["int_speed"]=0
 		self["st_slp"]=0
@@ -43,20 +55,20 @@ class Arm(l6470.Stepper):
 	
 	def goto(self,angle):
 		"""Absolute move to an angle(radians)."""
-		super().goto(round(angle/self.resolution*128))
+		super().goto(round(angle/self.position_resolution*128))
 	
-	def nrun(self,angular_velocity):
-		super().run(angular_velocity)
+	def run(self,angular_velocity):
+		super().run(angular_velocity/self.speed_resolution)
 	
 	@property
 	def position(self):
-		return self["abs_pos"]*self.resolution/128
+		return self["abs_pos"]*self.position_resolution/128
 	
 	@property
 	def speed(self):
-		return self["speed"]
+		return self["speed"]*self.speed_resolution
 	
-	def test_zigzag(self,a=5000,b=15000):
+	def test_zigzag(self,a=math.radians(0),b=math.radians(-40)):
 		while 1:
 			self.goto(a)
 			self.wait()
@@ -163,7 +175,17 @@ class DeltaRobot(object):
 				angle=math.radians(angle)
 				self.move([math.sin(angle)*150,math.cos(angle)*150,-350])
 				self.wait()
-	
+
+import time
+def _speed_test(a):
+	oldtime=time.time()
+	while a.status["BUSY"]:
+		a.check_errors()
+		curtime=time.time()
+		delta=curtime-oldtime
+		print(delta,a.speed,a.position,a.position+a.speed*delta)
+		oldtime=curtime
+
 if __name__=="__main__":
 	import pirate430
 	spi=pirate430.SPI()
@@ -173,4 +195,4 @@ if __name__=="__main__":
 	r.calibrate()
 	print("Done!")
 	
-	a=r.arms[0]
+	a=r.arms[1]
