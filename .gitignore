@@ -1,3 +1,5 @@
 *.swp
 protocolTest/bin/
 protocolTest/obj/
+protocolTest/Tr2Controller/bin/
+protocolTest/Tr2Controller/obj/

@@ -22,6 +22,9 @@ void TrLedsInit(void)
     SystemGpioE.Reset.P13 = true;
     SystemGpioE.Reset.P14 = true;
     SystemGpioE.Reset.P15 = true;
+
+    SystemGpioE.Mode.P5 = SystemGpioMode_Output;
+    SystemGpioE.Reset.P5 = true;
 }
 
 bool TrLedsValidateNum(uint32_t ledNum)
@@ -62,5 +65,12 @@ bool TrLedsToggle(uint32_t ledNum)
     }
     
     return false;
+}
+
+/* Power LED ******************************************************************/
+
+bool TrPowerLedSet(bool state)
+{
+    SystemGpioE.Output.P5 = !state;
 }
 

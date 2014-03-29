@@ -200,5 +200,14 @@ typedef struct SystemClockEnabled_t {
     unsigned /* Pad */     : 10;
 } SystemClockEnabled_t;
 
+/* Utility ********************************************************************/
+
+typedef enum SystemClockType_t {
+    SystemClockType_Hsi,
+    SystemClockType_Hse,
+    SystemClockType_Pll
+} SystemClockType_t;
+
+bool SystemClockEnable(SystemClockType_t clock);
 
 #endif

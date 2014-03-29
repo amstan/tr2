@@ -22,14 +22,15 @@
 /* Protocol Message Classes ***************************************************/
 
 typedef enum TrMessageClass_t {
-    TrMessageClass_UserLed,
     TrMessageClass_Protocol,
+    TrMessageClass_UserLed,
     TrMessageClass_MotorDriver
 } TrMessageClass_t;
 
 /* Protocol Message Types *****************************************************/
 
 typedef enum TrProtocolCommand_t {
+    TrProtocolCommand_Nop,
     TrProtocolCommand_BadCrc,
     TrProtocolCommand_Acknowledge,
     TrProtocolCommand_NegativeAcknowledge,
@@ -59,6 +60,10 @@ void TrInvalidMessageClass(void);
 bool TrValidateChecksum(uint32_t *buf, uint32_t length);
 void TrAppendChecksum(uint32_t *buf, uint32_t length);
 uint16_t TrComputeChecksum(uint32_t *buf, uint32_t length);
+
+/* Protocol *******************************************************************/
+
+void TrParseProtocolCommand(uint32_t *buf, uint32_t *length);
 
 /* User LEDs ******************************************************************/
 

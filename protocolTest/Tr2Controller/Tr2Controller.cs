@@ -41,6 +41,7 @@ namespace protocolTest
 			if (state == Tr2State.Closed)
 			{
 				serial.Open ();
+				serial.DiscardInBuffer ();
 				state = Tr2State.Open;
 			}
 			else

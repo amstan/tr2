@@ -41,6 +41,8 @@ void TrMotorDriversInit(void)
     SystemSpi2.Config.InternalSelect = true;
     SystemSpi2.Config.DeviceMode = SystemSpiDeviceMode_Master;
     SystemSpi2.Config.Prescaler = SystemSpiPrescaler_128;
+    SystemSpi2.Config.ClockPhase = SystemSpiClockPhase_Second;
+    SystemSpi2.Config.ClockIdle = SystemSpiClockIdle_High;
     SystemSpi2.Config.Enabled = true;
 }
 

@@ -3,12 +3,18 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "protocolTest", "protocolTest.csproj", "{C86E9667-59A4-4A4B-9023-2880CACF82F8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tr2Controller", "Tr2Controller\Tr2Controller.csproj", "{44EBA245-A77D-4995-9D2C-BFCA61993EDB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{44EBA245-A77D-4995-9D2C-BFCA61993EDB}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{44EBA245-A77D-4995-9D2C-BFCA61993EDB}.Debug|x86.Build.0 = Debug|Any CPU
+		{44EBA245-A77D-4995-9D2C-BFCA61993EDB}.Release|x86.ActiveCfg = Release|Any CPU
+		{44EBA245-A77D-4995-9D2C-BFCA61993EDB}.Release|x86.Build.0 = Release|Any CPU
 		{C86E9667-59A4-4A4B-9023-2880CACF82F8}.Debug|x86.ActiveCfg = Debug|x86
 		{C86E9667-59A4-4A4B-9023-2880CACF82F8}.Debug|x86.Build.0 = Debug|x86
 		{C86E9667-59A4-4A4B-9023-2880CACF82F8}.Release|x86.ActiveCfg = Release|x86

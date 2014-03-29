@@ -6,7 +6,7 @@
 
 BIN = app
 OPT = 0
-F_CPU = 16000000UL
+F_CPU = 42000000UL
 
 # Compiler Configuration #######################################################
 
