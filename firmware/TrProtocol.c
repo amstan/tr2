@@ -209,8 +209,8 @@ void TrParseMotorDriverCommand(uint32_t *buf, uint32_t *length)
             
             if(TrMotorRawSpi(driverNum, &buf[4], spiLength))
             {
-                // TODO: Send back the buffer
-                TrAcknowledge();
+                TrAppendChecksum(buf, *length - 2);
+                SystemUartTxBuf(&SystemUart1, buf, *length);
             }
             else
             {

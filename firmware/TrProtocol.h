@@ -48,7 +48,7 @@ typedef enum TrMotorDriverCommand_t {
 
 /* Core Protocol **************************************************************/
 
-void TrProtocolInit(void);
+void TrInit(void);
 void TrParseCommand(void);
 
 void TrBadCrc(void);

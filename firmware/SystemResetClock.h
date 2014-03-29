@@ -8,11 +8,11 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-#define ADDR_RCC     0x40023800
-#define ADDR_CLOCKEN       0x30
+#define AddrPll     0x40023804
+#define AddrClockEn 0x40023830
 
-#define SystemClockEnabled                                          \
-    (*((volatile SystemClockEnabled_t *)(ADDR_RCC + ADDR_CLOCKEN)))
+#define SystemPll          (*((volatile SystemPll_t *)(AddrPll)))
+#define SystemClockEnabled (*((volatile SystemClockEnabled_t *)(AddrClockEn)))
 
 typedef struct SystemClockEnabled_t {
     // RCC_AHB1ENR
@@ -112,5 +112,22 @@ typedef struct SystemClockEnabled_t {
     bool     SPI6          :  1;
     unsigned /* Pad */     : 10;
 } SystemClockEnabled_t;
+
+typedef enum SystemPllClockSource_t {
+    SystemPllClockSource_Hsi,
+    SystemPllClockSource_Hse
+} SystemPllClockSource_t;
+
+typedef struct SystemPll_t {
+    uint32_t               AudioPrescaler       : 6;
+    uint32_t               Multiplier           : 9;
+    unsigned               /* Pad */            : 1;
+    uint32_t               SystemClockPrescaler : 2;
+    unsigned               /* Pad */            : 4;
+    SystemPllClockSource_t ClockSource          : 1;
+    unsigned               /* Pad */            : 1;
+    uint32_t               UsbSdioPrescaler     : 4;
+    unsigned               /* Pad */            : 4;
+} SystemPll_t;
 
 #endif
