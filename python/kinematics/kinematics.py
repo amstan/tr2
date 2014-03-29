@@ -1,8 +1,8 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 import numpy
-from nspheres import *
+from .nspheres import *
 
 def rotate_z(point, angle):
 	"""Rotates coordonates about the z=0 line. Useful in rotating for the other joints."""
@@ -62,6 +62,8 @@ class ParallelKinematicsModel(object):
 		self.En_offset=inscribed_circle_radius*self.e #this is relative to E0
 	
 	def forward(self,thetas):
+		"""Given angles return 3d point."""
+		
 		Jns=[]
 		for n,theta_n in enumerate(thetas):
 			Jn=numpy.array([numpy.cos(theta_n)*self.rf,0,-numpy.sin(theta_n)*self.rf]) #Jn offset from Fn
@@ -73,9 +75,11 @@ class ParallelKinematicsModel(object):
 		Jns=-numpy.array(Jns) #move it under the robot
 		E0=intersectionpoint(numpy.transpose(Jns), numpy.ones((3,1))*self.re)
 		E0*=-1 #move it under the robot
-		return E0
+		return E0.reshape((3,))
 	
 	def inverse(self,pos):
+		"""Given 3d point return angles."""
+		
 		thetas=[]
 		for n in range(3):
 			#find En
