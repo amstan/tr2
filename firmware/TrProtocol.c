@@ -19,6 +19,24 @@ SystemUartBuffer_t uartBuf = {
 void TrInit(void)
 {
     TrLedsInit();
+    
+    // Configure the PLL for 42MHz. TODO: Make a nice clock API
+    SystemPll.PllPrescaler = 40;
+    SystemPll.Multiplier = 210;
+    SystemPll.SystemClockPrescaler = SystemPllMainPrescaler_2;
+    SystemPll.ClockSource = SystemPllClockSource_Hsi;
+    
+    bool pllEnabled = SystemClockEnable(SystemClockType_Pll);
+    while(!pllEnabled)
+    {
+        TrPowerLedSet(true);
+        for(volatile int i = 0; i < 500000; i++);
+        TrPowerLedSet(false);
+        for(volatile int i = 0; i < 500000; i++);
+    }
+    
+    SystemClockConfig.ClockSource = SystemClockSource_Pll;
+    
     TrMotorDriversInit();
     
     // Enable the UART
@@ -48,11 +66,14 @@ void TrParseCommand(void)
 
         switch(messageClass)
         {
-            case TrMessageClass_UserLed:
-                TrParseUserLedCommand(commandBuf, &bytesReceived);
+            case TrMessageClass_Protocol:
+                TrParseProtocolCommand(commandBuf, &bytesReceived);
                 break;
             case TrMessageClass_MotorDriver:
                 TrParseMotorDriverCommand(commandBuf, &bytesReceived);
+                break;
+            case TrMessageClass_UserLed:
+                TrParseUserLedCommand(commandBuf, &bytesReceived);
                 break;
             default:
                 TrInvalidMessageClass();
@@ -133,6 +154,25 @@ uint16_t TrComputeChecksum(uint32_t *buf, uint32_t length)
     }
     
     return checksum;
+}
+
+/* Protocol *******************************************************************/
+
+void TrParseProtocolCommand(uint32_t *buf, uint32_t *length)
+{
+    if(*length < 4)
+        return;
+
+    uint32_t command = buf[1];
+
+    switch(command)
+    {
+        case TrProtocolCommand_Nop:
+            TrAcknowledge();
+            break;
+        default:
+            TrNegativeAcknowledge();
+    }
 }
 
 /* User LEDs ******************************************************************/

@@ -4,8 +4,8 @@ namespace protocolTest
 {
 	public enum MessageClass : byte
 	{
-		UserLed,
 		Protocol,
+		UserLed,
 		MotorDriver
 	}
 }

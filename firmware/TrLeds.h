@@ -25,4 +25,8 @@ bool TrLedsSet(uint32_t ledNum);
 bool TrLedsClear(uint32_t ledNum);
 bool TrLedsToggle(uint32_t ledNum);
 
+/* Power LED ******************************************************************/
+
+bool TrPowerLedSet(bool state);
+
 #endif
