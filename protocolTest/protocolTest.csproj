@@ -37,9 +37,9 @@
     <Compile Include="Tr2Controller.cs" />
     <Compile Include="Tr2State.cs" />
     <Compile Include="MessageClass.cs" />
-    <Compile Include="LedCommand.cs" />
-    <Compile Include="ProtocolCommand.cs" />
-    <Compile Include="MotorDriverCommand.cs" />
+    <Compile Include="LedMessageType.cs" />
+    <Compile Include="ProtocolMessageType.cs" />
+    <Compile Include="MotorDriverMessageType.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

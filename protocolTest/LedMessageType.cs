@@ -2,7 +2,7 @@
 
 namespace protocolTest
 {
-	public enum LedCommand : byte
+	public enum LedMessageType : byte
 	{
 		Enable,
 		Disable,

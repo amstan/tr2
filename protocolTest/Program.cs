@@ -34,7 +34,9 @@ namespace protocolTest
 				controller.DisableLed (0);
 				controller.DisableLed (2);
 
-				controller.RawSpiMotorCommand (0, new byte[] { 1, 3, 88, 20 });
+				// Read the status register
+				var command = new byte[] { 0x39, 0x00, 0x00 };
+				controller.RawSpiMotorCommand (0, command);
 			}
 		}
 	}

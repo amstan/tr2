@@ -86,7 +86,7 @@ namespace protocolTest
 
 			var command = new byte[5];
 			command [0] = (byte)MessageClass.UserLed;
-			command [1] = (byte)LedCommand.Enable;
+			command [1] = (byte)LedMessageType.Enable;
 			command [2] = (byte)ledNum;
 
 			appendChecksum (command);
@@ -99,7 +99,7 @@ namespace protocolTest
 
 			var command = new byte[5];
 			command [0] = (byte)MessageClass.UserLed;
-			command [1] = (byte)LedCommand.Disable;
+			command [1] = (byte)LedMessageType.Disable;
 			command [2] = (byte)ledNum;
 
 			appendChecksum (command);
@@ -112,7 +112,7 @@ namespace protocolTest
 
 			var command = new byte[5];
 			command [0] = (byte)MessageClass.UserLed;
-			command [1] = (byte)LedCommand.Toggle;
+			command [1] = (byte)LedMessageType.Toggle;
 			command [2] = (byte)ledNum;
 
 			appendChecksum (command);
@@ -132,13 +132,20 @@ namespace protocolTest
 			var command = new byte[6 + message.Length];
 
 			command [0] = (byte)MessageClass.MotorDriver;
-			command [1] = (byte)MotorDriverCommand.RawSpi;
+			command [1] = (byte)MotorDriverMessageType.RawSpi;
 			command [2] = (byte)driverNum;
 			command [3] = (byte)message.Length;
 			Array.Copy (message, 0, command, 4, message.Length);
-			appendChecksum (command);
 
-			sendSimpleCommand (command);
+			appendChecksum (command);
+			serial.Write (command, 0, command.Length);
+
+			waitForBytes (command.Length);
+			serial.Read (command, 0, command.Length);
+			validateChecksum (command);
+
+			// Put the response back into the message
+			Array.Copy (command, 4, message, 0, message.Length);
 		}
 
 		private void validateChecksum(byte[] command)
@@ -180,7 +187,7 @@ namespace protocolTest
 			serial.Read (response, 0, 4);
 
 			if (response [0] != (byte)MessageClass.Protocol
-			   || response [1] != (byte)ProtocolCommand.Acknowledge)
+			   || response [1] != (byte)ProtocolMessageType.Acknowledge)
 				throw new Exception ("Tr2 failed to acknowledge command.");
 
 			validateChecksum (response);
