@@ -6,23 +6,53 @@
 
 /* Core Protocol **************************************************************/
 
+
+uint32_t uartTxBuf[UART_BUFSIZE];
+uint32_t uartRxBuf[UART_BUFSIZE];
+SystemUartBuffer_t uartBuf = {
+    .Tx.Buffer = uartTxBuf,
+    .Tx.Size = UART_BUFSIZE,
+    .Rx.Buffer = uartRxBuf,
+    .Rx.Size = UART_BUFSIZE
+};
+
+void TrInit(void)
+{
+    TrLedsInit();
+    TrMotorDriversInit();
+    
+    // Enable the UART
+    SystemClockEnabled.GpioA = true;
+    
+    // Configure the UART
+    SystemGpioA.Mode.P9 = SystemGpioMode_Alternate;
+    SystemGpioA.Mode.P10 = SystemGpioMode_Alternate;
+    SystemGpioA.Function.P9 = 7;
+    SystemGpioA.Function.P10 = 7;
+
+    SystemUartInit(&SystemUart1, &uartBuf, UART_BAUD);
+}
+
 void TrParseCommand(void)
 {
     static uint32_t commandBuf[CMD_BUFSIZE];
     static uint32_t bytesReceived = 0;
     
     int32_t bytesToRead = SystemUartBytesToRead(&SystemUart1);
-    if(bytesToRead)
+    if(bytesToRead > 0)
     {
         SystemUartRxBuf(&SystemUart1, &commandBuf[bytesReceived], bytesToRead);
         bytesReceived += bytesToRead;
-    
+        
         TrMessageClass_t messageClass = commandBuf[0];
 
         switch(messageClass)
         {
             case TrMessageClass_UserLed:
                 TrParseUserLedCommand(commandBuf, &bytesReceived);
+                break;
+            case TrMessageClass_MotorDriver:
+                TrParseMotorDriverCommand(commandBuf, &bytesReceived);
                 break;
             default:
                 TrInvalidMessageClass();
@@ -79,7 +109,6 @@ bool TrValidateChecksum(uint32_t *buf, uint32_t length)
     
     if(checksum != computedChecksum)
     {
-        TrBadCrc();
         return false;
     }
 
@@ -108,44 +137,92 @@ uint16_t TrComputeChecksum(uint32_t *buf, uint32_t length)
 
 /* User LEDs ******************************************************************/
 
+void TrExecuteLedCommand(bool (*ledCommand)(uint32_t), uint32_t ledNum)
+{
+    if(ledCommand(ledNum))
+    {
+        TrAcknowledge();
+    }
+    else
+    {
+        TrNegativeAcknowledge();
+    }
+}
+
 void TrParseUserLedCommand(uint32_t *buf, uint32_t *length)
 {
     if(*length < 5)
+        return;
+    
+    if(!TrValidateChecksum(buf, *length))
     {
+        TrBadCrc();
+        *length = 0;
         return;
     }
     
-    if(TrValidateChecksum(buf, *length))
+    TrUserLedCommand_t command = buf[1];
+    uint32_t ledNum = buf[2];
+    
+    switch(command)
     {
-        TrUserLedCommand_t command = buf[1];
-        uint32_t ledNum = buf[2];
-        
-        if(ledNum >= LED_COUNT)
-        {
+        case TrUserLedCommand_Enable:
+            TrExecuteLedCommand(&TrLedsSet, ledNum);
+            break;
+        case TrUserLedCommand_Disable:
+            TrExecuteLedCommand(&TrLedsClear, ledNum);
+            break;
+        case TrUserLedCommand_Toggle:
+            TrExecuteLedCommand(&TrLedsToggle, ledNum);
+            break;
+        default:
             TrNegativeAcknowledge();
-        }
-        else
-        {
-            switch(command)
-            {
-                case TrUserLedCommand_Enable:
-                    SystemGpio.E.Set.Port |= (1 << (ledNum + LED_START));
-                    TrAcknowledge();
-                    break;
-                case TrUserLedCommand_Disable:
-                    SystemGpio.E.Output.Port &= ~(1 << (ledNum + LED_START));
-                    TrAcknowledge();
-                    break;
-                case TrUserLedCommand_Toggle:
-                    SystemGpio.E.Output.Port ^= (1 << (ledNum + LED_START));
-                    TrAcknowledge();
-                    break;
-                default:
-                    TrNegativeAcknowledge();
-                    break;
-            }
-        }
+            break;
     }
-
+    
     *length = 0;
 }
+
+/* Motor Drivers **************************************************************/
+
+void TrParseMotorDriverCommand(uint32_t *buf, uint32_t *length)
+{
+    if(*length < 5)
+        return;
+    
+    TrMotorDriverCommand_t command = buf[1];
+    uint32_t driverNum = buf[2];
+    uint32_t spiLength = buf[3];
+    
+    switch(command)
+    {
+        case TrMotorDriverCommand_RawSpi:
+            if(*length < spiLength + 6)
+                return;
+            
+            if(!TrValidateChecksum(buf, *length))
+            {
+                TrBadCrc();
+                *length = 0;
+                return;
+            }
+            
+            if(TrMotorRawSpi(driverNum, &buf[4], spiLength))
+            {
+                TrAppendChecksum(buf, *length - 2);
+                SystemUartTxBuf(&SystemUart1, buf, *length);
+            }
+            else
+            {
+                TrNegativeAcknowledge();
+            }
+            
+            *length = 0;
+            break;
+        default:
+            TrNegativeAcknowledge();
+            *length = 0;
+            break;
+    }
+}
+

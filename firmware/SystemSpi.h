@@ -10,8 +10,20 @@
 
 #include "SystemResetClock.h"
 
-#define ADDR_SPI 0x40003800
-#define SystemSpi (*((volatile SystemSpi_t *)ADDR_SPI))
+#define AddrSpi1 0x40013000
+#define AddrSpi2 0x40003800
+#define AddrSpi3 0x40003C00
+#define AddrSpi4 0x40013400
+#define AddrSpi5 0x40015000
+#define AddrSpi6 0x40015400
+
+#define SystemSpi1 (*((volatile SystemSpiModule_t *)AddrSpi1))
+#define SystemSpi2 (*((volatile SystemSpiModule_t *)AddrSpi2))
+#define SystemSpi3 (*((volatile SystemSpiModule_t *)AddrSpi3))
+#define SystemSpi4 (*((volatile SystemSpiModule_t *)AddrSpi4))
+#define SystemSpi5 (*((volatile SystemSpiModule_t *)AddrSpi5))
+#define SystemSpi6 (*((volatile SystemSpiModule_t *)AddrSpi6))
+
 
 /* Clock Phase ****************************************************************/
 
@@ -143,20 +155,6 @@ typedef struct SystemSpiModule_t {
     const uint32_t TxCrc : 16;
     unsigned /* Pad */   : 16;
 } SystemSpiModule_t;
-
-typedef struct SystemSpi_t {
-    SystemSpiModule_t S2;
-    uint32_t __pad1[249];
-    SystemSpiModule_t S3;
-    uint32_t __pad2[15360 + 249];
-    SystemSpiModule_t S1;
-    uint32_t __pad3[249];
-    SystemSpiModule_t S4;
-    uint32_t __pad4[(5 * 256) + 249];
-    SystemSpiModule_t S5;
-    uint32_t __pad5[249];
-    SystemSpiModule_t S6;
-} SystemSpi_t;
 
 /* Write/Read *****************************************************************/
 

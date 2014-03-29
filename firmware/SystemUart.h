@@ -15,8 +15,8 @@
 #define AddrUart1  0x40011000
 #define AddrUart2  0x40004400
 #define AddrUart3  0x40004800
-#define AddrUart4   0x40004C00
-#define AddrUart5   0x40005000
+#define AddrUart4  0x40004C00
+#define AddrUart5  0x40005000
 #define AddrUart6  0x40011400
 
 #define SystemUart1 (*((volatile SystemUartModule_t *)AddrUart1))

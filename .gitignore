@@ -1,1 +1,3 @@
 *.swp
+protocolTest/bin/
+protocolTest/obj/
