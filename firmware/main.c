@@ -14,6 +14,7 @@ int main(void)
 {
     SystemIrqEnable();
     
+    /*
     // Configure the PLL
     SystemPll.PllPrescaler = 16;
     SystemPll.Multiplier = 300;
@@ -58,6 +59,7 @@ int main(void)
     }
     
     while(1);
+    */
     
     TrInit();
 

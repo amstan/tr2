@@ -20,6 +20,8 @@ OCD_PATH = /usr/share/openocd/scripts
 OCD_SCRIPTS = board/stm32f4discovery.cfg
 OCD_PRGM = stm32f4program.cfg
 
+PROG_PATH = /dev/ttyUSB0
+
 # Source Files #################################################################
 
 LINKER = linker.ld
@@ -48,6 +50,9 @@ $(BIN).elf : $(OBJ_C) $(OBJ_S)
 
 program: all
 	openocd -s $(OCD_PATH) -f $(OCD_SCRIPTS) -c "script $(OCD_PRGM)"
+
+sprogram: all
+	stm32flash -w $(BIN).hex -v -b 115200 -g 0x00 $(PROG_PATH)
 
 debug:
 	openocd -s $(OCD_PATH) -f $(OCD_SCRIPTS)
