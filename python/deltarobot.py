@@ -8,6 +8,7 @@ import numpy
 
 import stepper.l6470 as l6470
 from kinematics.kinematics import ParallelKinematicsModel
+import time
 
 class Arm(l6470.Stepper):
 	position_resolution=math.radians(1.8/3) #radians/step
@@ -22,7 +23,7 @@ class Arm(l6470.Stepper):
 			(0b111<<10)+ #divider dec
 			(0b11<<8)+ #slew rate
 			(0b1<<7)+ #overcurrent shutdown
-			(0b0<<5)+ #voltage compensation
+			(0b1<<5)+ #voltage compensation
 			(0b0<<4)+ #switch behavoir(hardstop interrupt)
 			(0b0<<3)+ #ext clock
 			(0b000) #clock
@@ -58,7 +59,7 @@ class Arm(l6470.Stepper):
 		super().goto(round(angle/self.position_resolution*128))
 	
 	def run(self,angular_velocity):
-		super().run(angular_velocity/self.speed_resolution)
+		super().run(round(angular_velocity/self.speed_resolution))
 	
 	@property
 	def position(self):
@@ -94,13 +95,21 @@ class DeltaRobot(object):
 		"""Disables all the arms"""
 		print("Making arms safe.")
 		for arm in self.arms:
-			arm["dec"]=100
-			arm.soft_hiz()
+			try:
+				arm["dec"]=100
+				arm.soft_hiz()
+			except:
+				print("Error: could not stop an arm!")
+				pass
 	make_safe=hiz
 	
 	def stop(self):
 		for arm in self.arms:
-			arm.hard_stop()
+			try:
+				arm.hard_stop()
+			except:
+				print("Error: could not stop an arm!")
+				pass
 	
 	def wait(self):
 		"""Wait for motion to finish"""
@@ -108,6 +117,11 @@ class DeltaRobot(object):
 			arm.wait()
 	
 	def calibrate(self,speed=5000,acc=100,kval=0.5):
+		for arm in self.arms:
+			try:
+				arm.check_errors()
+			except l6470.StepperBaseException as e:
+				print(e)
 		try:
 			#raise them just a little
 			for arm in self.arms:
@@ -175,16 +189,57 @@ class DeltaRobot(object):
 				angle=math.radians(angle)
 				self.move([math.sin(angle)*150,math.cos(angle)*150,-350])
 				self.wait()
-
-import time
-def _speed_test(a):
-	oldtime=time.time()
-	while a.status["BUSY"]:
-		a.check_errors()
-		curtime=time.time()
-		delta=curtime-oldtime
-		print(delta,a.speed,a.position,a.position+a.speed*delta)
-		oldtime=curtime
+	
+	def linear(self,target,time=3,agressiveness=20):
+		"""
+		Linear motion to target
+		@arg target 3d point to go to.
+		@arg time seconds to get there
+		@arg agressiveness if this is too high it'll oscillate :)
+		"""
+		
+		def linear_interpolate(a,b,f):
+			"""Return a point in between point a and point b, depending on the factor f.
+			@arg f=0 means a, f=1 means b, f=0.5 means in the middle.
+			@todo make this accelerate and decelerate"""
+			
+			return a*(1-f)+b*f
+		
+		start_position=self.position
+		target_position=numpy.array(target)
+		#distance=numpy.linalg.norm(target-start_pos) #TODO: calculate time somehow based on this
+		
+		try:
+			start_time=time.monotonic()
+			while 1:
+				#when am i?
+				elapsed_time=time.monotonic()-start_time
+				
+				#where am i?
+				real_joints=numpy.array([-arm.position for arm in self.arms])
+				#real_position=self.kinematics.forward(joint_position)
+				
+				#where am i supposed to be?
+				wanted_position=linear_interpolate(start_position,target_position,elapsed_time/3)
+				wanted_joints=self.kinematics.inverse(wanted_position)
+				
+				#how far off am i?
+				delta_joints=wanted_joints-real_joints
+				
+				#fix
+				delta_speeds=delta_joints*20
+				for arm,speed in zip(self.arms,delta_speeds):
+					arm.run(-float(speed))
+				
+				if elapsed_time>3:
+					#near the end just move to the right spot
+					self.stop()
+					self.move(target_position)
+					self.wait()
+					break
+		except BaseException:
+			self.stop()
+			raise
 
 if __name__=="__main__":
 	import pirate430
@@ -195,4 +250,11 @@ if __name__=="__main__":
 	r.calibrate()
 	print("Done!")
 	
+	for arm in r.arms: arm.set_kval(1)
+	
 	a=r.arms[1]
+	def test_linear(a=[-100,-100,-300],b=[100,100,-350]):
+		for arm in r.arms: arm.set_speed(5000)
+		while 1:
+			r.linear(a)
+			r.linear(b)
