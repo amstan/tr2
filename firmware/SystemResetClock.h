@@ -8,11 +8,54 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-#define AddrPll     0x40023804
-#define AddrClockEn 0x40023830
+#define AddrClockCtrl 0x40023800
+#define AddrPll       0x40023804
+#define AddrClockEn   0x40023830
 
+#define SystemClockControl (*((volatile SystemClockControl_t *)(AddrClockCtrl)))
 #define SystemPll          (*((volatile SystemPll_t *)(AddrPll)))
 #define SystemClockEnabled (*((volatile SystemClockEnabled_t *)(AddrClockEn)))
+
+/* Clock Control **************************************************************/
+
+typedef struct SystemClockControl_t {
+    bool           HsiEnabled           : 1;
+    bool           HsiReady             : 1;
+    unsigned       /* Pad */            : 1;
+    uint32_t       HsiTrim              : 5;
+    const uint32_t HsiCalibration       : 8;
+    bool           HseEnabled           : 1;
+    bool           HseReady             : 1;
+    bool           HseBypass            : 1;
+    bool           ClockSecurityEnabled : 1;
+    unsigned       /* Pad */            : 4;
+    bool           PllEnabled           : 1;
+    bool           PllReady             : 1;
+    bool           PllI2sEnabled        : 1;
+    bool           PllI2sReady          : 1;
+    unsigned       /* Pad */            : 4;
+} SystemClockControl_t;
+
+/* PLL Configuration **********************************************************/
+
+typedef enum SystemPllClockSource_t {
+    SystemPllClockSource_Hsi,
+    SystemPllClockSource_Hse
+} SystemPllClockSource_t;
+
+typedef struct SystemPll_t {
+    uint32_t               AudioPrescaler       : 6;
+    uint32_t               Multiplier           : 9;
+    unsigned               /* Pad */            : 1;
+    uint32_t               SystemClockPrescaler : 2;
+    unsigned               /* Pad */            : 4;
+    SystemPllClockSource_t ClockSource          : 1;
+    unsigned               /* Pad */            : 1;
+    uint32_t               UsbSdioPrescaler     : 4;
+    unsigned               /* Pad */            : 4;
+} SystemPll_t;
+
+/* Peripheral Clocks Enabled **************************************************/
 
 typedef struct SystemClockEnabled_t {
     // RCC_AHB1ENR
@@ -113,21 +156,5 @@ typedef struct SystemClockEnabled_t {
     unsigned /* Pad */     : 10;
 } SystemClockEnabled_t;
 
-typedef enum SystemPllClockSource_t {
-    SystemPllClockSource_Hsi,
-    SystemPllClockSource_Hse
-} SystemPllClockSource_t;
-
-typedef struct SystemPll_t {
-    uint32_t               AudioPrescaler       : 6;
-    uint32_t               Multiplier           : 9;
-    unsigned               /* Pad */            : 1;
-    uint32_t               SystemClockPrescaler : 2;
-    unsigned               /* Pad */            : 4;
-    SystemPllClockSource_t ClockSource          : 1;
-    unsigned               /* Pad */            : 1;
-    uint32_t               UsbSdioPrescaler     : 4;
-    unsigned               /* Pad */            : 4;
-} SystemPll_t;
 
 #endif
