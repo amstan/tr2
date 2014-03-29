@@ -16,8 +16,11 @@ SystemUartBuffer_t uartBuf = {
     .Rx.Size = UART_BUFSIZE
 };
 
-void TrProtocolInit(void)
+void TrInit(void)
 {
+    TrLedsInit();
+    TrMotorDriversInit();
+    
     // Enable the UART
     SystemClockEnabled.GpioA = true;
     
@@ -146,27 +149,6 @@ void TrExecuteLedCommand(bool (*ledCommand)(uint32_t), uint32_t ledNum)
     }
 }
 
-void TrLedStatus(uint32_t ledNum)
-{
-    bool ledStatus;
-    
-    if(TrLedsGet(ledNum, &ledStatus))
-    {
-        uint32_t command[6];
-        command[0] = TrMessageClass_UserLed;
-        command[1] = TrUserLedCommand_Get;
-        command[2] = ledNum;
-        command[3] = ledStatus;
-
-        TrAppendChecksum(command, 4);
-        SystemUartTxBuf(&SystemUart1, command, 6);
-    }
-    else
-    {
-        TrNegativeAcknowledge();
-    }
-}
-
 void TrParseUserLedCommand(uint32_t *buf, uint32_t *length)
 {
     if(*length < 5)
@@ -193,9 +175,6 @@ void TrParseUserLedCommand(uint32_t *buf, uint32_t *length)
         case TrUserLedCommand_Toggle:
             TrExecuteLedCommand(&TrLedsToggle, ledNum);
             break;
-        case TrUserLedCommand_Get:
-            TrLedStatus(ledNum);
-            break;
         default:
             TrNegativeAcknowledge();
             break;
@@ -213,11 +192,12 @@ void TrParseMotorDriverCommand(uint32_t *buf, uint32_t *length)
     
     TrMotorDriverCommand_t command = buf[1];
     uint32_t driverNum = buf[2];
+    uint32_t spiLength = buf[3];
     
     switch(command)
     {
         case TrMotorDriverCommand_RawSpi:
-            if(*length < 16)
+            if(*length < spiLength + 6)
                 return;
             
             if(!TrValidateChecksum(buf, *length))
@@ -226,9 +206,7 @@ void TrParseMotorDriverCommand(uint32_t *buf, uint32_t *length)
                 *length = 0;
                 return;
             }
-
-            uint32_t spiLength = buf[3];
-
+            
             if(TrMotorRawSpi(driverNum, &buf[4], spiLength))
             {
                 // TODO: Send back the buffer

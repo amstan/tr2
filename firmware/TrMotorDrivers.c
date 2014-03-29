@@ -18,10 +18,10 @@ void TrMotorDriversInit(void)
     SystemGpioG.Mode.P7 = SystemGpioMode_Output;
     
     // Initial state is high
-    SystemGpioG.Reset.P4 = true;
-    SystemGpioG.Reset.P5 = true;
-    SystemGpioG.Reset.P6 = true;
-    SystemGpioG.Reset.P7 = true;
+    SystemGpioG.Set.P4 = true;
+    SystemGpioG.Set.P5 = true;
+    SystemGpioG.Set.P6 = true;
+    SystemGpioG.Set.P7 = true;
 
     // Spi Pins
     SystemClockEnabled.GpioB = true;
@@ -37,6 +37,11 @@ void TrMotorDriversInit(void)
     
     // Spi Module
     SystemClockEnabled.SPI2 = true;
+    SystemSpi2.Config.SlaveManageEnable = true;
+    SystemSpi2.Config.InternalSelect = true;
+    SystemSpi2.Config.DeviceMode = SystemSpiDeviceMode_Master;
+    SystemSpi2.Config.Prescaler = SystemSpiPrescaler_128;
+    SystemSpi2.Config.Enabled = true;
 }
 
 bool TrMotorDriversValidateNum(uint32_t driverNum)

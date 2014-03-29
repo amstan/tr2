@@ -64,16 +64,3 @@ bool TrLedsToggle(uint32_t ledNum)
     return false;
 }
 
-/* Statusing ******************************************************************/
-
-bool TrLedsGet(uint32_t ledNum, bool *status)
-{
-    if(TrLedsValidateNum(ledNum))
-    {
-        *status = SystemGpioE.Output.Port & (1 << (ledNum + LED_START));
-        return true;
-    }
-    
-    return false;
-}
-

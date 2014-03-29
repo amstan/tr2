@@ -15,7 +15,7 @@
 #include "TrMotorDrivers.h"
 
 #define UART_BUFSIZE 256
-#define UART_BAUD 19200
+#define UART_BAUD 115200
 
 #define CMD_BUFSIZE 512
 
@@ -39,8 +39,7 @@ typedef enum TrProtocolCommand_t {
 typedef enum TrUserLedCommand_t {
     TrUserLedCommand_Enable,
     TrUserLedCommand_Disable,
-    TrUserLedCommand_Toggle,
-    TrUserLedCommand_Get
+    TrUserLedCommand_Toggle
 } TrUserLedCommand_t;
 
 typedef enum TrMotorDriverCommand_t {

@@ -17,8 +17,7 @@ int main(void)
 {
     SystemIrqEnable();
     
-    TrLedsInit();
-    TrProtocolInit();
+    TrInit();
 
     while(1)
     {

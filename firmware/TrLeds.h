@@ -25,8 +25,4 @@ bool TrLedsSet(uint32_t ledNum);
 bool TrLedsClear(uint32_t ledNum);
 bool TrLedsToggle(uint32_t ledNum);
 
-/* Statusing ******************************************************************/
-
-bool TrLedsGet(uint32_t ledNum, bool *status);
-
 #endif

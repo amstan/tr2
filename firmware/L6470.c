@@ -15,7 +15,7 @@ void L6470RawSpi(volatile SystemSpiModule_t *spi,
     for(int i = 0; i < length; i++)
     {
         csPort->Output.Port &= ~(1 << csPin);
-        SpiWriteRead(spi, buf[i]);
+        buf[i] = SpiWriteRead(spi, buf[i]);
         csPort->Output.Port |= (1 << csPin);
     }
 }
