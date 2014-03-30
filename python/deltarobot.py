@@ -85,10 +85,10 @@ class DeltaRobot(object):
 		atexit.register(self.hiz)
 		
 		self.kinematics=ParallelKinematicsModel(
-			e=95, #105.587,
-			f=327.040,
+			e=105.587, #105.587,
+			f=450, #327.040,
 			re=378.825,
-			rf=155.0, #127.000,
+			rf=150.0, #127.000,
 		)
 	
 	def hiz(self):
@@ -98,8 +98,8 @@ class DeltaRobot(object):
 			try:
 				arm["dec"]=100
 				arm.soft_hiz()
-			except:
-				print("Error: could not stop an arm!")
+			except BaseException as e:
+				print("Error: could not stop an arm! %s" % e)
 				pass
 	make_safe=hiz
 	
@@ -107,8 +107,8 @@ class DeltaRobot(object):
 		for arm in self.arms:
 			try:
 				arm.hard_stop()
-			except:
-				print("Error: could not stop an arm!")
+			except BaseException as e:
+				print("Error: could not stop an arm! %s" % e)
 				pass
 	
 	def wait(self):
@@ -177,24 +177,68 @@ class DeltaRobot(object):
 	def line(self):
 		while 1:
 			for point in range(-150,150,10):
-				self.move([0,point,-320])
+				self.move([0,point,-285])
 				self.wait()
 			for point in range(150,-150,-10):
-				self.move([0,point,-320])
+				self.move([0,point,-285])
 				self.wait()
 	
-	def circle(self):
-		while 1:
-			for angle in range(0,360,5):
-				angle=math.radians(angle)
-				self.move([math.sin(angle)*150,math.cos(angle)*150,-350])
-				self.wait()
-	
-	def linear(self,target,time=3,agressiveness=20):
+	def circle(self,target,seconds=3.0,agressiveness=20):
 		"""
 		Linear motion to target
 		@arg target 3d point to go to.
-		@arg time seconds to get there
+		@arg seconds to get there
+		@arg agressiveness if this is too high it'll oscillate :)
+		"""
+		
+		def interpolate(f):
+			angle=f*math.radians(360)
+			return [math.sin(angle)*target[1],math.cos(angle)*target[1],target[2]]
+		
+		start_position=self.position
+		target_position=numpy.array(target)
+		#distance=numpy.linalg.norm(target-start_pos) #TODO: calculate time somehow based on this
+		
+		r.move(target)
+		r.wait()
+		
+		try:
+			start_time=time.monotonic()
+			while 1:
+				#when am i?
+				elapsed_time=time.monotonic()-start_time
+				
+				#where am i?
+				real_joints=numpy.array([-arm.position for arm in self.arms])
+				#real_position=self.kinematics.forward(joint_position)
+				
+				#where am i supposed to be?
+				wanted_position=interpolate(elapsed_time/seconds)
+				wanted_joints=self.kinematics.inverse(wanted_position)
+				
+				#how far off am i?
+				delta_joints=wanted_joints-real_joints
+				
+				#fix
+				delta_speeds=delta_joints*agressiveness
+				for arm,speed in zip(self.arms,delta_speeds):
+					arm.run(-float(speed))
+				
+				if elapsed_time>seconds:
+					#near the end just move to the right spot
+					self.stop()
+					self.move(target_position)
+					self.wait()
+					break
+		except BaseException:
+			self.stop()
+			raise
+	
+	def linear(self,target,seconds=5.0,agressiveness=10):
+		"""
+		Linear motion to target
+		@arg target 3d point to go to.
+		@arg seconds to get there
 		@arg agressiveness if this is too high it'll oscillate :)
 		"""
 		
@@ -220,18 +264,18 @@ class DeltaRobot(object):
 				#real_position=self.kinematics.forward(joint_position)
 				
 				#where am i supposed to be?
-				wanted_position=linear_interpolate(start_position,target_position,elapsed_time/3)
+				wanted_position=linear_interpolate(start_position,target_position,elapsed_time/seconds)
 				wanted_joints=self.kinematics.inverse(wanted_position)
 				
 				#how far off am i?
 				delta_joints=wanted_joints-real_joints
 				
 				#fix
-				delta_speeds=delta_joints*20
+				delta_speeds=delta_joints*agressiveness
 				for arm,speed in zip(self.arms,delta_speeds):
 					arm.run(-float(speed))
 				
-				if elapsed_time>3:
+				if elapsed_time>seconds:
 					#near the end just move to the right spot
 					self.stop()
 					self.move(target_position)
@@ -242,19 +286,20 @@ class DeltaRobot(object):
 			raise
 
 if __name__=="__main__":
-	import pirate430
-	spi=pirate430.SPI()
-	r=DeltaRobot([Arm(pirate430.SPIDevice(spi,cs)) for cs in range(3)])
+	import board
+	b=board.Board()
+	r=DeltaRobot([Arm(board.SPIMotor(b,cs)) for cs in range(3)])
 	
 	print("Calibrating...")
 	r.calibrate()
 	print("Done!")
 	
-	for arm in r.arms: arm.set_kval(1)
+	for arm in r.arms:
+		arm.set_kval(1)
 	
 	a=r.arms[1]
-	def test_linear(a=[-100,-100,-300],b=[100,100,-350]):
+	def test_linear(a=[-100,-100,-330],b=[100,100,-330]):
 		for arm in r.arms: arm.set_speed(5000)
 		while 1:
-			r.linear(a)
-			r.linear(b)
+			r.linear(a,seconds=5.0)
+			r.linear(b,seconds=5.0)

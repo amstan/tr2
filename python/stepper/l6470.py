@@ -65,14 +65,14 @@ class TH_SD(StepperException):
 class TH_WRN(StepperException,Warning):
 	"""Thermal warning"""
 	pass
+@StepperBaseException.register_status_bit("UVLO")
+class UVLO(StepperException):
+	"""Undervoltage"""
+	pass
 @StepperBaseException.register_status_bit("STEP_LOSS_A")
 @StepperBaseException.register_status_bit("STEP_LOSS_B")
 class STEP_LOSS(StepperException):
 	"""Step Loss"""
-	pass
-@StepperBaseException.register_status_bit("UVLO")
-class UVLO(StepperException):
-	"""Undervoltage"""
 	pass
 @StepperBaseException.register_status_bit("WRONG_CMD")
 class WRONG_CMD(StepperException,AttributeError):
