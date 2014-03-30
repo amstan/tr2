@@ -22,6 +22,7 @@
 /* Protocol Message Classes ***************************************************/
 
 typedef enum TrMessageClass_t {
+    TrMessageClass_Nop,
     TrMessageClass_Protocol,
     TrMessageClass_UserLed,
     TrMessageClass_MotorDriver
