@@ -163,8 +163,14 @@ void TrParseProtocolCommand(uint32_t *buf, uint32_t *length)
     if(*length < 4)
         return;
 
-    uint32_t command = buf[1];
+    if(!TrValidateChecksum(buf, *length))
+    {
+        TrBadCrc();
+        *length = 0;
+        return;
+    }
 
+    uint32_t command = buf[1];
     switch(command)
     {
         case TrProtocolCommand_Nop:
@@ -172,6 +178,7 @@ void TrParseProtocolCommand(uint32_t *buf, uint32_t *length)
             break;
         default:
             TrNegativeAcknowledge();
+            break;
     }
 }
 
