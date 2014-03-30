@@ -32,13 +32,12 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tr2State.cs" />
-    <Compile Include="ProtocolMessageType.cs">
-      <DependentUpon>Tr2State.cs</DependentUpon>
-    </Compile>
-    <Compile Include="LedMessageType.cs" />
-    <Compile Include="MotorDriverMessageType.cs" />
     <Compile Include="Tr2Controller.cs" />
     <Compile Include="MessageClass.cs" />
+    <Compile Include="Ws2812Message.cs" />
+    <Compile Include="LedMessage.cs" />
+    <Compile Include="MotorDriverMessage.cs" />
+    <Compile Include="ProtocolMessage.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
