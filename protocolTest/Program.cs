@@ -20,7 +20,7 @@ namespace protocolTest
 
 				for (int i = 0; i <= 255; i++)
 				{
-					controller.SetWs2812Range (1, 0, 30, (byte)i, (byte)i, (byte)i);
+					controller.SetWs2812Range (0, 0, 30, (byte)0, (byte)0, (byte)i);
 				}
 
 				for (int i = 0; i < Tr2Controller.NumberOfLeds; i++)
@@ -46,7 +46,7 @@ namespace protocolTest
 
 				for (int i = 255; i >= 0; i--)
 				{
-					controller.SetWs2812Range (1, 0, 30, (byte)i, (byte)i, (byte)i);
+					controller.SetWs2812Range (0, 0, 30, (byte)0, (byte)i, (byte)0);
 				}
 			}
 		}
