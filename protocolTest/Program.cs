@@ -9,6 +9,11 @@ namespace protocolTest
 		{
 			Console.WriteLine ("Tr2 Protocol Testing");
 
+			Console.CancelKeyPress += (object sender, ConsoleCancelEventArgs e) => {
+				Console.WriteLine("Control C received!");
+				e.Cancel = true;
+			};
+
 			using (var controller = new Tr2Controller ("/dev/ttyUSB0"))
 			{
 				controller.Open ();

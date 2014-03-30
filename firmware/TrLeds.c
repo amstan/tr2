@@ -69,7 +69,7 @@ bool TrLedsToggle(uint32_t ledNum)
 
 /* Power LED ******************************************************************/
 
-bool TrPowerLedSet(bool state)
+void TrPowerLedSet(bool state)
 {
     SystemGpioE.Output.P5 = !state;
 }

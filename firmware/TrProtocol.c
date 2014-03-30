@@ -66,6 +66,10 @@ void TrParseCommand(void)
 
         switch(messageClass)
         {
+            case TrMessageClass_Nop:
+                TrAcknowledge();
+                bytesReceived = 0;
+                break;
             case TrMessageClass_Protocol:
                 TrParseProtocolCommand(commandBuf, &bytesReceived);
                 break;

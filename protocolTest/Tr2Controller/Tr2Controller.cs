@@ -30,7 +30,9 @@ namespace protocolTest
 				StopBits = StopBits.One,
 				Handshake = Handshake.None,
 				Parity = Parity.None,
-				DataBits = 8
+				DataBits = 8,
+				WriteTimeout = 200,
+				ReadTimeout = 200
 			};
 
 			state = Tr2State.Closed;
@@ -142,12 +144,44 @@ namespace protocolTest
 			appendChecksum (command);
 			serial.Write (command, 0, command.Length);
 
-			waitForBytes (command.Length);
-			serial.Read (command, 0, command.Length);
+			int bytesRead = serial.Read (command, 0, command.Length);
+
+			if (bytesRead != 4) {
+				Sync ();
+			}
+
 			validateChecksum (command);
 
 			// Put the response back into the message
 			Array.Copy (command, 4, message, 0, message.Length);
+		}
+
+		public void Sync()
+		{
+			Console.WriteLine ("Synchronization Required.");
+
+			var synced = false;
+
+			while (!synced) {
+				while (serial.BytesToRead < 4) {
+					serial.Write (new byte[] { 0 }, 0, 1);
+					Thread.Sleep (100);
+				}
+
+				var response = new byte[serial.BytesToRead];
+				serial.Read (response, 0, serial.BytesToRead);
+
+				if (response.Length != 4) {
+					continue;
+				}
+
+				try {
+					validateAck (response);
+					synced = true;
+
+					Console.WriteLine("Synchronization complete.");
+				} catch { }
+			}
 		}
 
 		private void validateChecksum(byte[] command)
@@ -183,23 +217,24 @@ namespace protocolTest
 		{
 			serial.Write (command, 0, command.Length);
 
-			waitForBytes (4);
-
 			var response = new byte[4];
-			serial.Read (response, 0, 4);
+			int bytesRead = serial.Read (response, 0, response.Length);
 
+			if (bytesRead != 4) {
+				Sync ();
+			}
+
+			validateAck (response);
+		}
+
+		private void validateAck(byte[] response)
+		{
 			if (response [0] != (byte)MessageClass.Protocol
-			   || response [1] != (byte)ProtocolMessageType.Acknowledge)
+				|| response [1] != (byte)ProtocolMessageType.Acknowledge)
 				throw new Exception ("Tr2 failed to acknowledge command.");
 
 			validateChecksum (response);
 		}
-
-		private void waitForBytes(int bytes)
-		{
-			while (serial.BytesToRead < bytes)
-				Thread.Sleep (1);
-		}			
 	}
 }
 
