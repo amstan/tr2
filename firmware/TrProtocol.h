@@ -11,6 +11,7 @@
 #include "SystemUart.h"
 #include "SystemGpio.h"
 
+#include "TrGpio.h"
 #include "TrLeds.h"
 #include "TrMotorDrivers.h"
 #include "TrWs2812.h"
@@ -26,7 +27,8 @@ typedef enum TrMessageClass_t {
     TrMessageClass_Protocol,
     TrMessageClass_UserLed,
     TrMessageClass_MotorDriver,
-    TrMessageClass_Ws2812
+    TrMessageClass_Ws2812,
+    TrMessageClass_Gpio
 } TrMessageClass_t;
 
 /* Protocol Message Types *****************************************************/
@@ -53,6 +55,10 @@ typedef enum TrWs2812Command_t {
     TrWs2812Command_WriteRange,
     TrWs2812Command_WriteBuffer
 } TrWs2812Command_t;
+
+typedef enum TrGpioCommand_t {
+    TrGpioCommand_GetGpio
+} TrGpioCommand_t;
 
 /* Core Protocol **************************************************************/
 
@@ -83,6 +89,10 @@ void TrParseMotorDriverCommand(uint32_t *buf, uint32_t *length);
 /* WS2812 *********************************************************************/
 
 void TrParseWs2812Command(uint32_t *buf, uint32_t *length);
+
+/* Industrial GPIO ************************************************************/
+
+void TrParseGpioCommand(uint32_t *buf, uint32_t *length);
 
 #endif
 

@@ -38,6 +38,7 @@
     <Compile Include="LedMessage.cs" />
     <Compile Include="MotorDriverMessage.cs" />
     <Compile Include="ProtocolMessage.cs" />
+    <Compile Include="GpioCommand.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
