@@ -97,12 +97,15 @@ inline void TrWs2812WriteByte(uint8_t byte,
         bool bit = (byte & (1 << j)) == 0;
         port->Output.Port |= (1 << pin);
         __asm__("nop");
+        __asm__("nop");
         port->Output.Port ^= (bit << pin);
         __asm__("nop");
         __asm__("nop");
         __asm__("nop");
         __asm__("nop");
+        __asm__("nop");
         port->Output.Port &= ~(1 << pin);
+        __asm__("nop");
         __asm__("nop");
         __asm__("nop");
         __asm__("nop");

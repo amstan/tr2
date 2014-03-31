@@ -360,13 +360,13 @@ void TrParseGpioCommand(uint32_t *buf, uint32_t *length)
             
             if(TrGpioGet(channel, &state))
             {
-                uint32_t buf[6];
-                buf[0] = TrMessageClass_Gpio;
-                buf[1] = TrGpioCommand_GetGpio;
-                buf[2] = channel;
-                buf[3] = state;
-                TrAppendChecksum(buf, 4);
-                SystemUartTxBuf(&SystemUart2, buf, 6);
+                uint32_t response[6];
+                response[0] = TrMessageClass_Gpio;
+                response[1] = TrGpioCommand_GetGpio;
+                response[2] = channel;
+                response[3] = state;
+                TrAppendChecksum(response, 4);
+                SystemUartTxBuf(&SystemUart1, response, 6);
             }
             else
             {

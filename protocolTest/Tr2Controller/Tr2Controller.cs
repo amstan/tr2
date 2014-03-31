@@ -91,7 +91,7 @@ namespace protocolTest
 
 			var command = new byte[5];
 			command [0] = (byte)MessageClass.UserLed;
-			command [1] = (byte)LedMessageType.Enable;
+			command [1] = (byte)LedMessage.Enable;
 			command [2] = (byte)ledNum;
 
 			appendChecksum (command);
@@ -104,7 +104,7 @@ namespace protocolTest
 
 			var command = new byte[5];
 			command [0] = (byte)MessageClass.UserLed;
-			command [1] = (byte)LedMessageType.Disable;
+			command [1] = (byte)LedMessage.Disable;
 			command [2] = (byte)ledNum;
 
 			appendChecksum (command);
@@ -117,7 +117,7 @@ namespace protocolTest
 
 			var command = new byte[5];
 			command [0] = (byte)MessageClass.UserLed;
-			command [1] = (byte)LedMessageType.Toggle;
+			command [1] = (byte)LedMessage.Toggle;
 			command [2] = (byte)ledNum;
 
 			appendChecksum (command);
@@ -137,7 +137,7 @@ namespace protocolTest
 			var command = new byte[6 + message.Length];
 
 			command [0] = (byte)MessageClass.MotorDriver;
-			command [1] = (byte)MotorDriverMessageType.RawSpi;
+			command [1] = (byte)MotorDriverMessage.RawSpi;
 			command [2] = (byte)driverNum;
 			command [3] = (byte)message.Length;
 			Array.Copy (message, 0, command, 4, message.Length);
@@ -145,11 +145,8 @@ namespace protocolTest
 			appendChecksum (command);
 			serial.Write (command, 0, command.Length);
 
-			int bytesRead = serial.Read (command, 0, command.Length);
-
-			if (bytesRead != 4) {
-				Sync ();
-			}
+			serial.Read (command, 0, command.Length);
+			waitForBytes (command.Length);
 
 			validateChecksum (command);
 
@@ -175,32 +172,14 @@ namespace protocolTest
 			appendChecksum (command);
 
 			serial.Write (command, 0, command.Length);
-		}
 
-		public void Sync()
-		{
-			Console.WriteLine ("Synchronization Required.");
+			waitForBytes (6);
 
-			var synced = false;
+			var response = new byte[6];
+			serial.Read (response, 0, 6);
+			validateChecksum (response);
 
-			while (!synced) {
-				while (serial.BytesToRead < 4) {
-					serial.Write (new byte[] { 0 }, 0, 1);
-					Thread.Sleep (100);
-				}
-
-				var response = new byte[serial.BytesToRead];
-				serial.Read (response, 0, serial.BytesToRead);
-
-				if (response.Length != 4) {
-					continue;
-				}
-
-				try {
-					validateAck (response);
-					synced = true;
-				} catch { }
-			}
+			return response[3] > 0;
 		}
 
 		private void validateChecksum(byte[] command)
@@ -236,12 +215,10 @@ namespace protocolTest
 		{
 			serial.Write (command, 0, command.Length);
 
-			var response = new byte[4];
-			int bytesRead = serial.Read (response, 0, response.Length);
+			waitForBytes (4);
 
-			if (bytesRead != 4) {
-				Sync ();
-			}
+			var response = new byte[4];
+			serial.Read (response, 0, response.Length);
 
 			validateAck (response);
 		}
@@ -249,10 +226,17 @@ namespace protocolTest
 		private void validateAck(byte[] response)
 		{
 			if (response [0] != (byte)MessageClass.Protocol
-				|| response [1] != (byte)ProtocolMessageType.Acknowledge)
+				|| response [1] != (byte)ProtocolMessage.Acknowledge)
 				throw new Exception ("Tr2 failed to acknowledge command.");
 
 			validateChecksum (response);
+		}
+
+		private void waitForBytes(int bytes)
+		{
+			while (serial.BytesToRead < bytes) {
+				Thread.Sleep (1);
+			}
 		}
 	}
 }
