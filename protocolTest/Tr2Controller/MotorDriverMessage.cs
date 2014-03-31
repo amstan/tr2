@@ -2,7 +2,7 @@
 
 namespace protocolTest
 {
-	public enum MotorDriverMessageType
+	public enum MotorDriverMessage
 	{
 		RawSpi
 	}

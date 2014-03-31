@@ -2,7 +2,7 @@
 
 namespace protocolTest
 {
-	public enum ProtocolMessageType : byte
+	public enum ProtocolMessage : byte
 	{
 		Nop,
 		BadCrc,

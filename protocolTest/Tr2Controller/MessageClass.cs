@@ -7,7 +7,8 @@ namespace protocolTest
 		Nop,
 		Protocol,
 		UserLed,
-		MotorDriver
+		MotorDriver,
+		Ws2812
 	}
 }
 

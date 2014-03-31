@@ -6,7 +6,6 @@
 
 /* Core Protocol **************************************************************/
 
-
 uint32_t uartTxBuf[UART_BUFSIZE];
 uint32_t uartRxBuf[UART_BUFSIZE];
 SystemUartBuffer_t uartBuf = {
@@ -38,6 +37,7 @@ void TrInit(void)
     SystemClockConfig.ClockSource = SystemClockSource_Pll;
     
     TrMotorDriversInit();
+    TrWs2812Init();
     
     // Enable the UART
     SystemClockEnabled.GpioA = true;
@@ -78,6 +78,9 @@ void TrParseCommand(void)
                 break;
             case TrMessageClass_UserLed:
                 TrParseUserLedCommand(commandBuf, &bytesReceived);
+                break;
+            case TrMessageClass_Ws2812:
+                TrParseWs2812Command(commandBuf, &bytesReceived);
                 break;
             default:
                 TrInvalidMessageClass();
@@ -273,6 +276,59 @@ void TrParseMotorDriverCommand(uint32_t *buf, uint32_t *length)
         default:
             TrNegativeAcknowledge();
             *length = 0;
+            break;
+    }
+}
+
+/* WS2812 *********************************************************************/
+
+void TrParseWs2812Command(uint32_t *buf, uint32_t *length)
+{
+    if(*length < 5)
+        return;
+
+    TrWs2812Command_t command = buf[1];
+    uint32_t channel = buf[2];
+    
+    switch(command)
+    {
+        case TrWs2812Command_WriteRange:
+            if(*length < 12)
+                return;
+            
+            if(!TrValidateChecksum(buf, *length))
+            {
+                TrBadCrc();
+                *length = 0;
+                return;
+            }
+            
+            uint32_t startIndex = (buf[3] << 8) | buf[4];
+            uint32_t stopIndex = (buf[5] << 8) | buf[6];
+            TrWs2812Color_t color = {
+                .Red = buf[7],
+                .Green = buf[8],
+                .Blue = buf[9]
+            };
+
+            if(TrWs2812SetRange(channel, startIndex, stopIndex, color))
+            {
+                TrAcknowledge();
+            }
+            else
+            {
+                TrNegativeAcknowledge();
+            }
+            
+            *length = 0;
+            break;
+        case TrWs2812Command_WriteBuffer:
+            TrNegativeAcknowledge();
+            *length = 0;
+            break;
+        default:
+            *length = 0;
+            TrNegativeAcknowledge();
             break;
     }
 }

@@ -18,6 +18,11 @@ namespace protocolTest
 			{
 				controller.Open ();
 
+				for (int i = 0; i <= 255; i++)
+				{
+					controller.SetWs2812Range (0, 0, 30, (byte)0, (byte)0, (byte)i);
+				}
+
 				for (int i = 0; i < Tr2Controller.NumberOfLeds; i++)
 				{
 					controller.EnableLed (i);
@@ -39,9 +44,10 @@ namespace protocolTest
 				controller.DisableLed (0);
 				controller.DisableLed (2);
 
-				// Read the status register
-				var command = new byte[] { 0 };
-				controller.RawSpiMotorCommand (0, command);
+				for (int i = 255; i >= 0; i--)
+				{
+					controller.SetWs2812Range (0, 0, 30, (byte)0, (byte)i, (byte)0);
+				}
 			}
 		}
 	}
