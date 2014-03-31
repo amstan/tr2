@@ -1,8 +1,11 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Program.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Tr2Controller/Tr2Controller.cs">
     <Files>
-      <File FileName="Program.cs" Line="39" Column="1" />
+      <File FileName="Program.cs" Line="1" Column="1" />
+      <File FileName="Tr2Controller/Tr2Controller.cs" Line="177" Column="46" />
+      <File FileName="Tr2Controller/MessageClass.cs" Line="12" Column="7" />
+      <File FileName="Tr2Controller/GpioCommand.cs" Line="3" Column="23" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

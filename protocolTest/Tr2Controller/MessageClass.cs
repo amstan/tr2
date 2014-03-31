@@ -8,7 +8,8 @@ namespace protocolTest
 		Protocol,
 		UserLed,
 		MotorDriver,
-		Ws2812
+		Ws2812,
+		Gpio
 	}
 }
 

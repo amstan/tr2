@@ -82,6 +82,9 @@ void TrParseCommand(void)
             case TrMessageClass_Ws2812:
                 TrParseWs2812Command(commandBuf, &bytesReceived);
                 break;
+            case TrMessageClass_Gpio:
+                TrParseGpioCommand(commandBuf, &bytesReceived);
+                break;
             default:
                 TrInvalidMessageClass();
                 bytesReceived = 0;
@@ -331,5 +334,52 @@ void TrParseWs2812Command(uint32_t *buf, uint32_t *length)
             TrNegativeAcknowledge();
             break;
     }
+}
+
+/* Industrial GPIO ************************************************************/
+
+void TrParseGpioCommand(uint32_t *buf, uint32_t *length)
+{
+    if(*length < 5)
+        return;
+    
+    TrGpioCommand_t command = buf[1];
+    
+    switch(command)
+    {
+        case TrGpioCommand_GetGpio:
+            if(!TrValidateChecksum(buf, *length))
+            {
+                TrBadCrc();
+                *length = 0;
+                return;
+            }
+            
+            uint32_t channel = buf[2];
+            bool state;
+            
+            if(TrGpioGet(channel, &state))
+            {
+                uint32_t response[6];
+                response[0] = TrMessageClass_Gpio;
+                response[1] = TrGpioCommand_GetGpio;
+                response[2] = channel;
+                response[3] = state;
+                TrAppendChecksum(response, 4);
+                SystemUartTxBuf(&SystemUart1, response, 6);
+            }
+            else
+            {
+                TrNegativeAcknowledge();
+            }
+            
+            *length = 0;
+            break;
+        default:
+            *length = 0;
+            TrNegativeAcknowledge();
+            break;
+    }
+
 }
 

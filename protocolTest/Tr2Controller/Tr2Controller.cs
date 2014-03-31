@@ -10,7 +10,7 @@ namespace protocolTest
 		public const int Baud = 115200;
 		public const int NumberOfLeds = 4;
 		public const int NumberOfMotors = 4;
-		public const int NumberOfWs2812Channels = 2;
+		public const int NumberOfInputs = 8;
 
 		private const int checksumLength = 2;
 
@@ -31,7 +31,9 @@ namespace protocolTest
 				StopBits = StopBits.One,
 				Handshake = Handshake.None,
 				Parity = Parity.None,
-				DataBits = 8
+				DataBits = 8,
+				WriteTimeout = 200,
+				ReadTimeout = 200
 			};
 
 			state = Tr2State.Closed;
@@ -43,7 +45,6 @@ namespace protocolTest
 			{
 				serial.Open ();
 				serial.DiscardInBuffer ();
-				serial.DiscardOutBuffer ();
 				state = Tr2State.Open;
 			}
 			else
@@ -82,12 +83,6 @@ namespace protocolTest
 		{
 			if (ledNum < 0 || ledNum >= NumberOfLeds)
 				throw new Exception (string.Format ("Led index {0} is out of range", ledNum));
-		}
-
-		public void ValidateChannelNumber(int channelNumber)
-		{
-			if (channelNumber < 0 || channelNumber >= NumberOfWs2812Channels)
-				throw new Exception (string.Format ("Channel index {0} is out of range", channelNumber));
 		}
 
 		public void EnableLed(int ledNum)
@@ -150,8 +145,8 @@ namespace protocolTest
 			appendChecksum (command);
 			serial.Write (command, 0, command.Length);
 
-			waitForBytes (command.Length);
 			serial.Read (command, 0, command.Length);
+			waitForBytes (command.Length);
 
 			validateChecksum (command);
 
@@ -159,24 +154,32 @@ namespace protocolTest
 			Array.Copy (command, 4, message, 0, message.Length);
 		}
 
-		public void SetWs2812Range(int channel, int startIndex, int stopIndex, byte red, byte green, byte blue)
+		private void validateInput(int input)
 		{
-			ValidateChannelNumber (channel);
+			if(input < 0 || input >= NumberOfInputs)
+				throw new Exception(string.Format("Input {0} is out of range."));
+		}
 
-			var command = new byte[12];
-			command [0] = (byte)MessageClass.Ws2812;
-			command [1] = (byte)Ws2812Message.SetRange;
-			command [2] = (byte)channel;
-			command [3] = (byte)(startIndex >> 8);
-			command [4] = (byte)startIndex;
-			command [5] = (byte)(stopIndex >> 8);
-			command [6] = (byte)stopIndex;
-			command [7] = red;
-			command [8] = green;
-			command [9] = blue;
+		public bool GetIndustrialInputState(int input)
+		{
+			validateInput (input);
 
+			var command = new byte[5];
+
+			command [0] = (byte)MessageClass.MotorDriver;
+			command [1] = (byte)GpioCommand.ReadInput;
+			command [2] = (byte)input;
 			appendChecksum (command);
-			sendSimpleCommand (command);
+
+			serial.Write (command, 0, command.Length);
+
+			waitForBytes (6);
+
+			var response = new byte[6];
+			serial.Read (response, 0, 6);
+			validateChecksum (response);
+
+			return response[3] > 0;
 		}
 
 		private void validateChecksum(byte[] command)
@@ -231,8 +234,7 @@ namespace protocolTest
 
 		private void waitForBytes(int bytes)
 		{
-			while (serial.BytesToRead < bytes)
-			{
+			while (serial.BytesToRead < bytes) {
 				Thread.Sleep (1);
 			}
 		}
