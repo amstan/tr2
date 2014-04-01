@@ -34,6 +34,7 @@ class MessageClass(enum.IntEnum):
 	Protocol=1
 	UserLED=2
 	MotorDriver=3
+	Ws2812=4
 
 class UserLedCommand(enum.IntEnum):
 	Enable=0
@@ -49,6 +50,9 @@ class ProtocolCommand(enum.IntEnum):
 	Acknowledge=2
 	NegativeAcknowledge=3
 	InvalidMessageClass=4
+
+class Ws2812Command(enum.IntEnum):
+	SetRange=0
 
 class Board(object):
 	def __init__(self,port="/dev/ttyUSB0",baud=115200,*args):
@@ -80,6 +84,29 @@ class Board(object):
 			category,command,_,_=reply
 			if ((category==MessageClass.Protocol) and (command==ProtocolCommand.Acknowledge)):
 				break
+	
+	def set_led_range(self,channel,range,color):
+		range_start,range_end=range
+		if range_start>range_end:
+			raise ValueError("Wrong range.")
+		
+		with DelayedKeyboardInterrupt(self):
+			m=Message(self)
+			m.category=MessageClass.Ws2812
+			m.command=Ws2812Command.SetRange
+			m.data=(
+				channel,
+				
+				range_start//256,
+				range_start%256,
+				
+				range_end//256,
+				range_end%256,
+			) + color
+			m.checksum=m.calculate_checksum()
+			m.send()
+			
+			Message.recieve(self,m)
 
 class SPIMotor(object):
 	def __init__(self,board,cs=0):
@@ -168,6 +195,3 @@ class Message(object):
 
 if __name__=="__main__":
 	b=Board()
-	m=Message(b)
-	s=SPIMotor(b,cs=0)
-	reply=s.xfer([0])

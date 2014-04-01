@@ -3,6 +3,29 @@
 
 from collections import OrderedDict
 
+import signal
+
+class DelayedKeyboardInterrupt(object):
+	def __enter__(self):
+		self.signal_received = False
+		self.old_handler = signal.getsignal(signal.SIGINT)
+		signal.signal(signal.SIGINT, self.handler)
+	
+	def handler(self, signal, frame):
+		self.signal_received = (signal, frame)
+		print('SIGINT received. Delaying KeyboardInterrupt.')
+	
+	def __exit__(self, type, value, traceback):
+		signal.signal(signal.SIGINT, self.old_handler)
+		if self.signal_received:
+			self.old_handler(*self.signal_received)
+
+def without_interruptions(function):
+	def wrapper(*args):
+		with DelayedKeyboardInterrupt():
+			return function(*args)
+	return wrapper
+
 def split_bytes(value,num_bytes=None):
 	"""Given a long int it'll split it in bytes."""
 	s=[]
@@ -193,10 +216,12 @@ class Stepper(object):
 			"""It's normal to have this when it boots the first time."""
 			pass
 	
+	@without_interruptions
 	def nop(self,count=5):
 		for i in range(count):
 			self.spi.xfer(self._commands["NOP"])
 	
+	@without_interruptions
 	def __getitem__(self,reg):
 		"""Gets register"""
 		reg_id,reg_name,reg_len=self._register_info(reg)
@@ -217,6 +242,7 @@ class Stepper(object):
 		
 		return value
 	
+	@without_interruptions
 	def __setitem__(self,reg,value):
 		"""Sets register"""
 		reg_id,reg_name,reg_len=self._register_info(reg)
@@ -230,6 +256,7 @@ class Stepper(object):
 		for b in split_bytes(value,reg_len_bytes):
 			self.spi.xfer(b)
 	
+	@without_interruptions
 	def run(self,speed):
 		"""Run at constant speed."""
 		direction=speed>0
@@ -237,10 +264,12 @@ class Stepper(object):
 		for b in split_bytes(abs(speed),num_bytes=3):
 			self.spi.xfer(b)
 	
+	@without_interruptions
 	def step_clock(self,direction=False):
 		"""Switch into the step clock mode(direction from the pin)."""
 		self.spi.xfer(self._commands["STEP_CLOCK"]+forward)
 	
+	@without_interruptions
 	def move(self,steps):
 		"""Relative move."""
 		direction=steps>0
@@ -248,18 +277,21 @@ class Stepper(object):
 		for b in split_bytes(abs(steps),num_bytes=3):
 			self.spi.xfer(b)
 	
+	@without_interruptions
 	def goto(self,position):
 		"""Absolute move to position though the shortest path(could wrap around)."""
 		self.spi.xfer(self._commands["GOTO"])
 		for b in split_bytes(position%(2**22),num_bytes=3):
 			self.spi.xfer(b)
 	
+	@without_interruptions
 	def goto_dir(self,position,direction):
 		"""Absolute move to position though the shortest path, by explicitly defining a direction."""
 		self.spi.xfer(self._commands["GOTO_DIR"]+direction)
 		for b in split_bytes(position%(2**22),num_bytes=3):
 			self.spi.xfer(b)
 	
+	@without_interruptions
 	def go_until(self,speed,direction,mark=False):
 		"""Go with a specific speed and direction until the switch is pressed.
 		If mark==True then the current position will be copied to the MARK register, otherwise the home position will be reset."""
@@ -267,22 +299,27 @@ class Stepper(object):
 		for b in split_bytes(abs(speed),num_bytes=3):
 			self.spi.xfer(b)
 	
+	@without_interruptions
 	def release_sw(self,direction,mark=False):
 		"""Go with the minimum speed and direction until the switch is released.
 		If mark==True then the current position will be copied to the MARK register, otherwise the home position will be reset."""
 		self.spi.xfer(self._commands["RELEASE_SW"]+(mark<<3)+direction)
 	
+	@without_interruptions
 	def go_home(self):
 		"""Go to ABS_POS==0 through the shortest path."""
 		self.spi.xfer(self._commands["GO_HOME"])
+	@without_interruptions
 	def go_mark(self):
 		"""Go to ABS_POS==MARK through the shortest path."""
 		self.spi.xfer(self._commands["GO_MARK"])
 	
+	@without_interruptions
 	def reset_pos(self):
 		"""Set ABS_POS=0."""
 		self.spi.xfer(self._commands["RESET_POS"])
 	
+	@without_interruptions
 	def reset(self,unsafe=False):
 		"""Resets the device to default state."""
 		
@@ -294,15 +331,19 @@ class Stepper(object):
 		
 		self.spi.xfer(self._commands["RESET_DEVICE"])
 	
+	@without_interruptions
 	def soft_stop(self):
 		"""Deaccelerate to a hold."""
 		self.spi.xfer(self._commands["SOFT_STOP"])
+	@without_interruptions
 	def hard_stop(self):
 		"""Instantly stop to a hold."""
 		self.spi.xfer(self._commands["HARD_STOP"])
+	@without_interruptions
 	def soft_hiz(self):
 		"""Deaccelerate to a HiZ."""
 		self.spi.xfer(self._commands["SOFT_HIZ"])
+	@without_interruptions
 	def hard_hiz(self):
 		"""Instantly stop to a HiZ."""
 		self.spi.xfer(self._commands["HARD_HIZ"])
@@ -329,6 +370,7 @@ class Stepper(object):
 			"HiZ": test_bit(0),
 		}
 	
+	@without_interruptions
 	def get_status(self):
 		"""Returns the status dict, but also clears all the latchable stuff
 		(UVLO, TH_WRN, TH_SD, OCD, STEP_LOSS_A, STEP_LOSS_B, NOTPERF_CMD, WRONG_CMD and SW_EVN)."""

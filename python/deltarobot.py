@@ -2,13 +2,13 @@
 # -*- coding: utf-8 -*-
 
 import atexit
-
 import math
 import numpy
+import time
 
 import stepper.l6470 as l6470
 from kinematics.kinematics import ParallelKinematicsModel
-import time
+import board
 
 class Arm(l6470.Stepper):
 	position_resolution=math.radians(1.8/3) #radians/step
@@ -35,7 +35,8 @@ class Arm(l6470.Stepper):
 		self["fn_slp_acc"]=0
 		self["fn_slp_dec"]=0
 		self["fs_spd"]=1000
-		self["ocd_th"]=int((6-0.375)/0.375)-1 #3A
+		self["ocd_th"]=int((6-0.375)/0.375)-1
+		self["alarm_en"]=0b11001111
 		
 		self["stall_th"]=0b1111111 #max
 		
@@ -43,11 +44,12 @@ class Arm(l6470.Stepper):
 		self.set_acc()
 		self.set_kval(0.5)
 	
-	def set_speed(self,value=5000):
+	def set_speed(self,value=4096):
 		self["max_speed"]=value//1024
 	
-	def set_acc(self,value=500):
-		self["acc"]=self["dec"]=value
+	def set_acc(self,value=200):
+		self["acc"]=value
+		self["dec"]=int(value*1.8)
 	
 	def set_kval(self,factor=1.0):
 		self["kval_acc"]=self["kval_dec"]=int(100*factor)
@@ -77,11 +79,14 @@ class Arm(l6470.Stepper):
 			self.wait()
 
 class DeltaRobot(object):
-	def __init__(self,arms):
-		if len(arms)!=3:
-			raise ValueError("Need 3 arms!")
+	def __init__(self,port="/dev/ttyUSB0"):
+		self.board=board.Board(port)
 		
-		self.arms=arms
+		for i in range(255):
+			self.board.set_led_range(0,(0,121),(i,i,i))
+		
+		self.arms=[Arm(board.SPIMotor(self.board,cs)) for cs in (1,2,0)]
+		self.otherarm=Arm(board.SPIMotor(self.board,3))
 		atexit.register(self.hiz)
 		
 		self.kinematics=ParallelKinematicsModel(
@@ -253,11 +258,17 @@ class DeltaRobot(object):
 		target_position=numpy.array(target)
 		#distance=numpy.linalg.norm(target-start_pos) #TODO: calculate time somehow based on this
 		
+		self.board.set_led_range(0,(0,121),(10,10,10))
+		led=0
 		try:
 			start_time=time.monotonic()
 			while 1:
 				#when am i?
 				elapsed_time=time.monotonic()-start_time
+				
+				self.board.set_led_range(0,(led,led+1),(10,10,10))
+				led=int((elapsed_time/seconds)*120)
+				self.board.set_led_range(0,(led,led+1),(255,255,255))
 				
 				#where am i?
 				real_joints=numpy.array([-arm.position for arm in self.arms])
@@ -286,9 +297,7 @@ class DeltaRobot(object):
 			raise
 
 if __name__=="__main__":
-	import board
-	b=board.Board()
-	r=DeltaRobot([Arm(board.SPIMotor(b,cs)) for cs in range(3)])
+	r=DeltaRobot()
 	
 	print("Calibrating...")
 	r.calibrate()
@@ -303,3 +312,22 @@ if __name__=="__main__":
 		while 1:
 			r.linear(a,seconds=5.0)
 			r.linear(b,seconds=5.0)
+	
+	def square(acc=200,kval=1.0,speed=20000):
+		for arm in r.arms:
+			arm.set_speed(speed)
+			arm.set_acc(acc)
+			arm.set_kval(kval)
+		while 1:
+			try:
+				for point,color in [([100,100,-260],(255,100,100)),([-100,100,-260],(255,255,0)),([-100,-100,-260],(100,255,100)),([100,-100,-260],(100,100,255))]:
+					r.move(point)
+					r.board.set_led_range(0,(0,120),color)
+					r.wait()
+			except:
+				r.stop()
+				raise
+	
+	def color(color):
+		for i in range(121):
+			r.board.set_led_range(0,(0,i),(color))
