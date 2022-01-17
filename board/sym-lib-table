@@ -1,0 +1,4 @@
+(sym_lib_table
+  (lib (name "robot_controller-rescue")(type "Legacy")(uri "${KIPRJMOD}/robot_controller-rescue.lib")(options "")(descr ""))
+  (lib (name "components")(type "Legacy")(uri "${KIPRJMOD}/components.lib")(options "")(descr ""))
+)
