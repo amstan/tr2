@@ -1,0 +1,50 @@
+{
+  "build": {
+    "core": "stm32",
+    "cpu": "cortex-m4",
+    "extra_flags": "-DSTM32F405xx -DSTM32F4xx",
+    "f_cpu": "168000000L",
+    "mcu": "stm32f405zgt6",
+    "product_line": "STM32F405xx",
+    "variant": "STM32F4xx/F405ZGT_F415ZGT",
+
+    "arduino": {
+      "variant_h": "variant_generic.h",
+      "_comment_variant": "Raw pin names are fine for the pin naming scheme",
+      "ldscript": "../F405RGT_F415RGT/ldscript.ld",
+      "_comment_ldscript": "Seems like ZG is missing a bunch of stuff, reuse RG instead"
+    },
+    "framework_extra_flags": {
+        "arduino": "-DARDUINO_GENERIC_F405ZGTX",
+        "_comment": "variant_generic.cpp contents will not get linked without the above"
+    }
+  },
+  "debug": {
+    "jlink_device": "STM32F405ZG",
+    "openocd_target": "stm32f4x",
+    "svd_path": "STM32F40x.svd"
+  },
+  "frameworks": [
+    "arduino",
+    "cmsis",
+    "stm32cube",
+    "libopencm3"
+  ],
+  "platforms": [ "ststm32" ],
+  "name": "TR2 Robot Controller v1.0",
+  "upload": {
+    "maximum_ram_size": 131072,
+    "maximum_size": 1048576,
+    "protocol": "serial",
+    "protocols": [
+      "blackmagic",
+      "dfu",
+      "jlink",
+      "serial",
+      "stlink"
+    ]
+  },
+  "url": "https://github.com/amstan/tr2",
+  "url_mcu": "https://www.st.com/en/microcontrollers-microprocessors/stm32f405zg.html",
+  "vendor": "HyperTriangle"
+}
